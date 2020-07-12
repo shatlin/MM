@@ -13,7 +13,6 @@ namespace MM.ClientModels
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
@@ -26,15 +25,11 @@ namespace MM.ClientModels
     {
         public void Configure(EntityTypeBuilder<DateSetting> builder)
         {
- builder.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                builder.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
+                builder.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 builder.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
-                builder.Property(e => e.Name).HasMaxLength(100);
+                builder.Property(e => e.Name).IsRequired().HasMaxLength(40);
         }
 
     }
@@ -42,7 +37,21 @@ namespace MM.ClientModels
     {
         public static void SeedDateSetting(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<DateSetting>().HasData
+          (
+          new DateSetting { Id = 1, Name = "12/03/2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 2, Name = "03/12/2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 3, Name = "03.12.2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 4, Name = "03-12-2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 5, Name = "03 Dec 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 6, Name = "03-Dec-2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 7, Name = "2020-12-03", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 8, Name = "Friday, December 03, 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 9, Name = "Fri, December 03, 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 10, Name = "December 03, 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 11, Name = "03 December 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+          new DateSetting { Id = 12, Name = "3 Dec 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+          );
         }
     }
 }

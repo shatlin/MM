@@ -38,25 +38,15 @@ namespace MM.ClientModels
 
     }
 
-
     public static partial class Seeder
     {
         public static void SeedTimeFormat(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TimeFormat>().HasData
                 (
-                new TimeFormat { Id = 1, Name = "12/03/2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 2, Name = "03/12/2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 3, Name = "03.12.2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 4, Name = "03-12-2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 5, Name = "03 Dec 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 6, Name = "03-Dec-2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 7, Name = "2020-12-03", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 8, Name = "Friday, December 03, 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 9, Name = "Fri, December 03, 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 10, Name = "December 03, 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 11, Name = "03 December 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new TimeFormat { Id = 12, Name = "3 Dec 2020", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                new TimeFormat { Id = 1, Name = "12:00 AM/PM", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new TimeFormat { Id = 2, Name = "24 Hours", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+               
                 );
         }
     }

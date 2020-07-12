@@ -21,9 +21,7 @@ namespace MM.ClientModels
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
-
-        public virtual ClientOrganization Id1 { get; set; }
-        public virtual Billing IdNavigation { get; set; }
+        public virtual Billing Billing { get; set; }
     }
     public partial class BillingCommunicationConfiguration : IEntityTypeConfiguration<BillingCommunication>
     {
@@ -47,17 +45,12 @@ namespace MM.ClientModels
 
             builder.Property(e => e.Reminder3SentDate).HasColumnType("datetime");
 
-            builder.HasOne(d => d.IdNavigation)
+            builder.HasOne(d => d.Billing)
                 .WithOne(p => p.BillingCommunication)
                 .HasForeignKey<BillingCommunication>(d => d.Id)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PaymentCommunication_Payment");
 
-            builder.HasOne(d => d.Id1)
-                .WithOne(p => p.BillingCommunication)
-                .HasForeignKey<BillingCommunication>(d => d.Id)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_BillingCommunication_Client");
         }
 
     }

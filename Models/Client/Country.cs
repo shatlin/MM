@@ -297,9 +297,8 @@ namespace MM.ClientModels
                     new Country { Id = 246, Code = "YE", Name = "Yemen", Description = "Yemen", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                     new Country { Id = 247, Code = "ZM", Name = "Zambia", Description = "Zambia", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                     new Country { Id = 248, Code = "ZW", Name = "Zimbabwe", Description = "Zimbabwe", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                    new Country { Id = 249, Code = "AX", Name = "Åland Islands", Description = "Åland Islands", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
-
-
+                    new Country { Id = 249, Code = "AX", Name = "Åland Islands", Description = "Åland Islands", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                    new Country { Id = 250, Code = "SZ", Name = "SWAZILAND", Description = "SWAZILAND", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
 
              );
         }

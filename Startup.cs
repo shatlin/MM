@@ -29,7 +29,7 @@ namespace MM
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
-            services.AddDbContext<ClientDbContext>();
+            services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));
 
         }
 

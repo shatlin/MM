@@ -2,7 +2,7 @@
 using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-
+using Microsoft.Extensions.Configuration;
 
 namespace MM.ClientModels
 {
@@ -255,7 +255,7 @@ namespace MM.ClientModels
         {
             if ( !optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql("Server = localhost;  Uid = root; Pwd = Aji@2020;Database =mm_wisa");//ConnectionString);
+                optionsBuilder.UseMySQL(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["ClientDBContext"]);
             }
         }
 

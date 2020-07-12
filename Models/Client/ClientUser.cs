@@ -67,6 +67,8 @@ namespace MM.ClientModels
 
             builder.Property(e => e.CreatedOn).HasColumnType("datetime");
 
+
+
             builder.Property(e => e.Email)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -75,17 +77,18 @@ namespace MM.ClientModels
                 .IsRequired()
                 .HasMaxLength(50);
 
-            builder.Property(e => e.LastName)
-                .IsRequired()
-                .HasMaxLength(50);
-
             builder.Property(e => e.MiddleName)
+                 .IsRequired(false)
+                 .HasMaxLength(50);
+
+            builder.Property(e => e.LastName)
                 .IsRequired()
                 .HasMaxLength(50);
 
             builder.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
             builder.Property(e => e.Notes)
+                   .IsRequired(false)
                    .HasMaxLength(1000);
 
             builder.Property(e => e.Password)
@@ -128,7 +131,7 @@ namespace MM.ClientModels
 
         }
 
-      
+
     }
     public static partial class Seeder
     {

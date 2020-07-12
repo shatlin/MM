@@ -10,7 +10,6 @@ namespace MM.ClientModels
         public int ClientTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-
         public bool AgreedToTerms { get; set; }
         public bool IsActive { get; set; }
         public int? DateSettingId { get; set; }
@@ -22,13 +21,11 @@ namespace MM.ClientModels
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
-
-        
         public virtual Currency Currency { get; set; }
         public virtual DateSetting DateSetting { get; set; }
         public virtual TimeFormat TimeFormat { get; set; }
         public virtual TimeZone TimeZone { get; set; }
-        public virtual BillingCommunication BillingCommunication { get; set; }
+      
     }
     public partial class ClientOrganizationConfiguration : IEntityTypeConfiguration<ClientOrganization>
     {
@@ -38,15 +35,11 @@ namespace MM.ClientModels
 
             builder.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
-
-            builder.Property(e => e.Description).HasMaxLength(200);
+            builder.Property(e => e.Description).IsRequired(false).HasMaxLength(200);
 
             builder.Property(e => e.Name)
                 .IsRequired()
                 .HasMaxLength(100);
-
-
-
 
             builder.HasOne(d => d.Currency)
                 .WithMany(p => p.Client)

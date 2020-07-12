@@ -24,6 +24,8 @@ namespace MM.CoreModels
         {
         }
 
+        //fsdf
+
         public virtual DbSet<ClientDbEntry> Clientdbentries { get; set; }
         public virtual DbSet<DbEntry> Dbentries { get; set; }
         public virtual DbSet<ClientDBConnectionMaster> ClientDBConnectionMasters { get; set; }
