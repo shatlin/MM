@@ -29,14 +29,14 @@ ViewData["Title"] = "Register";
                 </div>
                 <div class="card-body reg-card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for=ClientUser.Id value="0" />
-                    <input type="hidden" asp-for=ClientUser.PrimaryContact value="1" />
-                    <input type="hidden" asp-for=ClientUser.BillingContact value="1" />
-                    <input type="hidden" asp-for=ClientUser.RoleId value="1" />
-                    <input type="hidden" asp-for=ClientUser.IsInternalUser value="1" />
-                    <input type="hidden" asp-for=ClientUser.TermsAccepted value="0" />
-                    <form>
-
+        
+                    <form method="post">
+                        <input type="hidden" asp-for=ClientUser.Id value="0" />
+                        <input type="hidden" asp-for=ClientUser.PrimaryContact value=true />
+                        <input type="hidden" asp-for=ClientUser.BillingContact value=true />
+                        <input type="hidden" asp-for=ClientUser.RoleId value="1" />
+                        <input type="hidden" asp-for=ClientUser.IsInternalUser value=true />
+                    
                         <div class="form-group">
                             <label asp-for=ClientUser.Email class="control-label"></label>
                             <input asp-for=ClientUser.Email type="text" class="form-control form-input">
@@ -47,7 +47,7 @@ ViewData["Title"] = "Register";
 
                             <label asp-for=ClientUser.TitleId class="control-label"></label>
                             <select class="form-control form-input" asp-for=ClientUser.TitleId
-                                asp-items=Model.ClientTitles>
+                                    asp-items=Model.ClientTitles>
                                 <option disabled selected>--- Please select a value ---</option>
                             </select>
                             <span asp-validation-for=ClientUser.TitleId class="text-danger"></span>
@@ -87,7 +87,7 @@ ViewData["Title"] = "Register";
 
                             <label asp-for=ClientUser.DesignationId class="control-label"></label>
                             <select class="form-control form-input" asp-for=ClientUser.DesignationId
-                                asp-items=Model.ClientDesignations>
+                                    asp-items=Model.ClientDesignations>
                                 <option disabled selected>--- Please select a value ---</option>
                             </select>
                             <span asp-validation-for=ClientUser.DesignationId class="text-danger"></span>
@@ -97,7 +97,7 @@ ViewData["Title"] = "Register";
 
                             <label asp-for=ClientUser.ReferralTypeId class="control-label"></label>
                             <select class="form-control form-input" asp-for=ClientUser.ReferralTypeId
-                                asp-items=Model.ClientReferralTypes>
+                                    asp-items=Model.ClientReferralTypes>
                                 <option disabled selected>--- Please select a value ---</option>
                             </select>
                             <span asp-validation-for=ClientUser.ReferralTypeId class="text-danger"></span>
@@ -107,26 +107,22 @@ ViewData["Title"] = "Register";
 
                             <label asp-for=ClientUser.GenderId class="control-label"></label>
                             <select class="form-control form-input" asp-for=ClientUser.GenderId
-                                asp-items=Model.ClientGenders>
+                                    asp-items=Model.ClientGenders>
                                 <option disabled selected>--- Please select a value ---</option>
                             </select>
                             <span asp-validation-for=ClientUser.GenderId class="text-danger"></span>
                         </div>
 
-                        <div class="form-group">
-                            <label asp-for=ClientUser.TermsAccepted class="control-label"></label>
-                            <input asp-for=ClientUser.TermsAccepted type="text" class="form-control form-input">
-                            <span asp-validation-for=ClientUser.TermsAccepted class="text-danger"></span>
-                        </div>
+                   
 
                         <div class="form-group">
-                            <input type="checkbox">
+                            <input asp-for=ClientUser.TermsAccepted type="checkbox">
                             <a href="" class="ml-2 mr-4">I agree to the terms and conditions</a>
+                            <span asp-validation-for=ClientUser.TermsAccepted class="text-danger"></span>
                             <button type="submit" class="form-btn" style="width: 10%;">Submit</button>
                         </div>
-
                     </form>
-                </div>
+</div>
             </div>
         </div>
     </div>
