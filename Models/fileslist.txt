@@ -1,0 +1,12 @@
+ Volume in drive C is Windows
+ Volume Serial Number is D4AE-916A
+
+ Directory of C:\shatlin\code\CodeCore\MMMYSQL\MM\Models
+
+07/10/2020  03:54 PM    <DIR>          .
+07/10/2020  03:54 PM    <DIR>          ..
+07/10/2020  03:51 PM    <DIR>          Client
+07/10/2020  02:10 PM    <DIR>          Core
+07/10/2020  03:54 PM                 0 fileslist.txt
+               1 File(s)              0 bytes
+               4 Dir(s)  26,633,482,240 bytes free

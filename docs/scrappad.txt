@@ -1,0 +1,2190 @@
+﻿
+
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.Property(e => e.AddressLine1).HasMaxLength(100);
+
+                entity.Property(e => e.AddressLine2).HasMaxLength(100);
+
+                entity.Property(e => e.BuidlingName).HasMaxLength(100);
+
+                entity.Property(e => e.ComplexName).HasMaxLength(100);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FaxNumber).HasMaxLength(50);
+
+                entity.Property(e => e.Gpscoordinates)
+                    .HasColumnName("GPSCoordinates")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.PostalCode).HasMaxLength(50);
+
+                entity.Property(e => e.PrimaryContactNo).HasMaxLength(50);
+
+                entity.Property(e => e.PrimaryEmail).HasMaxLength(50);
+
+                entity.Property(e => e.SecondaryContactNo).HasMaxLength(50);
+
+                entity.Property(e => e.SecondaryEmail).HasMaxLength(50);
+
+                entity.Property(e => e.StreetName).HasMaxLength(100);
+
+                entity.HasOne(d => d.AddressType)
+                    .WithMany(p => p.Address)
+                    .HasForeignKey(d => d.AddressTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Address_AddressType");
+
+                entity.HasOne(d => d.City)
+                    .WithMany(p => p.Address)
+                    .HasForeignKey(d => d.CityId)
+                    .HasConstraintName("FK_Address_City");
+
+                entity.HasOne(d => d.Country)
+                    .WithMany(p => p.Address)
+                    .HasForeignKey(d => d.CountryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Address_Country");
+
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.Address)
+                    .HasForeignKey(d => d.StateId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Address_State");
+            });
+
+            modelBuilder.Entity<AddressType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Affliation>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<BankingDetail>(entity =>
+            {
+                entity.Property(e => e.AccountNumber)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.BankName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.BranchName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.RoutingCode).HasMaxLength(50);
+
+                entity.HasOne(d => d.AccountType)
+                    .WithMany(p => p.BankingDetail)
+                    .HasForeignKey(d => d.AccountTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BankingDetail_AccountType");
+            });
+
+            modelBuilder.Entity<Billing>(entity =>
+            {
+                entity.Property(e => e.CommentsForPayer).HasMaxLength(1000);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.InternalNotes).HasMaxLength(1000);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.PaidAmount).HasColumnType("decimal(18, 3)");
+
+                entity.Property(e => e.PaidDate).HasColumnType("datetime");
+
+                entity.Property(e => e.PaymentAmount).HasColumnType("decimal(18, 3)");
+
+                entity.Property(e => e.PaymentDueDate).HasColumnType("datetime");
+
+                entity.Property(e => e.PaymentItem)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.Invoice)
+                    .WithMany(p => p.Billing)
+                    .HasForeignKey(d => d.InvoiceId)
+                    .HasConstraintName("FK_Payment_Invoice");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.Billing)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Payment_Member");
+
+                entity.HasOne(d => d.PaymentGateway)
+                    .WithMany(p => p.Billing)
+                    .HasForeignKey(d => d.PaymentGatewayId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Payment_PaymentGateway");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.Billing)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Billing_RelatedTo");
+            });
+
+            modelBuilder.Entity<BillingCommunication>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder1ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder1SentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder2ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder2SentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder3ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder3SentDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.IdNavigation)
+                    .WithOne(p => p.BillingCommunication)
+                    .HasForeignKey<BillingCommunication>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PaymentCommunication_Payment");
+
+                entity.HasOne(d => d.Id1)
+                    .WithOne(p => p.BillingCommunication)
+                    .HasForeignKey<BillingCommunication>(d => d.Id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BillingCommunication_Client");
+            });
+
+            modelBuilder.Entity<City>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.HasOne(d => d.State)
+                    .WithMany(p => p.City)
+                    .HasForeignKey(d => d.StateId)
+                    .HasConstraintName("FK_City_State");
+            });
+
+            modelBuilder.Entity<ClientOrganization>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+
+                entity.Property(e => e.Description).HasMaxLength(200);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+
+             
+
+                entity.HasOne(d => d.Currency)
+                    .WithMany(p => p.Client)
+                    .HasForeignKey(d => d.CurrencyId)
+                    .HasConstraintName("FK_Client_Currency");
+
+                entity.HasOne(d => d.DateSetting)
+                    .WithMany(p => p.Client)
+                    .HasForeignKey(d => d.DateSettingId)
+                    .HasConstraintName("FK_Client_DateSetting");
+
+                entity.HasOne(d => d.TimeFormat)
+                    .WithMany(p => p.Client)
+                    .HasForeignKey(d => d.TimeFormatId)
+                    .HasConstraintName("FK_Client_TimeFormat");
+
+                entity.HasOne(d => d.TimeZone)
+                    .WithMany(p => p.Client)
+                    .HasForeignKey(d => d.TimeZoneId)
+                    .HasConstraintName("FK_Client_TimeZone");
+
+
+            });
+
+            modelBuilder.Entity<ClientPlanHistory>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Notes).HasMaxLength(1000);
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.BillingUser)
+                    .WithMany(p => p.ClientPlanHistory)
+                    .HasForeignKey(d => d.BillingUserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ClientPlanHistory_User");
+            });
+
+            modelBuilder.Entity<ClientType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<CommunicationPreference>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.CommunicationType)
+                    .WithMany(p => p.CommunicationPreference)
+                    .HasForeignKey(d => d.CommunicationTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CommunicationPreference_CommunicationType");
+            });
+
+            modelBuilder.Entity<CommunicationType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<CorrespondenceType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Country>(entity =>
+            {
+                entity.Property(e => e.Code).HasMaxLength(5);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Cpd>(entity =>
+            {
+                entity.ToTable("CPD");
+
+                entity.Property(e => e.CpdawardedById).HasColumnName("CPDAwardedById");
+
+                entity.Property(e => e.Cpdearned).HasColumnName("CPDEarned");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.CpdawardedBy)
+                    .WithMany(p => p.Cpd)
+                    .HasForeignKey(d => d.CpdawardedById)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CPD_User");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.Cpd)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CPD_Member");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.Cpd)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CPD_RelatedTo");
+            });
+
+            modelBuilder.Entity<CpdmemberCategorySetUp>(entity =>
+            {
+                entity.ToTable("CPDMemberCategorySetUp");
+
+                entity.Property(e => e.Cpdcount).HasColumnName("CPDCount");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MemberCategory)
+                    .WithMany(p => p.CpdmemberCategorySetUp)
+                    .HasForeignKey(d => d.MemberCategoryId)
+                    .HasConstraintName("FK_CPDMemberCategorySetUp_MemberCategory");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.CpdmemberCategorySetUp)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CPDMemberCategorySetUp_RelatedTo");
+            });
+
+            modelBuilder.Entity<CpdmemberLevelSetUp>(entity =>
+            {
+                entity.ToTable("CPDMemberLevelSetUp");
+
+                entity.Property(e => e.Cpdcount).HasColumnName("CPDCount");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MemberLevel)
+                    .WithMany(p => p.CpdmemberLevelSetUp)
+                    .HasForeignKey(d => d.MemberLevelId)
+                    .HasConstraintName("FK_CPDMemberLevelSetUp_MemberLevel");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.CpdmemberLevelSetUp)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CPDMemberLevelSetUp_RelatedTo");
+            });
+
+            modelBuilder.Entity<CpdmemberTeamSetUp>(entity =>
+            {
+                entity.ToTable("CPDMemberTeamSetUp");
+
+                entity.Property(e => e.Cpdcount).HasColumnName("CPDCount");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MemberTeam)
+                    .WithMany(p => p.CpdmemberTeamSetUp)
+                    .HasForeignKey(d => d.MemberTeamId)
+                    .HasConstraintName("FK_CPDMemberTeamSetUp_MemberTeam");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.CpdmemberTeamSetUp)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CPDMemberTeamSetUp_RelatedTo");
+            });
+
+            modelBuilder.Entity<CpdmemberTypeSetUp>(entity =>
+            {
+                entity.ToTable("CPDMemberTypeSetUp");
+
+                entity.Property(e => e.Cpdcount).HasColumnName("CPDCount");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MemberType)
+                    .WithMany(p => p.CpdmemberTypeSetUp)
+                    .HasForeignKey(d => d.MemberTypeId)
+                    .HasConstraintName("FK_CPDMemberTypeSetUp_MemberType");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.CpdmemberTypeSetUp)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CPDMemberTypeSetUp_RelatedTo");
+            });
+
+            modelBuilder.Entity<Currency>(entity =>
+            {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(3);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Symbol)
+                    .IsRequired()
+                    .HasMaxLength(10);
+            });
+
+            modelBuilder.Entity<CustomField>(entity =>
+            {
+
+                entity.Property(e => e.TableName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                
+
+               
+
+
+            });
+
+            modelBuilder.Entity<CustomFieldLookUp>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.TableName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<CustomFieldName>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.DataType).HasMaxLength(50);
+
+                entity.Property(e => e.Label).HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.TableName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<DateSetting>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Designation>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Donation>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.DonatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.DonorNotes)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.Donation)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Donation_Member");
+
+                entity.HasOne(d => d.PromotionDetail)
+                    .WithMany(p => p.Donation)
+                    .HasForeignKey(d => d.PromotionDetailId)
+                    .HasConstraintName("FK_Donation_PromotionDetail");
+            });
+
+            modelBuilder.Entity<EmailCcrule>(entity =>
+            {
+                entity.ToTable("EmailCCRule");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.EmailType)
+                    .WithMany(p => p.EmailCcrule)
+                    .HasForeignKey(d => d.EmailTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmailCCRule_EmailType");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.EmailCcrule)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmailCCRule_Role");
+            });
+
+            modelBuilder.Entity<EmailTemplateContent>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EmailContent)
+                    .IsRequired()
+                    .HasMaxLength(4000);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.EmailTemplateName)
+                    .WithMany(p => p.EmailTemplateContent)
+                    .HasForeignKey(d => d.EmailTemplateNameId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmailTemplateContent_EmailTemplateName");
+            });
+
+            modelBuilder.Entity<EmailTemplateName>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<EmailType>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Equipment>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<EquipmentCount>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Equipment)
+                    .WithMany(p => p.EquipmentCount)
+                    .HasForeignKey(d => d.EquipmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EquipmentCount_Equipment");
+            });
+
+            modelBuilder.Entity<Event>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(2000);
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EndTime).HasColumnType("time(2)");
+
+                entity.Property(e => e.EventUniqueName)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.IsCpdevent).HasColumnName("IsCPDEvent");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.RegEndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.RegEndTime).HasColumnType("time(2)");
+
+                entity.Property(e => e.RegStartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.RegStartTime).HasColumnType("time(2)");
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.StartTime).HasColumnType("time(2)");
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.AddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Event_Address");
+
+                entity.HasOne(d => d.Organizer)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.OrganizerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Event_User");
+
+                entity.HasOne(d => d.TimeZone)
+                    .WithMany(p => p.Event)
+                    .HasForeignKey(d => d.TimeZoneId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Event_TimeZone");
+            });
+
+            modelBuilder.Entity<EventAccess>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventAccess)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventAccess_Event");
+            });
+
+            modelBuilder.Entity<EventAttendance>(entity =>
+            {
+                entity.Property(e => e.AttendanceDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventAttendance)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventAttendance_Event");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.EventAttendance)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventAttendance_Member");
+            });
+
+            modelBuilder.Entity<EventCommunication>(entity =>
+            {
+                entity.Property(e => e.Announcement1ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Announcement1SentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Announcement2ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Announcement2SentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Announcement3ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Announcement3SentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder1ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder1SentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder2ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder2SentDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder3ScheduledDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Reminder3SentDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventCommunication)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventCommunication_Event");
+            });
+
+            modelBuilder.Entity<EventCost>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(10, 3)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<EventCostItem>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<EventEquipment>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Equipment)
+                    .WithMany(p => p.EventEquipment)
+                    .HasForeignKey(d => d.EquipmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventEquipmentRequirement_Equipment");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventEquipment)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventEquipmentRequirement_Event");
+            });
+
+            modelBuilder.Entity<EventMinute>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Heading).HasMaxLength(50);
+
+                entity.Property(e => e.Minute)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.SubHeading).HasMaxLength(50);
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventMinute)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventMinute_Event");
+
+                entity.HasOne(d => d.MinuteStatus)
+                    .WithMany(p => p.EventMinute)
+                    .HasForeignKey(d => d.MinuteStatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventMinute_EventMinuteStatus");
+            });
+
+            modelBuilder.Entity<EventMinuteStatus>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<EventPreRequisiteEvent>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventPreRequisiteEventEvent)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventPreRequisiteEvent_Event");
+
+                entity.HasOne(d => d.PreRequisiteEvent)
+                    .WithMany(p => p.EventPreRequisiteEventPreRequisiteEvent)
+                    .HasForeignKey(d => d.PreRequisiteEventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventPreRequisiteEvent_PreRequisiteEventId_Event");
+            });
+
+            modelBuilder.Entity<EventRegistration>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventRegistration)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventRegistration_Event");
+
+                entity.HasOne(d => d.EventResponseType)
+                    .WithMany(p => p.EventRegistration)
+                    .HasForeignKey(d => d.EventResponseTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventRegistration_EventResponseType");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.EventRegistration)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventRegistration_Member");
+            });
+
+            modelBuilder.Entity<EventResponseType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<EventRestrictionList>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventRestrictionList)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventRestrictionList_Event");
+
+                entity.HasOne(d => d.MemberLevel)
+                    .WithMany(p => p.EventRestrictionList)
+                    .HasForeignKey(d => d.MemberLevelId)
+                    .HasConstraintName("FK_EventRestrictionList_MemberLevel");
+
+                entity.HasOne(d => d.MemberTeam)
+                    .WithMany(p => p.EventRestrictionList)
+                    .HasForeignKey(d => d.MemberTeamId)
+                    .HasConstraintName("FK_EventRestrictionList_MemberTeam");
+            });
+
+            modelBuilder.Entity<EventRole>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.HasOne(d => d.Event)
+                    .WithMany(p => p.EventRole)
+                    .HasForeignKey(d => d.EventId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventRole_Event");
+            });
+
+            modelBuilder.Entity<EventRoleUserXref>(entity =>
+            {
+                entity.ToTable("EventRoleUserXRef");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.EventRole)
+                    .WithMany(p => p.EventRoleUserXref)
+                    .HasForeignKey(d => d.EventRoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventRoleUserXRef_EventRole");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.EventRoleUserXref)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EventRoleUserXRef_User");
+            });
+
+            modelBuilder.Entity<FileType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Gender>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Invoice>(entity =>
+            {
+                entity.Property(e => e.CommentsForPayer).HasMaxLength(1000);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.InternalNotes).HasMaxLength(1000);
+
+                entity.Property(e => e.InvoiceAmount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.InvoiceCode)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
+
+                entity.Property(e => e.InvoiceItem)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.InvoiceStatus)
+                    .WithMany(p => p.Invoice)
+                    .HasForeignKey(d => d.InvoiceStatusId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invoice_InvoiceStatus");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.Invoice)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invoice_Member");
+
+                entity.HasOne(d => d.PaymentGateway)
+                    .WithMany(p => p.Invoice)
+                    .HasForeignKey(d => d.PaymentGatewayId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invoice_PaymentGateway");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.Invoice)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .HasConstraintName("FK_Invoice_RelatedTo");
+            });
+
+            modelBuilder.Entity<InvoiceSetting>(entity =>
+            {
+                entity.Property(e => e.Id)
+                    .HasColumnName("id")
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<InvoiceStatus>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<LandingPage>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MemberType)
+                    .WithMany(p => p.LandingPage)
+                    .HasForeignKey(d => d.MemberTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LandingPage_MemberType");
+
+                entity.HasOne(d => d.Page)
+                    .WithMany(p => p.LandingPage)
+                    .HasForeignKey(d => d.PageId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_LandingPage_Page");
+            });
+
+            modelBuilder.Entity<MarketingGroup>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<MarketingGroupXref>(entity =>
+            {
+                entity.ToTable("MarketingGroupXRef");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MarketingGroup)
+                    .WithMany(p => p.MarketingGroupXref)
+                    .HasForeignKey(d => d.MarketingGroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MarketingGroupXRef_MarketingGroup");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MarketingGroupXref)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MarketingGroupXRef_Member");
+            });
+
+            modelBuilder.Entity<MarketingProfile>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<MarketingProfileXref>(entity =>
+            {
+                entity.ToTable("MarketingProfileXRef");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MarketingProfile)
+                    .WithMany(p => p.MarketingProfileXref)
+                    .HasForeignKey(d => d.MarketingProfileId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MarketingProfileXRef_MarketingProfile");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MarketingProfileXref)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MarketingProfileXRef_Member");
+            });
+
+            modelBuilder.Entity<Member>(entity =>
+            {
+                entity.Property(e => e.ConfirmedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.JoinDate).HasColumnType("datetime");
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.MemberCode)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.MiddleName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.NextRenewalDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Notes).HasMaxLength(1000);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Photo).HasColumnType("blob");
+
+                entity.HasOne(d => d.Gender)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.GenderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Member_Gender");
+
+                entity.HasOne(d => d.MemberBranch)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.MemberBranchId)
+                    .HasConstraintName("FK_Member_MemberBranch");
+
+                entity.HasOne(d => d.MemberLevel)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.MemberLevelId)
+                    .HasConstraintName("FK_Member_MemberLevel");
+
+                entity.HasOne(d => d.MemberStatus)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.MemberStatusId)
+                    .HasConstraintName("FK_Member_MemberStatus");
+
+                entity.HasOne(d => d.MemberTeam)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.MemberTeamId)
+                    .HasConstraintName("FK_Member_MemberTeam");
+
+                entity.HasOne(d => d.MemberType)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.MemberTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Member_MemberType");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .HasConstraintName("FK_Member_Organization");
+
+                entity.HasOne(d => d.OrganizationStructure)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.OrganizationStructureId)
+                    .HasConstraintName("FK_Member_OrganizationStructure");
+
+                entity.HasOne(d => d.ReferralType)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.ReferralTypeId)
+                    .HasConstraintName("FK_Member_ReferralType");
+
+                entity.HasOne(d => d.Title)
+                    .WithMany(p => p.Member)
+                    .HasForeignKey(d => d.TitleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Member_Title");
+            });
+
+            modelBuilder.Entity<MemberAddress>(entity =>
+            {
+                entity.Property(e => e.AddressLine1).HasMaxLength(100);
+
+                entity.Property(e => e.AddressLine2).HasMaxLength(100);
+
+                entity.Property(e => e.BuidlingName).HasMaxLength(100);
+
+                entity.Property(e => e.ComplexName).HasMaxLength(100);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.FaxNumber).HasMaxLength(50);
+
+                entity.Property(e => e.Gpscoordinates)
+                    .HasColumnName("GPSCoordinates")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.PostalCode).HasMaxLength(50);
+
+                entity.Property(e => e.PrimaryContactNo).HasMaxLength(50);
+
+                entity.Property(e => e.PrimaryEmail).HasMaxLength(50);
+
+                entity.Property(e => e.SecondaryContactNo).HasMaxLength(50);
+
+                entity.Property(e => e.SecondaryEmail).HasMaxLength(50);
+
+                entity.Property(e => e.StreetName).HasMaxLength(100);
+
+                entity.HasOne(d => d.AddressType)
+                    .WithMany(p => p.MemberAddress)
+                    .HasForeignKey(d => d.AddressTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberAddress_AddressType");
+
+                entity.HasOne(d => d.Branch)
+                    .WithMany(p => p.MemberAddress)
+                    .HasForeignKey(d => d.BranchId)
+                    .HasConstraintName("FK_MemberAddress_MemberBranch");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MemberAddress)
+                    .HasForeignKey(d => d.MemberId)
+                    .HasConstraintName("FK_MemberAddress_Member");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.MemberAddress)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .HasConstraintName("FK_MemberAddress_Organization");
+            });
+
+            modelBuilder.Entity<MemberAffliationXref>(entity =>
+            {
+                entity.ToTable("MemberAffliationXRef");
+
+                entity.Property(e => e.AffliatedFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.AffliatedTill).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.IsActiveAffliatedNow).HasColumnName("isActiveAffliatedNow");
+
+                entity.Property(e => e.MemberSpecificAffliationName).HasMaxLength(100);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Affliation)
+                    .WithMany(p => p.MemberAffliationXref)
+                    .HasForeignKey(d => d.AffliationId)
+                    .HasConstraintName("FK_MemberAffliationXRef_Affliation");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MemberAffliationXref)
+                    .HasForeignKey(d => d.MemberId)
+                    .HasConstraintName("FK_MemberAffliationXRef_Member");
+            });
+
+            modelBuilder.Entity<MemberBankingDetail>(entity =>
+            {
+                entity.Property(e => e.AccountNumber)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.BankName).HasMaxLength(50);
+
+                entity.Property(e => e.BranchName)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.RoutingCode).HasMaxLength(50);
+
+                entity.HasOne(d => d.AccountType)
+                    .WithMany(p => p.MemberBankingDetail)
+                    .HasForeignKey(d => d.AccountTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberBankingDetail_AccountType");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MemberBankingDetail)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberBankingDetail_Member");
+            });
+
+            modelBuilder.Entity<MemberBranch>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.MemberBranch)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberBranch_Organization");
+            });
+
+            modelBuilder.Entity<MemberCategory>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<MemberCodeGenerator>(entity =>
+            {
+                entity.Property(e => e.CodeGenerationRule).HasMaxLength(200);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Prefix).HasMaxLength(50);
+
+                entity.Property(e => e.Suffix).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<MemberCommunicationPreference>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.CommunicationType)
+                    .WithMany(p => p.MemberCommunicationPreference)
+                    .HasForeignKey(d => d.CommunicationTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberCommunicationPreference_CommunicationType");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MemberCommunicationPreference)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberCommunicationPreference_Member");
+            });
+
+            modelBuilder.Entity<MemberFile>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+
+                entity.Property(e => e.FileContent).IsRequired();
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.FileType)
+                    .WithMany(p => p.MemberFile)
+                    .HasForeignKey(d => d.FileTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberFile_FileType");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MemberFile)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberFile_Member");
+            });
+
+            modelBuilder.Entity<MemberLevel>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<MemberLoginAudit>(entity =>
+            {
+                entity.Property(e => e.LogoutTime).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<MemberPlanHistory>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Notes).HasMaxLength(1000);
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MemberPlanHistory)
+                    .HasForeignKey(d => d.MemberId)
+                    .HasConstraintName("FK_MembershipHistory_Member");
+
+                entity.HasOne(d => d.MemberPlanDetail)
+                    .WithMany(p => p.MemberPlanHistory)
+                    .HasForeignKey(d => d.MemberPlanDetailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberPlanHistory_PlanDetail");
+
+                entity.HasOne(d => d.MemberPlanDetailNavigation)
+                    .WithMany(p => p.MemberPlanHistory)
+                    .HasForeignKey(d => d.MemberPlanDetailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MembershipHistory_PlanMaster");
+
+                entity.HasOne(d => d.Organization)
+                    .WithMany(p => p.MemberPlanHistory)
+                    .HasForeignKey(d => d.OrganizationId)
+                    .HasConstraintName("FK_MembershipHistory_Organization");
+            });
+
+            modelBuilder.Entity<MemberQualificationXref>(entity =>
+            {
+                entity.ToTable("MemberQualificationXRef");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.MemberSpecificQualificationName).HasMaxLength(100);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.QualificationFrom).HasColumnType("datetime");
+
+                entity.Property(e => e.QualificationTill).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.MemberQualificationXref)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberQualificationXRef_Member");
+
+                entity.HasOne(d => d.Qualification)
+                    .WithMany(p => p.MemberQualificationXref)
+                    .HasForeignKey(d => d.QualificationId)
+                    .HasConstraintName("FK_MemberQualificationXRef_Qualification");
+            });
+
+            modelBuilder.Entity<MemberStatus>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<MemberTeam>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<MemberType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasOne(d => d.MemberCategory)
+                    .WithMany(p => p.MemberType)
+                    .HasForeignKey(d => d.MemberCategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberType_MemberCategory");
+            });
+
+            modelBuilder.Entity<Organization>(entity =>
+            {
+                entity.Property(e => e.Acronym).HasMaxLength(50);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.WebSite).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<OrganizationStructure>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Page>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PayPalConnectionMode>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PayPalPreferredPaymentGateway>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PaymentCard>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PaymentGateway>(entity =>
+            {
+                entity.Property(e => e.ClientApicodeForMerchant)
+                    .HasColumnName("ClientAPICodeForMerchant")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.ClientIdForMerchant).HasMaxLength(100);
+
+                entity.Property(e => e.ClientPasswordForMerchant).HasMaxLength(100);
+
+                entity.Property(e => e.CommisionPercentage).HasColumnType("decimal(6, 3)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.MerchantLocation).HasMaxLength(100);
+
+                entity.Property(e => e.MerchantName).HasMaxLength(100);
+
+                entity.Property(e => e.MerchantNumber).HasMaxLength(100);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PaymentSetting>(entity =>
+            {
+                entity.Property(e => e.ApplicationInstructions).HasMaxLength(2000);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(200);
+
+                entity.Property(e => e.EventsInstructions).HasMaxLength(2000);
+
+                entity.Property(e => e.GeneralInstructions).HasMaxLength(2000);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.PayPalAccountId).HasMaxLength(200);
+
+                entity.Property(e => e.PayPalApipassword)
+                    .HasColumnName("PayPalAPIPassword")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PayPalApisignature)
+                    .HasColumnName("PayPalAPISignature")
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.PayPalApiuserName)
+                    .HasColumnName("PayPalAPIUserName")
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PayPalPdtidentityToken)
+                    .HasColumnName("PayPalPDTIdentityToken")
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.Currency)
+                    .WithMany(p => p.PaymentSetting)
+                    .HasForeignKey(d => d.CurrencyId)
+                    .HasConstraintName("FK_PaymentSetting_Currency");
+            });
+
+            modelBuilder.Entity<PaymentSettingAllowedCard>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.PaymentCard)
+                    .WithMany(p => p.PaymentSettingAllowedCard)
+                    .HasForeignKey(d => d.PaymentCardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PaymentSettingAllowedCard_PaymentCard");
+
+                entity.HasOne(d => d.PaymentSetting)
+                    .WithMany(p => p.PaymentSettingAllowedCard)
+                    .HasForeignKey(d => d.PaymentSettingId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PaymentSettingAllowedCard_PaymentSetting");
+            });
+
+            modelBuilder.Entity<Permission>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PlanCanChangeToXref>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.FromPlanMaster)
+                    .WithMany(p => p.PlanCanChangeToXrefFromPlanMaster)
+                    .HasForeignKey(d => d.FromPlanMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberPlanCanChangeTo_PlanMaster");
+
+                entity.HasOne(d => d.ToPlanMaster)
+                    .WithMany(p => p.PlanCanChangeToXrefToPlanMaster)
+                    .HasForeignKey(d => d.ToPlanMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MemberPlanCanChangeTo_PlanMaster2");
+            });
+
+            modelBuilder.Entity<PlanDetail>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Currency)
+                    .WithMany(p => p.PlanDetail)
+                    .HasForeignKey(d => d.CurrencyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PlanDetail_Currency");
+
+                entity.HasOne(d => d.PlanFrequency)
+                    .WithMany(p => p.PlanDetail)
+                    .HasForeignKey(d => d.PlanFrequencyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PlanDetail_PlanFrequency");
+
+                entity.HasOne(d => d.PlanMaster)
+                    .WithMany(p => p.PlanDetail)
+                    .HasForeignKey(d => d.PlanMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PlanDetail_PlanMaster");
+            });
+
+            modelBuilder.Entity<PlanFrequency>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<PlanMaster>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.HasOne(d => d.MemberCategory)
+                    .WithMany(p => p.PlanMaster)
+                    .HasForeignKey(d => d.MemberCategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PlanMaster_MemberCategory");
+
+                entity.HasOne(d => d.PaymentMethod)
+                    .WithMany(p => p.PlanMaster)
+                    .HasForeignKey(d => d.PaymentMethodId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PlanMaster_PaymentSetting");
+            });
+
+            modelBuilder.Entity<PromotionDetail>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.DiscountPercentage).HasColumnType("decimal(9, 3)");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.MemberLevel)
+                    .WithMany(p => p.PromotionDetail)
+                    .HasForeignKey(d => d.MemberLevelId)
+                    .HasConstraintName("FK_PromotionDetail_MemberLevel");
+
+                entity.HasOne(d => d.MemberType)
+                    .WithMany(p => p.PromotionDetail)
+                    .HasForeignKey(d => d.MemberTypeId)
+                    .HasConstraintName("FK_PromotionDetail_MemberType");
+
+                entity.HasOne(d => d.PromotionMaster)
+                    .WithMany(p => p.PromotionDetail)
+                    .HasForeignKey(d => d.PromotionMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PromotionDetail_PromotionMaster");
+            });
+
+            modelBuilder.Entity<PromotionMaster>(entity =>
+            {
+                entity.Property(e => e.BenefitEndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.BenefitStartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(1000);
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.IsActive).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(200);
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<PromotionResponse>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ResponseDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.PromotionResponse)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PromotionResponse_Member");
+
+                entity.HasOne(d => d.PromotionMaster)
+                    .WithMany(p => p.PromotionResponse)
+                    .HasForeignKey(d => d.PromotionMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PromotionResponse_PromotionMaster");
+
+                entity.HasOne(d => d.PromotionResponseTypeNavigation)
+                    .WithMany(p => p.PromotionResponse)
+                    .HasForeignKey(d => d.PromotionResponseType)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PromotionResponse_PromotionResponseType");
+            });
+
+            modelBuilder.Entity<PromotionResponseType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Qualification>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<ReferralType>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Refund>(entity =>
+            {
+                entity.Property(e => e.CommentsForPayer).HasMaxLength(1000);
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.InternalNotes).HasMaxLength(1000);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.RefundAmount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.RefundDate).HasColumnType("datetime");
+
+                entity.Property(e => e.RefundItem)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.Member)
+                    .WithMany(p => p.Refund)
+                    .HasForeignKey(d => d.MemberId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Refund_Member");
+
+                entity.HasOne(d => d.PaymentGateway)
+                    .WithMany(p => p.Refund)
+                    .HasForeignKey(d => d.PaymentGatewayId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Refund_PaymentGateway");
+
+                entity.HasOne(d => d.RelatedTo)
+                    .WithMany(p => p.Refund)
+                    .HasForeignKey(d => d.RelatedToId)
+                    .HasConstraintName("FK_Refund_RelatedTo");
+            });
+
+            modelBuilder.Entity<RelatedTo>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description).HasMaxLength(100);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(30);
+            });
+
+            modelBuilder.Entity<Role>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<RolePermissionXref>(entity =>
+            {
+                entity.ToTable("RolePermissionXRef");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Permission)
+                    .WithMany(p => p.RolePermissionXref)
+                    .HasForeignKey(d => d.Permissionid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RolePermissionXRef_Permission");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.RolePermissionXref)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RolePermissionXRef_Role");
+            });
+
+            modelBuilder.Entity<State>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.HasOne(d => d.Country)
+                    .WithMany(p => p.State)
+                    .HasForeignKey(d => d.CountryId)
+                    .HasConstraintName("FK_State_Country");
+            });
+
+            modelBuilder.Entity<Tag>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+            });
+
+            modelBuilder.Entity<Tax>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.TaxCode)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TaxPolicy>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<TaxScope>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.TaxScopeCode)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Theme>(entity =>
+            {
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+            });
+
+    
+
+    
+
+
+
+            modelBuilder.ApplyConfiguration(new ClientUserConfiguration());
+
+            modelBuilder.Entity<UserLoginAudit>(entity =>
+            {
+                entity.Property(e => e.LogoutTime).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<UserRoleXref>(entity =>
+            {
+                entity.ToTable("UserRoleXRef");
+
+                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+
+                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserRoleXref)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserRole_Role");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.UserRoleXref)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_UserRole_User");
+            });
+
+           

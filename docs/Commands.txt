@@ -1,0 +1,70 @@
+﻿(Run from package manger console)
+Scaffold-DbContext "Server=DESKTOP-RCPFDN2;Database=MM;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -f
+Scaffold-DbContext "Server=localhost;Database=mmtest;Uid=root;Pwd=MMRootPwd2#" MySql.Data.EntityFrameworkCore -OutputDir Models -f
+
+add-migration InitialMigration -context CoreDbContext
+update-database -context CoreDbContext
+add-migration ClienetInitialMigration -context ClientDBContext
+update-database -context ClientDBContext
+remove-migration -context ClientDBContext
+dotnet run --configuration Debug
+Shfit+Alt + D
+https://rca1.wildapricot.org/
+
+membership@rca.co.za
+joburg2020
+
+https://codecanyon.net/item/material-dashboard-net-core-admin-template-crud/23834228
+
+nice-core.indotalent.com
+
+https://codecanyon.net/item/ultimate-membership-pro-wordpress-plugin/12159253
+
+Email address
+Password
+Your name
+Organization name
+
+Agreed to terms?
+Account Active?
+Created Date
+Modified Date
+
+Organization type
+<select name="category" id="category">
+	<option selected="selected" value="45">Please select ---&gt;</option>
+	<option value="38">Association - Business/Trade</option>
+	<option value="39">Association - Chamber of commerce</option>
+	<option value="48">Association - Community/HOA</option>
+	<option value="10109">Association - Health</option>
+	<option value="37">Association - Professional</option>
+	<option value="49">Association - Student/Alumni/PTA</option>
+	<option value="10108">Association - Teachers</option>
+	<option value="46">Church or Religious Community</option>
+	<option value="50">Club - Service</option>
+	<option value="41">Club - Special Interest or Social</option>
+	<option value="51">Club - Sport</option>
+	<option value="10111">COVID-19</option>
+	<option value="5">Event/Conference</option>
+	<option value="2">Foundation or Charity</option>
+	<option value="44">Other (blank template)</option>
+	<option value="52">Political/Advocacy</option>
+	<option value="43">Subscription Site</option>
+	<option value="53">Support/Assistance Services</option>
+
+</select>
+
+
+First name
+Last name
+What duties you perform in your Organization
+
+<div name="duty" role="listbox" aria-expanded="false" class="ui selection dropdown" tabindex="0"><div class="text" role="alert" aria-live="polite">Administration</div><i aria-hidden="true" class="dropdown icon"></i><div class="menu transition"><div role="option" aria-checked="true" aria-selected="true" class="active selected item" style="pointer-events: all;"><span class="text">Administration</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">Volunteer</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">IT Specialist</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">Consultant</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">Board Member</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">Decision Maker</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">Other</span></div></div></div>
+
+
+How many contacts
+
+<div name="contactsRange" role="listbox" aria-expanded="false" class="ui selection dropdown" tabindex="0"><div class="text" role="alert" aria-live="polite">101 - 250</div><i aria-hidden="true" class="dropdown icon"></i><div class="menu transition"><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">1 - 50</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">51 - 100</span></div><div role="option" aria-checked="true" aria-selected="true" class="active selected item" style="pointer-events: all;"><span class="text">101 - 250</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">251 - 500</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">501 - 2000</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">2001 - 5000</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">5001 - 15,000</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">15,001 - 50,000</span></div><div role="option" aria-checked="false" aria-selected="false" class="item" style="pointer-events: all;"><span class="text">50,000+</span></div></div></div>
+
+Tell us more
+

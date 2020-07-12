@@ -1,0 +1,10 @@
+[
+  {
+    "name": "DB1",
+    "dbconnection": "server=localhost;port=3306;user=username;password=password;database=dbname1"
+  },
+  {
+    "name": "DB2",
+    "dbconnection": "server=localhost;port=3306;user=username;password=password;database=dbname2"
+  }
+]
