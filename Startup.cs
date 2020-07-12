@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MM.CoreModels;
 using MM.ClientModels;
-
+/* This is Aji's Change*/
 namespace MM
 {
     public class Startup
