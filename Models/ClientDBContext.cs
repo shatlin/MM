@@ -18,6 +18,9 @@ namespace MM.ClientModels
         {
         }
 
+
+
+
         public virtual DbSet<AccountType> AccountType { get; set; }
         public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<AddressType> AddressType { get; set; }
