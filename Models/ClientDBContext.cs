@@ -254,7 +254,7 @@ namespace MM.ClientModels
         {
             if ( !optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySql("Server = localhost;  Uid = root; Pwd = MMRootPwd2#;Database =mm_wisa");//ConnectionString);
+                optionsBuilder.UseMySql("Server = localhost;  Uid = root; Pwd = Aji@2020;Database =mm_wisa");//ConnectionString);
             }
         }
 

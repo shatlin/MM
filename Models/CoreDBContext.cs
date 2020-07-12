@@ -679,7 +679,7 @@ namespace MM.CoreModels
         {
          modelBuilder.Entity<ClientDBConnectionMaster>()
          .HasData(
-         new ClientDBConnectionMaster { Id = 1,  ConnectionString = "Server = localhost;  Uid = root; Pwd = MMRootPwd2#;Database =mm_" }
+         new ClientDBConnectionMaster { Id = 1,  ConnectionString = "Server = localhost;  Uid = root; Pwd = Aji@2020;Database =mm_" }
          );
         }
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
