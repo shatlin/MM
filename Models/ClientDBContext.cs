@@ -245,9 +245,6 @@ namespace MM.ClientModels
             modelBuilder.ApplyConfiguration(new TitleConfiguration()).SeedTitle();
             modelBuilder.ApplyConfiguration(new UserLoginAuditConfiguration()).SeedUserLoginAudit();
             modelBuilder.ApplyConfiguration(new UserRoleXrefConfiguration()).SeedUserRoleXref();
-
-
-
             OnModelCreatingPartial(modelBuilder);
         }
 

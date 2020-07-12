@@ -11,11 +11,9 @@
 *.sln.docstates
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
-/Models/ClientDBContext.cs
-/Models/CoreDBContext.cs
-/appsettings.json
-/Migrations/
 
+/Migrations/
+/Personal/
 
 # Build results
 [Dd]ebug/
