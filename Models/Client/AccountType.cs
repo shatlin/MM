@@ -31,7 +31,7 @@ namespace MM.ClientModels
         {
 
           
-                builder.Property(e => e.CreatedOn).HasColumnType("datetime");
+            builder.Property(e => e.CreatedOn).HasColumnType("datetime");
 
             builder.Property(e => e.Description)
                     .IsRequired()
@@ -48,7 +48,12 @@ namespace MM.ClientModels
     {
         public static void SeedAccountType(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<AccountType>().HasData(
+              new AccountType { Id = 1, Name = "Savings Account", Description = "Savings Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 2, Name = "Cheque Account", Description = "Cheque Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 3, Name = "Corporante Account", Description = "Corporante Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 4, Name = "Business Account", Description = "Business Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+            );
         }
     }
 }
