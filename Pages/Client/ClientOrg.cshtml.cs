@@ -12,39 +12,37 @@ using MM.ClientModels;
 
 namespace MM.Pages.Client
 {
-    public class RegisterModel : PageModel
+    public class ClientOrgModel : PageModel
     {
         private readonly ClientDbContext _context;
 
-        public RegisterModel(ClientDbContext context)
+        public ClientOrgModel(ClientDbContext context)
         {
             _context = context;
         }
 
-
         [BindProperty]
-        public ClientUser ClientUser { get; set; }
+        public ClientOrganization ClientOrganization { get; set; }
 
         [ViewData]
-        public SelectList ClientTitles { get; set; }
+        public SelectList OrgDateSettings { get; set; }
 
         [ViewData]
-        public SelectList ClientDesignations { get; set; }
+        public SelectList OrgTimeFormat { get; set; }
 
         [ViewData]
-        public SelectList ClientGenders { get; set; }
+        public SelectList OrgTimeZone { get; set; }
 
         [ViewData]
-        public SelectList ClientReferralTypes { get; set; }
+        public SelectList OrgCurrency { get; set; }
 
 
         public IActionResult OnGet()
         {
-            ClientTitles = new SelectList(_context.Title, nameof(Title.Id), nameof(Title.Name));
-            ClientDesignations = new SelectList(_context.Designation, nameof(Designation.Id), nameof(Designation.Name));
-            ClientGenders = new SelectList(_context.Gender, nameof(Gender.Id), nameof(Gender.Name));
-            ClientReferralTypes = new SelectList(_context.ReferralType, nameof(ReferralType.Id), nameof(ReferralType.Name));
-            
+            OrgDateSettings = new SelectList(_context.DateSetting, nameof(DateSetting.Id), nameof(DateSetting.Name));
+            OrgTimeFormat = new SelectList(_context.TimeFormat, nameof(TimeFormat.Id), nameof(TimeFormat.Name));
+            OrgTimeZone = new SelectList(_context.ClientTimeZone, nameof(ClientTimeZone.Id), nameof(ClientTimeZone.Name));
+            OrgCurrency = new SelectList(_context.Currency, nameof(Currency.Id), nameof(Currency.Name));
             return Page();
         }
 
@@ -57,7 +55,7 @@ namespace MM.Pages.Client
                 return Page();
             }
 
-            _context.ClientUser.Add(ClientUser);
+            _context.ClientOrganization.Add(ClientOrganization);
             await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }

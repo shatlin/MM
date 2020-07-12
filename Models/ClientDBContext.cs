@@ -9,15 +9,17 @@ namespace MM.ClientModels
     public partial class ClientDbContext : DbContext
     {
         private string ConnectionString{ get; set; }
+
+
         public ClientDbContext(string connectionString)
         {
             ConnectionString = connectionString;
         }
 
+
         public ClientDbContext(DbContextOptions<ClientDbContext> options) : base(options)
         {
         }
-
 
         public virtual DbSet<AccountType> AccountType { get; set; }
         public virtual DbSet<Address> Address { get; set; }
@@ -124,7 +126,7 @@ namespace MM.ClientModels
         public virtual DbSet<TaxScope> TaxScope { get; set; }
         public virtual DbSet<Theme> Theme { get; set; }
         public virtual DbSet<TimeFormat> TimeFormat { get; set; }
-        public virtual DbSet<TimeZone> TimeZone { get; set; }
+        public virtual DbSet<ClientTimeZone> ClientTimeZone { get; set; }
         public virtual DbSet<Title> Title { get; set; }
         public virtual DbSet<ClientUser> ClientUser { get; set; }
         public virtual DbSet<UserLoginAudit> UserLoginAudit { get; set; }

@@ -7,14 +7,13 @@ namespace MM.ClientModels
     public partial class ClientOrganization
     {
         public int Id { get; set; }
-        public int ClientTypeId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool AgreedToTerms { get; set; }
         public bool IsActive { get; set; }
         public int? DateSettingId { get; set; }
         public int? TimeFormatId { get; set; }
-        public int? TimeZoneId { get; set; }
+        public int? ClientTimeZoneId { get; set; }
         public int? CurrencyId { get; set; }
         public int? CurrencyDecimalPlaces { get; set; }
         public DateTime? CreatedOn { get; set; }
@@ -24,7 +23,7 @@ namespace MM.ClientModels
         public virtual Currency Currency { get; set; }
         public virtual DateSetting DateSetting { get; set; }
         public virtual TimeFormat TimeFormat { get; set; }
-        public virtual TimeZone TimeZone { get; set; }
+        public virtual ClientTimeZone ClientTimeZone { get; set; }
       
     }
     public partial class ClientOrganizationConfiguration : IEntityTypeConfiguration<ClientOrganization>
@@ -56,9 +55,9 @@ namespace MM.ClientModels
                 .HasForeignKey(d => d.TimeFormatId)
                 .HasConstraintName("FK_Client_TimeFormat");
 
-            builder.HasOne(d => d.TimeZone)
+            builder.HasOne(d => d.ClientTimeZone)
                 .WithMany(p => p.Client)
-                .HasForeignKey(d => d.TimeZoneId)
+                .HasForeignKey(d => d.ClientTimeZoneId)
                 .HasConstraintName("FK_Client_TimeZone");
         }
 

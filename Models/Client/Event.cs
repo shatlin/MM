@@ -52,7 +52,7 @@ namespace MM.ClientModels
 
         public virtual Address Address { get; set; }
         public virtual ClientUser Organizer { get; set; }
-        public virtual TimeZone TimeZone { get; set; }
+        public virtual ClientTimeZone TimeZone { get; set; }
         public virtual ICollection<EventAccess> EventAccess { get; set; }
         public virtual ICollection<EventAttendance> EventAttendance { get; set; }
         public virtual ICollection<EventCommunication> EventCommunication { get; set; }
