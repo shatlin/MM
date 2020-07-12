@@ -49,7 +49,7 @@ namespace MM.ClientModels
         {
             modelBuilder.Entity<Country>().HasData(
 
-                new Country { Id = 1, Code = "AF", Name = "Afghanistan", Description = "Afghanistan", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                    new Country { Id = 1, Code = "AF", Name = "Afghanistan", Description = "Afghanistan", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                     new Country { Id = 2, Code = "AL", Name = "Albania", Description = "Albania", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                     new Country { Id = 3, Code = "DZ", Name = "Algeria", Description = "Algeria", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                     new Country { Id = 4, Code = "AS", Name = "American Samoa", Description = "American Samoa", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },

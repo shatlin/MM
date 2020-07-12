@@ -1,9 +1,10 @@
 ﻿@page
-@model MM.Pages.Client.MemberStatusModel
+@model MM.Pages.Client.EquipmentModel
+
 @using MM.ClientModels;
 @using MM.Helper;
 @{
-    ViewData["Title"] = "Member Status";
+    ViewData["Title"] = "Equipment";
 }
 @{ Layout = "_LayoutClient";}
 
@@ -14,7 +15,7 @@
         <div class="modal-content">
             <form method="post" id="AddEditForm" onsubmit="return Save(this)">
                 <div class="modal-header">
-                    <h5 class="modal-Title" id="AddEditModalLabel">Add New Member Status</h5>
+                    <h5 class="modal-title" id="AddEditModalLabel">Add New Equipment</h5>
                     <button type="button" class="btn btn-info close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -24,18 +25,18 @@
                     <div class="reg-container row">
                         <div class="col-12">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" id="id" asp-for="MemberStatus.Id" />
+                            <input type="hidden" id="id" asp-for="Equipment.Id" />
 
                             <div class="form-group mb-4">
-                                <label asp-for=MemberStatus.Name class="control-label"></label>
-                                <input asp-for=MemberStatus.Name type="text" class="form-control form-input" placeholder="Name of Member Status" id="name">
-                                <span asp-validation-for=MemberStatus.Name class="text-danger"></span>
+                                <label asp-for=Equipment.Name class="control-label"></label>
+                                <input asp-for=Equipment.Name type="text" class="form-control form-input" placeholder="Name of Equipment" id="name">
+                                <span asp-validation-for=Equipment.Name class="text-danger"></span>
                             </div>
 
                             <div class="form-group mb-4">
-                                <label asp-for=MemberStatus.Description class="control-label"></label>
-                                <input asp-for=MemberStatus.Description type="text" class="form-control form-input" placeholder="Description of Member Status" id="description">
-                                <span asp-validation-for=MemberStatus.Description class="text-danger"></span>
+                                <label asp-for=Equipment.Description class="control-label"></label>
+                                <input asp-for=Equipment.Description type="text" class="form-control form-input" placeholder="Description of Equipment" id="description">
+                                <span asp-validation-for=Equipment.Description class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -70,7 +71,7 @@
             <form method="post" id="DeleteForm" onsubmit="return Delete()">
 
                 <div class="modal-header">
-                    <h5 class="modal-Title" id="DeleteModalLabel">Are you sure you want to delete?</h5>
+                    <h5 class="modal-title" id="DeleteModalLabel">Are you sure you want to delete?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -84,13 +85,13 @@
                             <dl class="row">
                                 <dt class="col-sm-2">
 
-                                    <label asp-for=MemberStatus.Name class="control-label"></label>
+                                    <label asp-for=Equipment.Name class="control-label"></label>
                                 </dt>
                                 <dd class="col-sm-10">
                                     <label id="NameofRecordToDelete"></label>
                                 </dd>
                                 <dt class="col-sm-2">
-                                    <label asp-for=MemberStatus.Description class="control-label"></label>
+                                    <label asp-for=Equipment.Description class="control-label"></label>
 
                                 </dt>
                                 <dd class="col-sm-10">
@@ -122,13 +123,13 @@
 <!-- #endregion DeleteModalRegion -->
 <!-- #region ToholdGrid -->
 
-<partial name="_CRUDHeader" , model='new Header{name="Manage Member Status", description="Here you can manage member statuses of your application"}'>
-    <div class="container">
+<partial name="_CRUDHeader" , model='new Header{name="Manage Equipments", description="Here you can manage equipments of your application"}'>
+
         <div class="reg-container row">
             <!--  Personal -->
             <div class="col-12">
                 <div class="card shadow-sm">
-                    <partial name="_CardHeaderPartial" , model='new Header{name="Member Status"}'>
+                    <partial name="_CardHeaderPartial" , model='new Header{name="Equipment"}'>
                         <div class="card-body reg-card-body">
                             <div class="row">
                                 <div class="col-3 text-left pb-3">
@@ -143,7 +144,7 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
     <!-- #endregion ToholdGrid-->
 
@@ -152,16 +153,19 @@
         var dataTable;
 
         $(document).ready(function () {
+            $('#list').show();
             dataTable = $('#list').DataTable({
+                fixedHeader: true,
                 pageLength: 10,
                 ajax: {
                     url: '?handler=List',
                     dataSrc: ''
                 },
                 "columns": [
-                    { title: "Name", data: "name" },
-                    { title: "Description", data: "description" },
+                    { title: "Name", data: "name", "autoWidth": true, },
+                    { title: "Description", data: "description", "autoWidth": true, },
                     {
+                        title: "Action",
                         data: "id",
                         "render": function (data, type, row, meta) {
                             {
@@ -178,7 +182,7 @@
         });
 
         function SetUpPopupToAddRecord() {
-            $('#AddEditModalLabel').text("Add New Member Status");
+            $('#AddEditModalLabel').text("Add New Equipment");
             $('#modal-create-edit').val("Add")
             $('#id').val(0);
             $('#name').val("");
@@ -186,7 +190,7 @@
         }
 
         function SetUpPopupToEditRecord(id) {
-            $('#AddEditModalLabel').text("Edit Member Status")
+            $('#AddEditModalLabel').text("Edit Equipment")
             $('#modal-create-edit').val("Update")
             $.ajax({
                 url: '?handler=SelectedRecord&id=' + id,
