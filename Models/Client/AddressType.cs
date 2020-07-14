@@ -47,7 +47,14 @@ namespace MM.ClientModels
     {
         public static void SeedAddressType(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<AddressType>().HasData(
+              new AccountType { Id = 1, Name = "Postal Address", Description = "Postal Address", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 2, Name = "Physical Address", Description = "Physical Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 3, Name = "Billing Address", Description = "Billing Address", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 4, Name = "Business Address", Description = "Business Address", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 5, Name = "Shipping Address", Description = "Shipping Address", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 6, Name = "Contract Address", Description = "Contract Address", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+              );
         }
     }
 }

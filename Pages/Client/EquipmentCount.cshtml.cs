@@ -4,39 +4,52 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MM.ClientModels;
 
 namespace MM.Pages.Client
 {
-    public class QualificationModel : PageModel
+    public class EquipmentCountModel : PageModel
     {
         private readonly ClientDbContext _context;
 
-        public QualificationModel(ClientDbContext context)
+        public EquipmentCountModel(ClientDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public IList<Qualification> QualificationList { get;set; }
+        public IList<EquipmentCount> EquipmentCountList { get; set; }
 
         [BindProperty]
-        public Qualification Qualification { get; set; }
+        public EquipmentCount EquipmentCount { get; set; }
+
+        [ViewData]
+        public SelectList EquipmentIdList { get; set; }
+
+        public IActionResult OnGet()
+        {
+            EquipmentIdList = new SelectList(_context.Equipment, nameof(Equipment.Id), nameof(Equipment.Name));
+            
+            return Page();
+        }
 
         public async Task<IActionResult> OnGetListAsync()
         {
-            return new JsonResult(await _context.Qualification.ToListAsync());
+
+            return new JsonResult(await _context.EquipmentCount.ToListAsync());
         }
 
         public async Task<IActionResult>  OnGetSelectedRecordAsync(int id)
         {
-            return new JsonResult(await _context.Qualification.Where(x=>x.Id==id).FirstOrDefaultAsync());
+            return new JsonResult(await _context.EquipmentCount.Where(x=>x.Id==id).FirstOrDefaultAsync());
         }
     
  
-        public async Task<IActionResult> OnPostSaveAsync(Qualification Qualification)
+        public async Task<IActionResult> OnPostSaveAsync(EquipmentCount EquipmentCount)
         {
 
             if (!ModelState.IsValid)
@@ -44,13 +57,13 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "Error. Please check values entered" });
             }
 
-            if (Qualification.Id > 0)
+            if (EquipmentCount.Id > 0)
             {
-                _context.Attach(Qualification).State = EntityState.Modified;
+                _context.Attach(EquipmentCount).State = EntityState.Modified;
             }
             else
             {
-                _context.Qualification.Add(Qualification);
+                _context.EquipmentCount.Add(EquipmentCount);
             }
              await _context.SaveChangesAsync();
             return new JsonResult( new { success = true, message = "Saved successfully" });
@@ -64,11 +77,11 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "No such record found to delete" });
             }
 
-            Qualification = await _context.Qualification.FindAsync(id);
+            EquipmentCount = await _context.EquipmentCount.FindAsync(id);
 
-            if (Qualification != null)
+            if (EquipmentCount != null)
             {
-                _context.Qualification.Remove(Qualification);
+                _context.EquipmentCount.Remove(EquipmentCount);
                 await _context.SaveChangesAsync();
                 return new JsonResult(new { success = true, message = "Deleted successfully" });
             }

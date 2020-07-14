@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations;
+
 namespace MM.ClientModels
 {
     public partial class EquipmentCount
     {
         public int Id { get; set; }
+
+        [Display(Name = "Equipment Name")]
+        [Required(ErrorMessage = "Equipment name is required")]
         public int EquipmentId { get; set; }
+
+        [Display(Name = "Available Count", Prompt = "Please enter available count")]
+        [Required(ErrorMessage = "Available count is required")]
         public int AvaialbleCount { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }

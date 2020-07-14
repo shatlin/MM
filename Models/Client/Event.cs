@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations;
+
 namespace MM.ClientModels
+
 {
     public partial class Event
     {
@@ -21,20 +24,54 @@ namespace MM.ClientModels
         }
 
         public int Id { get; set; }
+
+        [Display(Name = "Event Name", Prompt = "Please enter event name")]
+        [Required(ErrorMessage = "Event Name is required")]
         public string EventUniqueName { get; set; }
         public bool InternalOrExternal { get; set; }
         public int AddressId { get; set; }
         public int OrganizerId { get; set; }
+
+        [Display(Name = "Event Title", Prompt = "Please enter event title")]
+        [Required(ErrorMessage = "Event Name is required")]
         public string Title { get; set; }
+
+        [Display(Name = "Time Zone", Prompt = "Please select event timezone")]
+        
         public int TimeZoneId { get; set; }
+
+        [Display(Name = "Event Start Date", Prompt = "Please select event start date")]
+        [Required(ErrorMessage = "Event Start Date is required")]
         public DateTime StartDate { get; set; }
+
+        [Display(Name = "Event End Date", Prompt = "Please select event end date")]
+        [Required(ErrorMessage = "Event End Date is required")]
         public DateTime EndDate { get; set; }
+
+        [Display(Name = "Event Start Time", Prompt = "Please select event start time")]
+        [Required(ErrorMessage = "Event Start time is required")]
         public TimeSpan StartTime { get; set; }
+
+        [Display(Name = "Event End Time", Prompt = "Please select event end time")]
+        [Required(ErrorMessage = "Event End time is required")]
         public TimeSpan EndTime { get; set; }
+
+        [Display(Name = "Registration Start Date", Prompt = "Please select Registration Start Date")]
+        [Required(ErrorMessage = "Registration Start Date is required")]
         public DateTime RegStartDate { get; set; }
-        public TimeSpan RegStartTime { get; set; }
+
+        [Display(Name = "Registration End Date", Prompt = "Please select Registration End Date")]
+        [Required(ErrorMessage = "Registration End Date is required")]
         public DateTime RegEndDate { get; set; }
+
+        [Display(Name = "Registration Start Time", Prompt = "Please select registration start time")]
+        [Required(ErrorMessage = "Registration Start time is required")]
+        public TimeSpan RegStartTime { get; set; }
+
+        [Display(Name = "Registration End Time", Prompt = "Please select registration end time")]
+        [Required(ErrorMessage = "Registration End time is required")]
         public TimeSpan RegEndTime { get; set; }
+
         public int MaxRegistrationsAllowed { get; set; }
         public bool IsCpdevent { get; set; }
         public bool IsChargableEvent { get; set; }
