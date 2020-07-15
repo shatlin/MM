@@ -7,9 +7,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace MM.ClientModels
 {
-    public partial class ClientDbContext :  IdentityDbContext
+    public partial class ClientDbContext : IdentityDbContext
     {
-        private string ConnectionString{ get; set; }
+        private string ConnectionString { get; set; }
 
 
         public ClientDbContext(string connectionString)
@@ -132,7 +132,7 @@ namespace MM.ClientModels
         public virtual DbSet<ClientUser> ClientUser { get; set; }
         public virtual DbSet<UserLoginAudit> UserLoginAudit { get; set; }
         public virtual DbSet<UserRoleXref> UserRoleXref { get; set; }
-        
+
 
 
 
@@ -255,13 +255,13 @@ namespace MM.ClientModels
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if ( !optionsBuilder.IsConfigured)
+            if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseMySQL(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["ClientDBContext"]);
             }
         }
 
-   
+
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
