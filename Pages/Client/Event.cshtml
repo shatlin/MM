@@ -1,0 +1,235 @@
+﻿@page
+@model ClientOrgModel
+@using MM.ClientModels;
+@using MM.Helper;
+@{ Layout = "_LayoutClient";}
+@{
+ViewData["Title"] = "Register";
+}
+
+<partial name="_CRUDHeader" ,
+    model='new Header{name="Register", description="Register by adding your organization details and your user details"}' />
+
+<div class="container">
+
+    <div class="reg-container row">
+        <!--  Personal -->
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="card shadow-sm" style="min-height:550px;margin-top:10px;margin-bottom:10px">
+                <div class="card-header">
+                    <span>
+                        Organization Details
+                    </span>
+
+                </div>
+                <div class="card-body reg-card-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        
+                    <form method="post">
+                        <input type="hidden" asp-for=ClientOrganization.Id value="0" />
+                    
+                        <div class="form-group">
+                            <label asp-for=ClientOrganization.Name class="control-label"></label>
+                            <input asp-for=ClientOrganization.Name type="text" class="form-control form-input">
+                            <span asp-validation-for=ClientOrganization.Name class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for=ClientOrganization.Description    class="control-label"></label>
+                            <input asp-for=ClientOrganization.Description type="text" class="form-control form-input">
+                            <span asp-validation-for=ClientOrganization.Description class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+
+                            <label asp-for=ClientOrganization.DateSettingId class="control-label"></label>
+                            <select class="form-control form-input" asp-for=ClientOrganization.DateSettingId
+                                    asp-items=Model.OrgDateSettings>
+                                <option disabled selected>--- Please select a value ---</option>
+                            </select>
+                            <span asp-validation-for=ClientOrganization.DateSettingId class="text-danger"></span>
+                        </div>
+
+                         <div class="form-group">
+                            <label asp-for=ClientOrganization.TimeFormatId class="control-label"></label>
+                            <select class="form-control form-input" asp-for=ClientOrganization.TimeFormatId
+                                    asp-items=Model.OrgTimeFormat>
+                                <option disabled selected>--- Please select a value ---</option>
+                            </select>
+                            <span asp-validation-for=ClientOrganization.TimeFormatId class="text-danger"></span>
+                        </div>
+
+                       <div class="form-group">
+                            <label asp-for=ClientOrganization.ClientTimeZoneId class="control-label"></label>
+                            <select class="form-control form-input" asp-for=ClientOrganization.ClientTimeZoneId
+                                    asp-items=Model.OrgTimeZone>
+                                <option disabled selected>--- Please select a value ---</option>
+                            </select>
+                            <span asp-validation-for=ClientOrganization.ClientTimeZoneId class="text-danger"></span>
+                        </div>
+
+                            <div class="form-group">
+                            <label asp-for=ClientOrganization.CurrencyId class="control-label"></label>
+                            <select class="form-control form-input" asp-for=ClientOrganization.CurrencyId
+                                    asp-items=Model.OrgCurrency>
+                                <option disabled selected>--- Please select a value ---</option>
+                            </select>
+                            <span asp-validation-for=ClientOrganization.CurrencyId class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <input asp-for=ClientOrganization.AgreedToTerms type="checkbox">
+                            <a href="" class="ml-2 mr-4">I agree to the terms and conditions</a>
+                            <span asp-validation-for=ClientOrganization.AgreedToTerms class="text-danger"></span>
+                            <button type="submit" class="form-btn" style="width: 10%;">Submit</button>
+                        </div>
+                    </form>
+</div>
+            </div>
+        </div>
+    </div>
+    <!--  Register Content  -->
+    <div class="reg-container row">
+        <!--  Personal -->
+        <!-- / Personal -->
+        @*
+        <!--  Organization -->
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+            <div class="card shadow-sm" style="min-height:550px;margin-top:10px;margin-bottom:10px">
+                <div class="card-header">
+                    <span>
+                        Organization Details
+                    </span>
+
+                </div>
+
+                <div class="card-body reg-card-body">
+                    <form>
+                        <div class="form-group">
+                            <input type="text" class="form-control form-input" placeholder="Organization Name">
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control form-input">
+                                <option value="">Organization Type</option>
+                                <option value="Association">Association</option>
+                                <option value="Club">Club</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control form-input">
+                                <option value="">Your Designation</option>
+                                <option value="CEO">CEO</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">Member Count</option>
+                                        <option value="Min-100">Min-100</option>
+                                        <option value="101-200">101-200</option>
+                                        <option value="201-Max">201-Max</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">Currency</option>
+                                        <option value="zar">ZAR (SA Rand)</option>
+                                        <option value="inr">INR (Indian Rupee)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">Country</option>
+                                        <option value="South Africa">South Africa</option>
+                                        <option value="India">India</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">Time Zone</option>
+                                        <option timeZoneId="40" gmtAdjustment="GMT+02:00" useDaylightTime="0" value="2">
+                                            (GMT+02:00)
+                                            Harare, Pretoria
+                                        </option>
+                                        <option timeZoneId="57" gmtAdjustment="GMT+05:30" useDaylightTime="0"
+                                            value="5.5">
+                                            (GMT+05:30)
+                                            Chennai, Kolkata, Mumbai, New Delhi
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">Province / State</option>
+                                        <option value="Gauteng">Gauteng</option>
+                                        <option value="NewDelhi">New Delhi</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">City</option>
+                                        <option value="Sandton">Sandton</option>
+                                        <option value="Noida">Noida</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">Date Format</option>
+                                        <option value="MM-DD-YYYY">MM/DD/YYYY (12/25/2000)</option>
+                                        <option value="DD-MM-YY">DD/MM/YYYY (25/12/2000)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <select class="form-control form-input">
+                                        <option value="">Time Format</option>
+                                        <option value="12Hrs">12 Hrs (10:10 PM)</option>
+                                        <option value="24Hrs">24 Hrs (22:10 PM)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <textarea class="form-control form-input" rows="1" placeholder="Notes"></textarea>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- / Organization -->
+        </div>
+        *@
+
+    </div>
+</div>

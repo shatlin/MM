@@ -11,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MM.CoreModels;
 using MM.ClientModels;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 /* This is Aji's Change*/
 namespace MM
@@ -28,6 +30,7 @@ namespace MM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize);
             services.AddRazorPages();
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
             services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));

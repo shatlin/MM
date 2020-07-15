@@ -10,33 +10,33 @@ using MM.ClientModels;
 
 namespace MM.Pages.Client
 {
-    public class QualificationModel : PageModel
+    public class TaxPolicyModel : PageModel
     {
         private readonly ClientDbContext _context;
 
-        public QualificationModel(ClientDbContext context)
+        public TaxPolicyModel(ClientDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public IList<Qualification> QualificationList { get;set; }
+        public IList<TaxPolicy> TaxPolicyList { get;set; }
 
         [BindProperty]
-        public Qualification Qualification { get; set; }
+        public TaxPolicy TaxPolicy { get; set; }
 
         public async Task<IActionResult> OnGetListAsync()
         {
-            return new JsonResult(await _context.Qualification.ToListAsync());
+            return new JsonResult(await _context.TaxPolicy.ToListAsync());
         }
 
         public async Task<IActionResult>  OnGetSelectedRecordAsync(int id)
         {
-            return new JsonResult(await _context.Qualification.Where(x=>x.Id==id).FirstOrDefaultAsync());
+            return new JsonResult(await _context.TaxPolicy.Where(x=>x.Id==id).FirstOrDefaultAsync());
         }
     
  
-        public async Task<IActionResult> OnPostSaveAsync(Qualification Qualification)
+        public async Task<IActionResult> OnPostSaveAsync(TaxPolicy TaxPolicy)
         {
 
             if (!ModelState.IsValid)
@@ -44,13 +44,13 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "Error. Please check values entered" });
             }
 
-            if (Qualification.Id > 0)
+            if (TaxPolicy.Id > 0)
             {
-                _context.Attach(Qualification).State = EntityState.Modified;
+                _context.Attach(TaxPolicy).State = EntityState.Modified;
             }
             else
             {
-                _context.Qualification.Add(Qualification);
+                _context.TaxPolicy.Add(TaxPolicy);
             }
              await _context.SaveChangesAsync();
             return new JsonResult( new { success = true, message = "Saved successfully" });
@@ -64,11 +64,11 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "No such record found to delete" });
             }
 
-            Qualification = await _context.Qualification.FindAsync(id);
+            TaxPolicy = await _context.TaxPolicy.FindAsync(id);
 
-            if (Qualification != null)
+            if (TaxPolicy != null)
             {
-                _context.Qualification.Remove(Qualification);
+                _context.TaxPolicy.Remove(TaxPolicy);
                 await _context.SaveChangesAsync();
                 return new JsonResult(new { success = true, message = "Deleted successfully" });
             }

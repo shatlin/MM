@@ -61,7 +61,7 @@ namespace MM.Pages.Client
 
             if (id == null)
             {
-                return new JsonResult(new { success = false, message = "No such reccord found to delete" });
+                return new JsonResult(new { success = false, message = "No such record found to delete" });
             }
 
             Title = await _context.Title.FindAsync(id);
@@ -72,7 +72,7 @@ namespace MM.Pages.Client
                 await _context.SaveChangesAsync();
                 return new JsonResult(new { success = true, message = "Deleted successfully" });
             }
-            return new JsonResult(new { success = false, message = "No such reccord found to delete" });
+            return new JsonResult(new { success = false, message = "No such record found to delete" });
 
         }
     }

@@ -10,33 +10,33 @@ using MM.ClientModels;
 
 namespace MM.Pages.Client
 {
-    public class QualificationModel : PageModel
+    public class PaymentCardModel : PageModel
     {
         private readonly ClientDbContext _context;
 
-        public QualificationModel(ClientDbContext context)
+        public PaymentCardModel(ClientDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public IList<Qualification> QualificationList { get;set; }
+        public IList<PaymentCard> PaymentCardList { get;set; }
 
         [BindProperty]
-        public Qualification Qualification { get; set; }
+        public PaymentCard PaymentCard { get; set; }
 
         public async Task<IActionResult> OnGetListAsync()
         {
-            return new JsonResult(await _context.Qualification.ToListAsync());
+            return new JsonResult(await _context.PaymentCard.ToListAsync());
         }
 
         public async Task<IActionResult>  OnGetSelectedRecordAsync(int id)
         {
-            return new JsonResult(await _context.Qualification.Where(x=>x.Id==id).FirstOrDefaultAsync());
+            return new JsonResult(await _context.PaymentCard.Where(x=>x.Id==id).FirstOrDefaultAsync());
         }
     
  
-        public async Task<IActionResult> OnPostSaveAsync(Qualification Qualification)
+        public async Task<IActionResult> OnPostSaveAsync(PaymentCard PaymentCard)
         {
 
             if (!ModelState.IsValid)
@@ -44,13 +44,13 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "Error. Please check values entered" });
             }
 
-            if (Qualification.Id > 0)
+            if (PaymentCard.Id > 0)
             {
-                _context.Attach(Qualification).State = EntityState.Modified;
+                _context.Attach(PaymentCard).State = EntityState.Modified;
             }
             else
             {
-                _context.Qualification.Add(Qualification);
+                _context.PaymentCard.Add(PaymentCard);
             }
              await _context.SaveChangesAsync();
             return new JsonResult( new { success = true, message = "Saved successfully" });
@@ -64,11 +64,11 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "No such record found to delete" });
             }
 
-            Qualification = await _context.Qualification.FindAsync(id);
+            PaymentCard = await _context.PaymentCard.FindAsync(id);
 
-            if (Qualification != null)
+            if (PaymentCard != null)
             {
-                _context.Qualification.Remove(Qualification);
+                _context.PaymentCard.Remove(PaymentCard);
                 await _context.SaveChangesAsync();
                 return new JsonResult(new { success = true, message = "Deleted successfully" });
             }
