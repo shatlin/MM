@@ -1,11 +1,12 @@
 ﻿@*<div class="sidebar">
-    <a href="/Client/Titles"><i class="fas fa-desktop"></i><span>Titles</span></a>
-    <a href="/Client/memberStatus"><i class="fas fa-desktop"></i><span>Member Status</span></a>
-    <a href="#"><i class="fas fa-table"></i><span>Account</span></a>
-    <a href="#"><i class="fas fa-th"></i><span>Members</span></a>
-    <a href="#"><i class="fas fa-info-circle"></i><span>Invoices</span></a>
-    <a href="#"><i class="fas fa-sliders-h"></i><span>Events</span></a>
-</div>*@
+        <a href="/Client/Titles"><i class="fas fa-desktop"></i><span>Titles</span></a>
+        <a href="/Client/memberStatus"><i class="fas fa-desktop"></i><span>Member Status</span></a>
+        <a href="#"><i class="fas fa-table"></i><span>Account</span></a>
+        <a href="#"><i class="fas fa-th"></i><span>Members</span></a>
+        <a href="#"><i class="fas fa-info-circle"></i><span>Invoices</span></a>
+        <a href="#"><i class="fas fa-sliders-h"></i><span>Events</span></a>
+    </div>*@
+@inject SignInManager<IdentityUser> SignInManager
 
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <button class="navbar-toggler navbar-toggler-right"
@@ -110,10 +111,20 @@
                     <span class="menu-collapsed">Tables</span>
                 </a>
             </div>
+
+
+
+            @*<ul class="nav nav-pills flex-column">
+                <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+                <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
+                <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="ChangePassword">Password</a></li>
+            </ul>*@
+
+
             <a href="#submenu2"
                data-toggle="collapse"
                aria-expanded="false"
-               class="bg-dark list-group-item list-group-item-action flex-column align-items-start collapsed">
+               class="bg-dark list-group-item list-group-item-action flex-column align-items-start collapsed ">
                 <div class="d-flex w-100 justify-content-start align-items-center">
                     <span class="fa fa-user fa-fw mr-3"></span>
                     <span class="menu-collapsed">Profile</span>
@@ -122,9 +133,10 @@
             </a>
             <!-- Submenu content -->
             <div id="submenu2" class="collapse sidebar-submenu">
-                <a href="#"
-                   class="list-group-item list-group-item-action bg-dark text-white">
-                    <span class="menu-collapsed">Settings</span>
+                <a asp-page="/Client/Account/Index"
+                   id="profile" 
+                   class="list-group-item list-group-item-action bg-dark text-white @ManageNavPages.IndexNavClass(ViewContext)">
+                    <span class="menu-collapsed">Profile</span>
                 </a>
                 <a href="#"
                    class="list-group-item list-group-item-action bg-dark text-white">
@@ -179,7 +191,7 @@
     <!-- sidebar-container END -->
     <!-- MAIN -->
     <div class="col">
-dadsadas
+        dadsadas
     </div>
     <!-- Main Col END -->
 </div>

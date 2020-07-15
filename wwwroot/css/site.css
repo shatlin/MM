@@ -509,10 +509,12 @@ html {
 .footer {
     position: absolute;
     width: 100%;
+    bottom:0;
     white-space: nowrap;
     line-height: 60px;
     z-index: 9999;
     background-color: white;
+    padding-top:50px;
 }
 
     .footer a {

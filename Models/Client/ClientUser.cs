@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MM.ClientModels
 {
@@ -17,17 +19,30 @@ namespace MM.ClientModels
             UserRoleXref = new HashSet<UserRoleXref>();
         }
 
-        public int Id { get; set; }
+        public  int Id { get; set; }
         public int TitleId { get; set; }
 
         //public int ClientTypeId { get; set; }
-        [Display(Name = "Email Id (Required)", Prompt = "Please enter your email id")]
+        [Display(Name = "Email", Prompt = "Please enter your email id")]
+        [EmailAddress]
         [Required(ErrorMessage = "Email Id is required")]
-        public string Email { get; set; }
+        public  string Email { get; set; }
 
-        [Display(Name = "Password (Required)", Prompt = "Please enter your Password")]
-        [Required(ErrorMessage = "Passwrord is required")]
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 12)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
         public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [NotMapped]
+        public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Remember me?")]
+        [NotMapped]
+        public bool RememberMe { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

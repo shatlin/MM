@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using MM.CoreModels;
 using MM.ClientModels;
+using Microsoft.AspNetCore.Identity;
 /* This is Aji's Change*/
 namespace MM
 {
@@ -30,6 +31,33 @@ namespace MM
             services.AddRazorPages();
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
             services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));
+       
+
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 12;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            }).AddEntityFrameworkStores<ClientDbContext>()
+              .AddDefaultTokenProviders().AddDefaultUI();
+
+
+       
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Login";
+                options.LogoutPath = "/Logout";
+                options.AccessDeniedPath = "/AccessDenied";
+            });
+
+            services
+                  .AddMvc()
+                  .AddRazorPagesOptions(options =>
+                  {
+                      options.Conventions.AuthorizeFolder("/Client");
+                  });
 
         }
 
@@ -49,11 +77,9 @@ namespace MM
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

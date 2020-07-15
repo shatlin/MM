@@ -6,6 +6,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\AuthDBContext.cs" />
+    <Compile Remove="Pages\Login.cshtml.cs" />
+    <Compile Remove="Pages\Logout.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Login.cshtml" />
+    <Content Remove="Pages\Logout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="3.1.5" />
@@ -27,6 +40,41 @@
 
   <ItemGroup>
     <Folder Include="personal\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Client\Account\AccessDenied.cshtml" />
+    <None Include="Pages\Client\Account\ConfirmEmail.cshtml" />
+    <None Include="Pages\Client\Account\ConfirmEmailChange.cshtml" />
+    <None Include="Pages\Client\Account\ForgotPassword.cshtml" />
+    <None Include="Pages\Client\Account\ForgotPasswordConfirmation.cshtml" />
+    <None Include="Pages\Client\Account\Lockout.cshtml" />
+    <None Include="Pages\Client\Account\Login.cshtml" />
+    <None Include="Pages\Client\Account\LoginWithRecoveryCode.cshtml" />
+    <None Include="Pages\Client\Account\Logout.cshtml" />
+    <None Include="Pages\Client\Account\Manage\ChangePassword.cshtml" />
+    <None Include="Pages\Client\Account\Manage\DeletePersonalData.cshtml" />
+    <None Include="Pages\Client\Account\Manage\Disable2fa.cshtml" />
+    <None Include="Pages\Client\Account\Manage\DownloadPersonalData.cshtml" />
+    <None Include="Pages\Client\Account\Manage\Email.cshtml" />
+    <None Include="Pages\Client\Account\Manage\EnableAuthenticator.cshtml" />
+    <None Include="Pages\Client\Account\Manage\GenerateRecoveryCodes.cshtml" />
+    <None Include="Pages\Client\Account\Manage\Index.cshtml" />
+    <None Include="Pages\Client\Account\Manage\PersonalData.cshtml" />
+    <None Include="Pages\Client\Account\Manage\ResetAuthenticator.cshtml" />
+    <None Include="Pages\Client\Account\Manage\SetPassword.cshtml" />
+    <None Include="Pages\Client\Account\Manage\ShowRecoveryCodes.cshtml" />
+    <None Include="Pages\Client\Account\Manage\TwoFactorAuthentication.cshtml" />
+    <None Include="Pages\Client\Account\Manage\_Layout.cshtml" />
+    <None Include="Pages\Client\Account\Manage\_ManageNav.cshtml" />
+    <None Include="Pages\Client\Account\Manage\_StatusMessage.cshtml" />
+    <None Include="Pages\Client\Account\Register.cshtml" />
+    <None Include="Pages\Client\Account\RegisterConfirmation.cshtml" />
+    <None Include="Pages\Client\Account\ResendEmailConfirmation.cshtml" />
+    <None Include="Pages\Client\Account\ResetPassword.cshtml" />
+    <None Include="Pages\Client\Account\ResetPasswordConfirmation.cshtml" />
+    <None Include="Pages\Client\Account\_StatusMessage.cshtml" />
+    <None Include="Pages\Client\Account\_ViewImports.cshtml" />
   </ItemGroup>
 
 </Project>

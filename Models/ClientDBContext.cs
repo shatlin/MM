@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace MM.ClientModels
 {
-    public partial class ClientDbContext : DbContext
+    public partial class ClientDbContext :  IdentityDbContext
     {
         private string ConnectionString{ get; set; }
 
@@ -137,6 +138,8 @@ namespace MM.ClientModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.ApplyConfiguration(new AccountTypeConfiguration()).SeedAccountType();
             modelBuilder.ApplyConfiguration(new AddressConfiguration()).SeedAddress();
             modelBuilder.ApplyConfiguration(new AddressTypeConfiguration()).SeedAddressType();

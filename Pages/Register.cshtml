@@ -25,7 +25,7 @@ ViewData["Title"] = "Register";
                 <div class="card-body reg-card-body">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         
-                    <form method="post">
+                    <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
                         <input type="hidden" asp-for=ClientUser.Id value="0" />
                         <input type="hidden" asp-for=ClientUser.PrimaryContact value=true />
                         <input type="hidden" asp-for=ClientUser.BillingContact value=true />
