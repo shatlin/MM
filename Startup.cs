@@ -29,8 +29,7 @@ namespace MM
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            services.AddMvc().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize);
+            services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
             services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));

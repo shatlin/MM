@@ -166,6 +166,9 @@ namespace MM.CoreModels
                 entity.Property(e => e.BranchName)
                     .IsRequired()
                     .HasMaxLength(100);
+                entity.Property(e => e.AccountName)
+                 .IsRequired()
+                 .HasMaxLength(50);
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 

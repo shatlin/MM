@@ -10,7 +10,7 @@
 
 <!-- #region AddEditModalSection -->
 
-<div class="modal" style="min-width:500px" id="AddEditModal" tabindex="-1" role="dialog" aria-labelledby="AddEditModalLabel" aria-hidden="true">
+<div class="modal fade" style="min-width:500px" id="AddEditModal" tabindex="-1" role="dialog" aria-labelledby="AddEditModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <form method="post" id="AddEditForm" onsubmit="return Save(this)">
@@ -29,9 +29,9 @@
 
                             <div class="form-group mb-4">
                                 <label asp-for=BankingDetail.AccountTypeId class="control-label"></label>
-                                <select class="form-control form-input" id="accountType" asp-for=BankingDetail.AccountTypeId
-                                        asp-items=Model.AccountTypeId>
-                                    <option disabled selected>--- Please select Account Type ---</option>
+                                <select class="form-control form-input" id="accountTypeId" asp-for=BankingDetail.AccountTypeId
+                                        asp-items=Model.AccountTypes>
+                                    <option disabled selected value="-1">--- Please select Account Type ---</option>
                                 </select>
                                 <span asp-validation-for=BankingDetail.AccountTypeId class="text-danger"></span>
                             </div>
@@ -98,25 +98,22 @@
                     </button>
                 </div>
 
-
                 <div class="modal-body">
                     <div class="reg-container row">
                         <div class="col-12">
-                            <input type="hidden" id="idToDelete" />
+                            <input type="hidden" id="id_Del" />
                             <dl class="row">
                                 <dt class="col-sm-2">
-
                                     <label asp-for=BankingDetail.BankName class="control-label"></label>
                                 </dt>
                                 <dd class="col-sm-10">
-                                    <label id="bankNameofRecordToDelete"></label>
+                                    <label id="bankName_Del"></label>
                                 </dd>
                                 <dt class="col-sm-2">
                                     <label asp-for=BankingDetail.AccountNumber class="control-label"></label>
-
                                 </dt>
                                 <dd class="col-sm-10">
-                                    <label id="accountNumberofRecordToDelete"></label>
+                                    <label id="accountNumber_Del"></label>
                                 </dd>
                             </dl>
                         </div>
@@ -169,11 +166,13 @@
 
     <!-- #endregion ToholdGrid-->
 
-    <script>
+        <script>
 
         var dataTable;
 
         $(document).ready(function () {
+   
+
             $('#list').show();
             dataTable = $('#list').DataTable({
                 fixedHeader: true,
@@ -181,16 +180,16 @@
                 ajax: {
                     url: '?handler=List',
                     dataSrc: ''
-                    
-
-                    
-                },
+                }
+                 //,"initComplete": function (settings, json) {
+                //    console.log(json);
+                //}
+                ,
                 "columns": [
                     { title: "Bank Name", data: "bankName", "autoWidth": true, },
                     { title: "Branch Name", data: "branchName", "autoWidth": true, },
                     { title: "Account Number", data: "accountNumber", "autoWidth": true, },
-                    { title: "Account Type", data: "accountType.Name", "autoWidth": true, },
-
+                    { title: "Account Type", data: "accName", "autoWidth": true, },
                     {
                         title: "Action",
                         data: "id",
@@ -203,9 +202,9 @@
                         orderable: false,
                         width: "150px"
                     }
-
                 ]
             });
+
         });
 
         function SetUpPopupToAddRecord() {
@@ -215,7 +214,8 @@
             $('#bankName').val("");
             $('#branchName').val("");
             $('#accountNumber').val("");
-            $('#accountTypeId').val("");
+            $('#accountTypeId').val('-1').change();
+            //$("accountTypeId").prop('selectedIndex', 0);
         }
 
         function SetUpPopupToEditRecord(id) {
@@ -230,7 +230,7 @@
                     $('#bankName').val(data.bankName);
                     $('#branchName').val(data.branchName);
                     $('#accountNumber').val(data.accountNumber);
-                    $('#accountTypeId').val(data.accountType);
+                    $('#accountTypeId').val(data.accountTypeId);
 
                 }
             });
@@ -238,9 +238,9 @@
 
         function SetUpPopupToDeleteRecord(data) {
             var dataarray = data.split(";")
-            $('#idToDelete').val(dataarray[0]);
-            $('#bankNameofRecordToDelete').text(dataarray[1]);
-            $('#accountNumberofRecordToDelete').val(dataarray[2]);
+            $('#id_Del').val(dataarray[0]);
+            $('#bankName_Del').text(dataarray[1]);
+            $('#accountNumber_Del').val(dataarray[2]);
         }
 
         $('#AddEditModal').on('shown.bs.modal', function () {
@@ -250,7 +250,7 @@
         })
 
         function Delete() {
-            var id = $('#idToDelete').val();
+            var id = $('#id_Del').val();
             $.ajax({
                 url: '?handler=Delete&id=' + id,
                 type: "GET",
@@ -277,7 +277,6 @@
                     data: $(form).serialize(),
                 })
                     .done(function (data) {
-                        if (data.success) {
                             $('#AddEditModal').modal('hide');
                             $('#id').val("");
                             $('#bankName').val("");
@@ -287,11 +286,12 @@
                             if (data.success) {
                                 MMNotify(data.message, "success");
                             }
-                            else {
+                            else
+                            {
+                                $('#AddEditModal').modal('hide');
                                 MMNotify(data.message, "danger");
                             }
                             dataTable.ajax.reload();
-                        }
                     })
                     .fail(function (error) {
                         MMNotify("Unknown error", "danger");
@@ -300,6 +300,6 @@
             return false;
         }
 
-    </script>
+        </script>
 
 

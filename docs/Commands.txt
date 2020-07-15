@@ -70,3 +70,8 @@ How many contacts
 
 Tell us more
 
+Reading Model data in page
+
+         @*var modalData = '@Json.Serialize(Model.AccountTypeList)';
+            var myJSON = JSON.parse(modalData);
+            console.log(myJSON[0].description);*@

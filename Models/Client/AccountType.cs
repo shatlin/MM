@@ -51,7 +51,7 @@ namespace MM.ClientModels
             modelBuilder.Entity<AccountType>().HasData(
               new AccountType { Id = 1, Name = "Savings Account", Description = "Savings Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
               new AccountType { Id = 2, Name = "Cheque Account", Description = "Cheque Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-              new AccountType { Id = 3, Name = "Corporante Account", Description = "Corporante Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+              new AccountType { Id = 3, Name = "Corporate Account", Description = "Corporate Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
               new AccountType { Id = 4, Name = "Business Account", Description = "Business Account", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
             );
         }

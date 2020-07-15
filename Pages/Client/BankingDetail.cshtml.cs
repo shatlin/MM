@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -22,42 +23,56 @@ namespace MM.Pages.Client
             _context = context;
         }
 
-        [BindProperty]
-        public IList<BankingDetail> BankingDetailList { get; set; }
+
 
         [BindProperty]
         public BankingDetail BankingDetail { get; set; }
 
         [ViewData]
-        public SelectList AccountTypeId { get; set; }
+        public SelectList AccountTypes { get; set; }
 
+        [BindProperty]
+        public List<AccountType> AccountTypeList { get; set; }
+        
+        private string errorMessage;
+
+        // called first time the page is loaded.
         public IActionResult OnGet()
         {
-            AccountTypeId = new SelectList(_context.AccountType, nameof(AccountType.Id), nameof(AccountType.Name));
-            
+            AccountTypeList = _context.AccountType.ToList();
+            AccountTypes = new SelectList(AccountTypeList, nameof(AccountType.Id), nameof(AccountType.Name));
             return Page();
         }
 
-        public async Task<IActionResult> OnGetListAsync()
+        // called to load and refresh grid
+        public IActionResult OnGetList()
         {
-            var test = new JsonResult(_context.BankingDetail.Include(x => x.AccountType).ToList());
-
+            var blist = _context.BankingDetail.Include(x=>x.AccountType).ToList();
+            List <BankingDetailVM> bankingDetailVMList = new List<BankingDetailVM>();
+           
             try
             {
-
-                var result = JsonConvert.SerializeObject(test);
+                foreach (var bankingDetail in blist)
+                {
+                    BankingDetailVM bdVM = new BankingDetailVM
+                    {
+                        Id = bankingDetail.Id,
+                        AccName= bankingDetail.AccountType.Name,
+                        AccountTypeId = bankingDetail.AccountTypeId,
+                        BankName = bankingDetail.BankName,
+                        BranchName = bankingDetail.BranchName,
+                        AccountNumber = bankingDetail.AccountNumber,
+                        RoutingCode = bankingDetail.RoutingCode
+                    };
+                    bankingDetailVMList.Add(bdVM);
+                }
+                return new JsonResult(bankingDetailVMList);
             }
             catch (Exception ex)
             {
-
-                ;
+                errorMessage = ex.Message;
             }
-
-
-
-           
-
-            return new JsonResult(await _context.BankingDetail.Include(x=>x.AccountType).ToListAsync());
+            return new JsonResult(new { success = false, message = "Error. Please check values entered "+ errorMessage });
         }
 
         public async Task<IActionResult>  OnGetSelectedRecordAsync(int id)
@@ -65,15 +80,12 @@ namespace MM.Pages.Client
             return new JsonResult(await _context.BankingDetail.Where(x=>x.Id==id).FirstOrDefaultAsync());
         }
     
- 
         public async Task<IActionResult> OnPostSaveAsync(BankingDetail BankingDetail)
         {
-
             if (!ModelState.IsValid)
             {
                 return new JsonResult(new { success = false, message = "Error. Please check values entered" });
             }
-
             if (BankingDetail.Id > 0)
             {
                 _context.Attach(BankingDetail).State = EntityState.Modified;
