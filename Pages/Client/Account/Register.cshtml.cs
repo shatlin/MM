@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using MM.ClientModels;
 
 namespace MM.Pages.Client.Account
 {
@@ -23,48 +25,69 @@ namespace MM.Pages.Client.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
+        private readonly ClientDbContext _context;
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, ClientDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public ClientUser ClientUser { get; set; }
+
+        [ViewData]
+        public SelectList ClientTitles { get; set; }
+
+        [ViewData]
+        public SelectList ClientDesignations { get; set; }
+
+        [ViewData]
+        public SelectList ClientGenders { get; set; }
+
+        [ViewData]
+        public SelectList ClientReferralTypes { get; set; }
+
+        [BindProperty]
+        public ClientOrganization ClientOrganization { get; set; }
+
+        [ViewData]
+        public SelectList OrgDateSettings { get; set; }
+
+        [ViewData]
+        public SelectList OrgTimeFormat { get; set; }
+
+        [ViewData]
+        public SelectList OrgTimeZone { get; set; }
+
+        [ViewData]
+        public SelectList OrgCurrency { get; set; }
+
 
         public string ReturnUrl { get; set; }
 
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public class InputModel
-        {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
-        }
+      
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            OrgDateSettings = new SelectList(_context.DateSetting, nameof(DateSetting.Id), nameof(DateSetting.Name));
+            OrgTimeFormat = new SelectList(_context.TimeFormat, nameof(TimeFormat.Id), nameof(TimeFormat.Name));
+            OrgTimeZone = new SelectList(_context.ClientTimeZone, nameof(ClientTimeZone.Id), nameof(ClientTimeZone.Name));
+            OrgCurrency = new SelectList(_context.Currency, nameof(Currency.Id), nameof(Currency.Name));
+            ClientTitles = new SelectList(_context.Title, nameof(Title.Id), nameof(Title.Name));
+            ClientDesignations = new SelectList(_context.Designation, nameof(Designation.Id), nameof(Designation.Name));
+            ClientGenders = new SelectList(_context.Gender, nameof(Gender.Id), nameof(Gender.Name));
+            ClientReferralTypes = new SelectList(_context.ReferralType, nameof(ReferralType.Id), nameof(ReferralType.Name));
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -74,26 +97,31 @@ namespace MM.Pages.Client.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+          
+                var user = new IdentityUser { UserName = ClientUser.Email, Email = ClientUser.Email };
+                var result = await _userManager.CreateAsync(user, ClientUser.Password);
                 if (result.Succeeded)
                 {
+                    _context.ClientOrganization.Add(ClientOrganization);
+                    _context.ClientUser.Add(ClientUser);
+                    await _context.SaveChangesAsync();
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
+                        "/Client/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
+                        values: new { userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(ClientUser.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = ClientUser.Email, returnUrl = returnUrl });
                     }
                     else
                     {
@@ -112,3 +140,4 @@ namespace MM.Pages.Client.Account
         }
     }
 }
+

@@ -1,5 +1,5 @@
 ﻿@page
-@model MM.Pages.Client.BankingDetailModel
+@model BankingDetailModel
 
 @using MM.ClientModels;
 @using MM.Helper;
@@ -240,7 +240,7 @@
             var dataarray = data.split(";")
             $('#id_Del').val(dataarray[0]);
             $('#bankName_Del').text(dataarray[1]);
-            $('#accountNumber_Del').val(dataarray[2]);
+            $('#accountNumber_Del').text(dataarray[2]);
         }
 
         $('#AddEditModal').on('shown.bs.modal', function () {

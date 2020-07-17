@@ -42,16 +42,16 @@ namespace MM
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+                options.SignIn.RequireConfirmedAccount = true;
             }).AddEntityFrameworkStores<ClientDbContext>()
               .AddDefaultTokenProviders().AddDefaultUI();
 
 
-       
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Login";
-                options.LogoutPath = "/Logout";
-                options.AccessDeniedPath = "/AccessDenied";
+                options.LoginPath = "/Client/Account/Login";
+                options.LogoutPath = "/Client/Account//Logout";
+                options.AccessDeniedPath = "/Client/Account/AccessDenied";
             });
 
             services
