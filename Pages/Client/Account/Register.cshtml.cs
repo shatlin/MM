@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using MM.ClientModels;
+using MM.CoreModels;
 
 namespace MM.Pages.Client.Account
 {
@@ -25,18 +26,18 @@ namespace MM.Pages.Client.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly ClientDbContext _context;
+        private readonly CoreDBContext coreDbConext;
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, ClientDbContext context)
+            IEmailSender emailSender, CoreDBContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _context = context;
+            coreDbConext = context;
         }
 
         [BindProperty]
@@ -80,14 +81,14 @@ namespace MM.Pages.Client.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            OrgDateSettings = new SelectList(_context.DateSetting, nameof(DateSetting.Id), nameof(DateSetting.Name));
-            OrgTimeFormat = new SelectList(_context.TimeFormat, nameof(TimeFormat.Id), nameof(TimeFormat.Name));
-            OrgTimeZone = new SelectList(_context.ClientTimeZone, nameof(ClientTimeZone.Id), nameof(ClientTimeZone.Name));
-            OrgCurrency = new SelectList(_context.Currency, nameof(Currency.Id), nameof(Currency.Name));
-            ClientTitles = new SelectList(_context.Title, nameof(Title.Id), nameof(Title.Name));
-            ClientDesignations = new SelectList(_context.Designation, nameof(Designation.Id), nameof(Designation.Name));
-            ClientGenders = new SelectList(_context.Gender, nameof(Gender.Id), nameof(Gender.Name));
-            ClientReferralTypes = new SelectList(_context.ReferralType, nameof(ReferralType.Id), nameof(ReferralType.Name));
+            OrgDateSettings = new SelectList(coreDbConext.CoreDateSetting, nameof(DateSetting.Id), nameof(DateSetting.Name));
+            OrgTimeFormat = new SelectList(coreDbConext.CoreTimeFormat, nameof(TimeFormat.Id), nameof(TimeFormat.Name));
+            OrgTimeZone = new SelectList(coreDbConext.CoreTimeZone, nameof(ClientTimeZone.Id), nameof(ClientTimeZone.Description));
+            OrgCurrency = new SelectList(coreDbConext.CoreCurrency, nameof(Currency.Id), nameof(Currency.Name));
+            ClientTitles = new SelectList(coreDbConext.CoreTitle, nameof(Title.Id), nameof(Title.Name));
+            ClientDesignations = new SelectList(coreDbConext.CoreDesignation, nameof(CoreDesignation.Id), nameof(CoreDesignation.Name));
+            ClientGenders = new SelectList(coreDbConext.CoreGender, nameof(Gender.Id), nameof(Gender.Name));
+            ClientReferralTypes = new SelectList(coreDbConext.CoreReferralType, nameof(CoreReferralType.Id), nameof(CoreReferralType.Name));
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -97,14 +98,29 @@ namespace MM.Pages.Client.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-          
                 var user = new IdentityUser { UserName = ClientUser.Email, Email = ClientUser.Email };
                 var result = await _userManager.CreateAsync(user, ClientUser.Password);
                 if (result.Succeeded)
                 {
-                    _context.ClientOrganization.Add(ClientOrganization);
-                    _context.ClientUser.Add(ClientUser);
-                    await _context.SaveChangesAsync();
+                    string ConnectionString = coreDbConext.ClientDBConnectionMaster.FirstOrDefault().ConnectionString + ClientOrganization.Name;
+
+                    DbEntry dbEntry = new DbEntry();
+                    dbEntry.DbName = "mm_" + ClientOrganization.Name;
+                    dbEntry.ConnectionString = ConnectionString;
+                    coreDbConext.DbEntry.Add(dbEntry);
+                    await coreDbConext.SaveChangesAsync();
+
+                    ClientDbEntry ClientdbEntry = new ClientDbEntry();
+                    ClientdbEntry.Email = ClientUser.Email;
+                    ClientdbEntry.DbEntryId = dbEntry.Id;
+                    coreDbConext.ClientDbentry.Add(ClientdbEntry);
+                    await coreDbConext.SaveChangesAsync();
+
+                    ClientDbContext clientDbContext = new ClientDbContext(ConnectionString);
+                    clientDbContext.Database.EnsureCreated();
+                    clientDbContext.ClientOrganization.Add(ClientOrganization);
+                    clientDbContext.ClientUser.Add(ClientUser);
+                    await clientDbContext.SaveChangesAsync();
 
                     _logger.LogInformation("User created a new account with password.");
 

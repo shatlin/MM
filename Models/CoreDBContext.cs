@@ -24,43 +24,43 @@ namespace MM.CoreModels
         {
         }
 
-        //fsdf
-
-        public virtual DbSet<ClientDbEntry> Clientdbentries { get; set; }
-        public virtual DbSet<DbEntry> Dbentries { get; set; }
-        public virtual DbSet<ClientDBConnectionMaster> ClientDBConnectionMasters { get; set; }
-
-        public virtual DbSet<CoreAccountType> AccountType { get; set; }
-        public virtual DbSet<CoreAddress> Address { get; set; }
-        public virtual DbSet<CoreAddressType> AddressType { get; set; }
-        public virtual DbSet<CoreBankingDetail> BankingDetail { get; set; }
-        public virtual DbSet<CoreBilling> Billing { get; set; }
-        public virtual DbSet<CoreCity> City { get; set; }
-        public virtual DbSet<CoreCountry> Country { get; set; }
-        public virtual DbSet<CoreCurrency> Currency { get; set; }
-        public virtual DbSet<CoreDateSetting> DateSetting { get; set; }
-        public virtual DbSet<CoreGender> Gender { get; set; }
-        public virtual DbSet<CoreInvoice> Invoice { get; set; }
-        public virtual DbSet<CoreInvoiceStatus> InvoiceStatus { get; set; }
-        public virtual DbSet<CorePaymentGateway> PaymentGateway { get; set; }
-        public virtual DbSet<CorePermission> Permission { get; set; }
+        
+        public virtual DbSet<ClientDbEntry> ClientDbentry { get; set; }
+        public virtual DbSet<DbEntry> DbEntry { get; set; }
+        public virtual DbSet<ClientDBConnectionMaster> ClientDBConnectionMaster { get; set; }
+        public virtual DbSet<CoreAccountType> CoreAccountType { get; set; }
+        public virtual DbSet<CoreAddress> CoreAddress { get; set; }
+        public virtual DbSet<CoreAddressType> CoreAddressType { get; set; }
+        public virtual DbSet<CoreBankingDetail> CoreBankingDetail { get; set; }
+        public virtual DbSet<CoreBilling> CoreBilling { get; set; }
+        public virtual DbSet<CoreCity> CoreCity { get; set; }
+        public virtual DbSet<CoreCountry> CoreCountry { get; set; }
+        public virtual DbSet<CoreCurrency> CoreCurrency { get; set; }
+        public virtual DbSet<CoreDateSetting> CoreDateSetting { get; set; }
+        public virtual DbSet<CoreGender> CoreDesignation { get; set; }
+        public virtual DbSet<CoreGender> CoreGender { get; set; }
+        public virtual DbSet<CoreInvoice> CoreInvoice { get; set; }
+        public virtual DbSet<CoreInvoiceStatus> CoreInvoiceStatus { get; set; }
+        public virtual DbSet<CorePaymentGateway> CorePaymentGateway { get; set; }
+        public virtual DbSet<CorePermission> CorePermission { get; set; }
         public virtual DbSet<CorePlanDetail> CorePlanDetail { get; set; }
         public virtual DbSet<CorePlanFrequency> CorePlanFrequency { get; set; }
         public virtual DbSet<CorePlanMaster> CorePlanMaster { get; set; }
-        public virtual DbSet<CoreRelatedTo> RelatedTo { get; set; }
-        public virtual DbSet<CoreRole> Role { get; set; }
-        public virtual DbSet<CoreRolePermissionXref> RolePermissionXref { get; set; }
-        public virtual DbSet<CoreState> State { get; set; }
-        public virtual DbSet<CoreTag> Tag { get; set; }
-        public virtual DbSet<CoreTax> Tax { get; set; }
-        public virtual DbSet<CoreTaxPolicy> TaxPolicy { get; set; }
-        public virtual DbSet<CoreTaxScope> TaxScope { get; set; }
-        public virtual DbSet<CoreTimeFormat> TimeFormat { get; set; }
-        public virtual DbSet<CoreTimeZone> TimeZone { get; set; }
-        public virtual DbSet<CoreTitle> Title { get; set; }
-        public virtual DbSet<CoreUser> User { get; set; }
-        public virtual DbSet<CoreUserLoginAudit> UserLoginAudit { get; set; }
-        public virtual DbSet<CoreUserRoleXref> UserRoleXref { get; set; }
+        public virtual DbSet<CoreRelatedTo> CoreReferralType { get; set; }
+        public virtual DbSet<CoreRelatedTo> CoreRelatedTo { get; set; }
+        public virtual DbSet<CoreRole> CoreRole { get; set; }
+        public virtual DbSet<CoreRolePermissionXref> CoreRolePermissionXref { get; set; }
+        public virtual DbSet<CoreState> CoreState { get; set; }
+        public virtual DbSet<CoreTag> CoreTag { get; set; }
+        public virtual DbSet<CoreTax> CoreTax { get; set; }
+        public virtual DbSet<CoreTaxPolicy> CoreTaxPolicy { get; set; }
+        public virtual DbSet<CoreTaxScope> CoreTaxScope { get; set; }
+        public virtual DbSet<CoreTimeFormat> CoreTimeFormat { get; set; }
+        public virtual DbSet<CoreTimeZone> CoreTimeZone { get; set; }
+        public virtual DbSet<CoreTitle> CoreTitle { get; set; }
+        public virtual DbSet<CoreUser> CoreUser { get; set; }
+        public virtual DbSet<CoreUserLoginAudit> CoreUserLoginAudit { get; set; }
+        public virtual DbSet<CoreUserRoleXref> CoreUserRoleXref { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -271,9 +271,7 @@ namespace MM.CoreModels
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
+           
 
                 entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
@@ -553,31 +551,10 @@ namespace MM.CoreModels
 
    
 
-            modelBuilder.Entity<CoreTimeFormat>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+    
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<CoreTimeZone>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
+            modelBuilder.ApplyConfiguration(new CoreTimeFormatConfiguration()).SeedCoreTimeFormat();
+            modelBuilder.ApplyConfiguration(new CoreTimeZoneConfiguration()).SeedCoreTimeZone();
 
             modelBuilder.Entity<CoreTitle>(entity =>
             {

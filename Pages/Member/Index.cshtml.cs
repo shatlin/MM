@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace MM.Pages
+namespace MM.Pages.Member
 {
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
+
         [BindProperty(SupportsGet = true)]
         public string Title { get; set; }
         public IndexModel(ILogger<IndexModel> logger)
@@ -20,7 +21,7 @@ namespace MM.Pages
 
         public void OnGet()
         {
-
+            
         }
     }
 }

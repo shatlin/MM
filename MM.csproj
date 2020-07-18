@@ -83,8 +83,4 @@
     <None Include="Pages\Client\Account\_ViewImports.cshtml" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="personal\" />
-  </ItemGroup>
-
 </Project>
