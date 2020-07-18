@@ -48,10 +48,10 @@ namespace MM.ClientModels
         public static void SeedTitle(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Title>().HasData(
-                new Title { Id = 10, Name = "Mr", Description = "Mr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Title { Id = 20, Name = "Mrs", Description = "Mrs", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Title { Id = 30, Name = "Ms", Description = "Ms", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Title { Id = 40, Name = "Dr", Description = "Dr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                new Title { Id = 1, Name = "Mr", Description = "Mr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Title { Id = 2, Name = "Mrs", Description = "Mrs", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Title { Id = 3, Name = "Ms", Description = "Ms", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Title { Id = 4, Name = "Dr", Description = "Dr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
               );
                                      
         }

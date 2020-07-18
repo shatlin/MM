@@ -46,10 +46,10 @@ namespace MM.CoreModels
         public static void SeedCoreTitle(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CoreTitle>().HasData(
-                new CoreTitle { Id = 10, Name = "Mr", Description = "Mr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new CoreTitle { Id = 20, Name = "Mrs", Description = "Mrs", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new CoreTitle { Id = 30, Name = "Ms", Description = "Ms", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new CoreTitle { Id = 40, Name = "Dr", Description = "Dr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                new CoreTitle { Id = 1, Name = "Mr", Description = "Mr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new CoreTitle { Id = 2, Name = "Mrs", Description = "Mrs", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new CoreTitle { Id = 3, Name = "Ms", Description = "Ms", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new CoreTitle { Id = 4, Name = "Dr", Description = "Dr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
               );
 
         }

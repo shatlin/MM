@@ -37,7 +37,7 @@ namespace MM.CoreModels
 
             builder.Property(e => e.Name).HasMaxLength(100);
 
-            builder.HasOne(d => d.Country)
+            builder.HasOne(d => d.CoreCountry)
                 .WithMany(p => p.CoreState)
                 .HasForeignKey(d => d.CountryId)
                 .HasConstraintName("FK_CoreState_Country");

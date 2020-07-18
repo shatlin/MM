@@ -24,10 +24,9 @@ namespace MM.CoreModels
         {
         }
 
-        
         public virtual DbSet<ClientDbEntry> ClientDbentry { get; set; }
         public virtual DbSet<DbEntry> DbEntry { get; set; }
-        public virtual DbSet<ClientDBConnectionMaster> ClientDBConnectionMaster { get; set; }
+        public virtual DbSet<DBEntryMaster> DbEntryMaster { get; set; }
         public virtual DbSet<CoreAccountType> CoreAccountType { get; set; }
         public virtual DbSet<CoreAddress> CoreAddress { get; set; }
         public virtual DbSet<CoreAddressType> CoreAddressType { get; set; }
@@ -37,7 +36,7 @@ namespace MM.CoreModels
         public virtual DbSet<CoreCountry> CoreCountry { get; set; }
         public virtual DbSet<CoreCurrency> CoreCurrency { get; set; }
         public virtual DbSet<CoreDateSetting> CoreDateSetting { get; set; }
-        public virtual DbSet<CoreGender> CoreDesignation { get; set; }
+        public virtual DbSet<CoreDesignation> CoreDesignation { get; set; }
         public virtual DbSet<CoreGender> CoreGender { get; set; }
         public virtual DbSet<CoreInvoice> CoreInvoice { get; set; }
         public virtual DbSet<CoreInvoiceStatus> CoreInvoiceStatus { get; set; }
@@ -46,7 +45,7 @@ namespace MM.CoreModels
         public virtual DbSet<CorePlanDetail> CorePlanDetail { get; set; }
         public virtual DbSet<CorePlanFrequency> CorePlanFrequency { get; set; }
         public virtual DbSet<CorePlanMaster> CorePlanMaster { get; set; }
-        public virtual DbSet<CoreRelatedTo> CoreReferralType { get; set; }
+        public virtual DbSet<CoreReferralType> CoreReferralType { get; set; }
         public virtual DbSet<CoreRelatedTo> CoreRelatedTo { get; set; }
         public virtual DbSet<CoreRole> CoreRole { get; set; }
         public virtual DbSet<CoreRolePermissionXref> CoreRolePermissionXref { get; set; }
@@ -73,6 +72,10 @@ namespace MM.CoreModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.ApplyConfiguration(new ClientDbEntryConfiguration());
+            modelBuilder.ApplyConfiguration(new DbEntryConfiguration());
+            modelBuilder.ApplyConfiguration(new ClientDBConnectionMasterConfiguration());
+
             modelBuilder.Entity<CoreAccountType>(entity =>
             {
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
@@ -222,74 +225,15 @@ namespace MM.CoreModels
                     .HasConstraintName("FK_Billing_RelatedTo");
             });
 
-            modelBuilder.Entity<CoreCity>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+            modelBuilder.ApplyConfiguration(new CoreDesignationConfiguration()).SeedCoreDesignation();
+            modelBuilder.ApplyConfiguration(new CoreReferralTypeConfiguration()).SeedCoreReferralType();
+            modelBuilder.ApplyConfiguration(new CoreCountryConfiguration()).SeedCoreCountry();
+            modelBuilder.ApplyConfiguration(new CoreStateConfiguration()).SeedCoreState();
+            modelBuilder.ApplyConfiguration(new CoreCityConfiguration()).SeedCoreCity();
+            modelBuilder.ApplyConfiguration(new CoreCurrencyConfiguration()).SeedCoreCurrency();
+            modelBuilder.ApplyConfiguration(new CoreDateSettingConfiguration()).SeedCoreDateSetting();
+            modelBuilder.ApplyConfiguration(new CoreGenderConfiguration()).SeedCoreGender();
 
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<CoreCountry>(entity =>
-            {
-                entity.Property(e => e.Code).HasMaxLength(5);
-
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<CoreCurrency>(entity =>
-            {
-                entity.Property(e => e.Code)
-                    .IsRequired()
-                    .HasMaxLength(3);
-
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Description).HasMaxLength(50);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Symbol)
-                    .IsRequired()
-                    .HasMaxLength(10);
-            });
-
-            modelBuilder.Entity<CoreDateSetting>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-           
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<CoreGender>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
 
             modelBuilder.Entity<CoreInvoice>(entity =>
             {
@@ -465,7 +409,6 @@ namespace MM.CoreModels
 
             modelBuilder.Entity<CoreRolePermissionXref>(entity =>
             {
-                entity.ToTable("RolePermissionXRef");
 
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
@@ -484,18 +427,7 @@ namespace MM.CoreModels
                     .HasConstraintName("FK_RolePermissionXRef_Role");
             });
 
-            modelBuilder.Entity<CoreState>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Description)
-                    .IsRequired()
-                    .HasMaxLength(200);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name).HasMaxLength(100);
-            });
+           
 
             modelBuilder.Entity<CoreTag>(entity =>
             {
@@ -549,25 +481,11 @@ namespace MM.CoreModels
                     .HasMaxLength(50);
             });
 
-   
-
-    
 
             modelBuilder.ApplyConfiguration(new CoreTimeFormatConfiguration()).SeedCoreTimeFormat();
             modelBuilder.ApplyConfiguration(new CoreTimeZoneConfiguration()).SeedCoreTimeZone();
+            modelBuilder.ApplyConfiguration(new CoreTitleConfiguration()).SeedCoreTitle();
 
-            modelBuilder.Entity<CoreTitle>(entity =>
-            {
-                entity.Property(e => e.CreatedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Description).HasMaxLength(200);
-
-                entity.Property(e => e.ModifiedOn).HasColumnType("datetime");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100);
-            });
 
             modelBuilder.Entity<CoreUser>(entity =>
             {
@@ -619,8 +537,7 @@ namespace MM.CoreModels
 
             modelBuilder.Entity<CoreUserRoleXref>(entity =>
             {
-                entity.ToTable("UserRoleXRef");
-
+              
                 entity.Property(e => e.CreatedOn).HasColumnType("datetime");
 
                 entity.Property(e => e.Description)
@@ -646,24 +563,11 @@ namespace MM.CoreModels
                     .HasConstraintName("FK_UserRoleXRef_User");
             });
 
-            modelBuilder.ApplyConfiguration(new ClientDbEntryConfiguration());
-            modelBuilder.ApplyConfiguration(new DbEntryConfiguration());
-            modelBuilder.ApplyConfiguration(new ClientDBConnectionMasterConfiguration());
-
-
-            SeedData(modelBuilder);
             OnModelCreatingPartial(modelBuilder);
         }
 
       
 
-        private void SeedData(ModelBuilder modelBuilder)
-        {
-         modelBuilder.Entity<ClientDBConnectionMaster>()
-         .HasData(
-         new ClientDBConnectionMaster { Id = 1,  ConnectionString = "Server = localhost;  Uid = root; Pwd = Aji@2020;Database =mm_" }
-         );
-        }
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

@@ -83,4 +83,9 @@
     <None Include="Pages\Client\Account\_ViewImports.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Pages\Core\" />
+  </ItemGroup>
+
 </Project>

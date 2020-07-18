@@ -76,18 +76,20 @@ namespace MM.Pages.Client.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-      
+
 
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            OrgDateSettings = new SelectList(coreDbConext.CoreDateSetting, nameof(DateSetting.Id), nameof(DateSetting.Name));
-            OrgTimeFormat = new SelectList(coreDbConext.CoreTimeFormat, nameof(TimeFormat.Id), nameof(TimeFormat.Name));
-            OrgTimeZone = new SelectList(coreDbConext.CoreTimeZone, nameof(ClientTimeZone.Id), nameof(ClientTimeZone.Description));
-            OrgCurrency = new SelectList(coreDbConext.CoreCurrency, nameof(Currency.Id), nameof(Currency.Name));
-            ClientTitles = new SelectList(coreDbConext.CoreTitle, nameof(Title.Id), nameof(Title.Name));
+            var ss = coreDbConext.CoreReferralType.ToList();
+            var yy = coreDbConext.CoreDesignation.ToList();
+            OrgDateSettings = new SelectList(coreDbConext.CoreDateSetting, nameof(CoreDateSetting.Id), nameof(CoreDateSetting.Name));
+            OrgTimeFormat = new SelectList(coreDbConext.CoreTimeFormat, nameof(CoreTimeFormat.Id), nameof(CoreTimeFormat.Name));
+            OrgTimeZone = new SelectList(coreDbConext.CoreTimeZone, nameof(CoreTimeZone.Id), nameof(CoreTimeZone.Description));
+            OrgCurrency = new SelectList(coreDbConext.CoreCurrency, nameof(CoreCurrency.Id), nameof(CoreCurrency.Name));
+            ClientTitles = new SelectList(coreDbConext.CoreTitle, nameof(CoreTitle.Id), nameof(CoreTitle.Name));
             ClientDesignations = new SelectList(coreDbConext.CoreDesignation, nameof(CoreDesignation.Id), nameof(CoreDesignation.Name));
-            ClientGenders = new SelectList(coreDbConext.CoreGender, nameof(Gender.Id), nameof(Gender.Name));
+            ClientGenders = new SelectList(coreDbConext.CoreGender, nameof(CoreGender.Id), nameof(CoreGender.Name));
             ClientReferralTypes = new SelectList(coreDbConext.CoreReferralType, nameof(CoreReferralType.Id), nameof(CoreReferralType.Name));
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -98,26 +100,30 @@ namespace MM.Pages.Client.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+
+
+                string ConnectionString = coreDbConext.DbEntryMaster.FirstOrDefault().ConnectionString + ClientOrganization.Name;
+
+                DbEntry dbEntry = new DbEntry();
+                dbEntry.DbName = "mm_" + ClientOrganization.Name;
+                dbEntry.ConnectionString = ConnectionString;
+                coreDbConext.DbEntry.Add(dbEntry);
+                await coreDbConext.SaveChangesAsync();
+
+                ClientDbEntry ClientdbEntry = new ClientDbEntry();
+                ClientdbEntry.Email = ClientUser.Email;
+                ClientdbEntry.DbEntryId = dbEntry.Id;
+                coreDbConext.ClientDbentry.Add(ClientdbEntry);
+                await coreDbConext.SaveChangesAsync();
+
+                ClientDbContext clientDbContext = new ClientDbContext(ConnectionString);
+                clientDbContext.Database.EnsureCreated();
+
                 var user = new IdentityUser { UserName = ClientUser.Email, Email = ClientUser.Email };
                 var result = await _userManager.CreateAsync(user, ClientUser.Password);
+
                 if (result.Succeeded)
                 {
-                    string ConnectionString = coreDbConext.ClientDBConnectionMaster.FirstOrDefault().ConnectionString + ClientOrganization.Name;
-
-                    DbEntry dbEntry = new DbEntry();
-                    dbEntry.DbName = "mm_" + ClientOrganization.Name;
-                    dbEntry.ConnectionString = ConnectionString;
-                    coreDbConext.DbEntry.Add(dbEntry);
-                    await coreDbConext.SaveChangesAsync();
-
-                    ClientDbEntry ClientdbEntry = new ClientDbEntry();
-                    ClientdbEntry.Email = ClientUser.Email;
-                    ClientdbEntry.DbEntryId = dbEntry.Id;
-                    coreDbConext.ClientDbentry.Add(ClientdbEntry);
-                    await coreDbConext.SaveChangesAsync();
-
-                    ClientDbContext clientDbContext = new ClientDbContext(ConnectionString);
-                    clientDbContext.Database.EnsureCreated();
                     clientDbContext.ClientOrganization.Add(ClientOrganization);
                     clientDbContext.ClientUser.Add(ClientUser);
                     await clientDbContext.SaveChangesAsync();
@@ -150,8 +156,7 @@ namespace MM.Pages.Client.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
-            // If we got this far, something failed, redisplay form
+            
             return Page();
         }
     }

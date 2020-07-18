@@ -14,6 +14,7 @@ using MM.ClientModels;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
 /* This is Aji's Change*/
 namespace MM
 {
@@ -46,6 +47,13 @@ namespace MM
             }).AddEntityFrameworkStores<ClientDbContext>()
               .AddDefaultTokenProviders().AddDefaultUI();
 
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+                options.AppendTrailingSlash = true;
+                //options.ContraintMap.Add("Custom", typeof(CustomConstraint));
+            });
 
             services.ConfigureApplicationCookie(options =>
             {
