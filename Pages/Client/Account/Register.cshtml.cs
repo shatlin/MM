@@ -81,8 +81,6 @@ namespace MM.Pages.Client.Account
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            var ss = coreDbConext.CoreReferralType.ToList();
-            var yy = coreDbConext.CoreDesignation.ToList();
             OrgDateSettings = new SelectList(coreDbConext.CoreDateSetting, nameof(CoreDateSetting.Id), nameof(CoreDateSetting.Name));
             OrgTimeFormat = new SelectList(coreDbConext.CoreTimeFormat, nameof(CoreTimeFormat.Id), nameof(CoreTimeFormat.Name));
             OrgTimeZone = new SelectList(coreDbConext.CoreTimeZone, nameof(CoreTimeZone.Id), nameof(CoreTimeZone.Description));
@@ -102,18 +100,19 @@ namespace MM.Pages.Client.Account
             {
 
 
-                string ConnectionString = coreDbConext.DbEntryMaster.FirstOrDefault().ConnectionString + ClientOrganization.Name;
+                string ConnectionString = coreDbConext.TenantConfig.FirstOrDefault().ConnectionString + ClientOrganization.Name;
 
-                DbEntry dbEntry = new DbEntry();
-                dbEntry.DbName = "mm_" + ClientOrganization.Name;
-                dbEntry.ConnectionString = ConnectionString;
-                coreDbConext.DbEntry.Add(dbEntry);
+                Tenant tenant = new Tenant();
+                tenant.ClientName =ClientOrganization.Name;
+                tenant.DbName = "mm_" + ClientOrganization.Name;
+                tenant.ConnectionString = ConnectionString;
+                coreDbConext.Tenant.Add(tenant);
                 await coreDbConext.SaveChangesAsync();
 
-                ClientDbEntry ClientdbEntry = new ClientDbEntry();
-                ClientdbEntry.Email = ClientUser.Email;
-                ClientdbEntry.DbEntryId = dbEntry.Id;
-                coreDbConext.ClientDbentry.Add(ClientdbEntry);
+                TenantUserTenant tenantUserTenant = new TenantUserTenant();
+                tenantUserTenant.Email = ClientUser.Email;
+                tenantUserTenant.TenantId = tenant.Id;
+                coreDbConext.TenantUserTenant.Add(tenantUserTenant);
                 await coreDbConext.SaveChangesAsync();
 
                 ClientDbContext clientDbContext = new ClientDbContext(ConnectionString);

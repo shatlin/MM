@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace MM.CoreModels
 {
-    public partial class DBEntryMaster
+    public partial class TenantConfig
     {
-        public DBEntryMaster()
+        public TenantConfig()
         {
         }
         public int Id { get; set; }
@@ -14,11 +14,10 @@ namespace MM.CoreModels
 
     }
 
-    public partial class ClientDBConnectionMasterConfiguration : IEntityTypeConfiguration<DBEntryMaster>
+    public partial class TenantConfigConfiguration : IEntityTypeConfiguration<TenantConfig>
     {
-        public void Configure(EntityTypeBuilder<DBEntryMaster> builder)
+        public void Configure(EntityTypeBuilder<TenantConfig> builder)
         {
-            builder.ToTable("DBEntryMaster");
             builder.HasKey(e => e.Id);
             builder.Property(e => e.ConnectionString)
                     .IsRequired()
@@ -29,10 +28,10 @@ namespace MM.CoreModels
 
     public static partial class Seeder
     {
-        public static void SeedClientDBConnectionMaster(this ModelBuilder modelBuilder)
+        public static void SeedTenantConfig(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<DBEntryMaster>()
-            .HasData(new DBEntryMaster { Id = 1, ConnectionString = "Server = localhost;  Uid = root; Pwd = MMRootPwd2#;Database =mm_" }
+            modelBuilder.Entity<TenantConfig>()
+            .HasData(new TenantConfig { Id = 1, ConnectionString = "Server = localhost;  Uid = root; Pwd = MMRootPwd2#;Database =mm_" }
         );
 
         }

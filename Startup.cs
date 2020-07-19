@@ -15,7 +15,10 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
-/* This is Aji's Change*/
+using MM.TenantModels;
+using Microsoft.AspNetCore.Http;
+using SaasKit.Multitenancy;
+
 namespace MM
 {
     public class Startup
@@ -34,8 +37,8 @@ namespace MM
             services.AddRazorPages();
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
             services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));
-       
 
+            services.AddMultitenancy<Tenant, TenantResolver>();
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -88,6 +91,22 @@ namespace MM
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseMultitenancy<Tenant>();
+
+            //app.Use(async (ctx, next) =>
+            //{
+            //    if (ctx.GetTenant<Tenant>() != null)
+            //    {
+            //        var tenant = ctx.GetTenant<Tenant>();
+            //        ctx.Response.Redirect("/member/index", true);
+            //        ctx.Items.Add("CURRENT_TENANT", tenant);
+            //    }
+            //    else
+            //    {
+            //     await next();
+            //    }
+            //});
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

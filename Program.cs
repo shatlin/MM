@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-/* This is Aji's Change*/
+
 namespace MM
 {
     public class Program
@@ -16,7 +16,6 @@ namespace MM
             CreateHostBuilder(args).Build().Run();
         }
 
-     /* This is Shatlin's Change*/
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

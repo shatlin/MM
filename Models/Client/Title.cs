@@ -53,7 +53,6 @@ namespace MM.ClientModels
                 new Title { Id = 3, Name = "Ms", Description = "Ms", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                 new Title { Id = 4, Name = "Dr", Description = "Dr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
               );
-                                     
         }
     }
 }

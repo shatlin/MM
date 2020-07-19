@@ -24,9 +24,9 @@ namespace MM.CoreModels
         {
         }
 
-        public virtual DbSet<ClientDbEntry> ClientDbentry { get; set; }
-        public virtual DbSet<DbEntry> DbEntry { get; set; }
-        public virtual DbSet<DBEntryMaster> DbEntryMaster { get; set; }
+        public virtual DbSet<TenantUserTenant> TenantUserTenant { get; set; }
+        public virtual DbSet<Tenant> Tenant { get; set; }
+        public virtual DbSet<TenantConfig> TenantConfig { get; set; }
         public virtual DbSet<CoreAccountType> CoreAccountType { get; set; }
         public virtual DbSet<CoreAddress> CoreAddress { get; set; }
         public virtual DbSet<CoreAddressType> CoreAddressType { get; set; }
@@ -72,9 +72,9 @@ namespace MM.CoreModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new ClientDbEntryConfiguration());
-            modelBuilder.ApplyConfiguration(new DbEntryConfiguration());
-            modelBuilder.ApplyConfiguration(new ClientDBConnectionMasterConfiguration());
+            modelBuilder.ApplyConfiguration(new TenantUserTenantConfiguration());
+            modelBuilder.ApplyConfiguration(new TenantConfiguration());
+            modelBuilder.ApplyConfiguration(new TenantConfigConfiguration()).SeedTenantConfig();
 
             modelBuilder.Entity<CoreAccountType>(entity =>
             {

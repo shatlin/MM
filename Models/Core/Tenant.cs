@@ -4,28 +4,34 @@ using System.Collections.Generic;
 
 namespace MM.CoreModels
 {
-    public partial class DbEntry
+    public partial class Tenant
     {
-        public DbEntry()
+        public Tenant()
         {
-            ClientDbEntry = new HashSet<ClientDbEntry>();
+            TenantUserTenant = new HashSet<TenantUserTenant>();
         }
 
         public int Id { get; set; }
+        public string ClientName { get; set; }
         public string DbName { get; set; }
         public string ConnectionString { get; set; }
 
-        public virtual ICollection<ClientDbEntry> ClientDbEntry { get; set; }
+        public virtual ICollection<TenantUserTenant> TenantUserTenant { get; set; }
     }
 
-    public partial class DbEntryConfiguration : IEntityTypeConfiguration<DbEntry>
+    public partial class TenantConfiguration : IEntityTypeConfiguration<Tenant>
     {
-        public void Configure(EntityTypeBuilder<DbEntry> builder)
+        public void Configure(EntityTypeBuilder<Tenant> builder)
         {
 
-            builder.ToTable("DbEntry");
+         
 
             builder.HasKey(e => e.Id);
+
+            builder.Property(e => e.ClientName)
+            .IsRequired()
+            .HasMaxLength(45)
+            .IsUnicode(false);
 
             builder.Property(e => e.DbName)
                     .IsRequired()
