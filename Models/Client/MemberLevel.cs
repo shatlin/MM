@@ -10,7 +10,7 @@ namespace MM.ClientModels
         {
             CpdmemberLevelSetUp = new HashSet<CpdmemberLevelSetUp>();
             EventRestrictionList = new HashSet<EventRestrictionList>();
-            Member = new HashSet<Member>();
+            Member = new HashSet<MemberUser>();
             PromotionDetail = new HashSet<PromotionDetail>();
         }
 
@@ -24,7 +24,7 @@ namespace MM.ClientModels
 
         public virtual ICollection<CpdmemberLevelSetUp> CpdmemberLevelSetUp { get; set; }
         public virtual ICollection<EventRestrictionList> EventRestrictionList { get; set; }
-        public virtual ICollection<Member> Member { get; set; }
+        public virtual ICollection<MemberUser> Member { get; set; }
         public virtual ICollection<PromotionDetail> PromotionDetail { get; set; }
     }
     public partial class MemberLevelConfiguration : IEntityTypeConfiguration<MemberLevel>

@@ -29,7 +29,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual InvoiceStatus InvoiceStatus { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
         public virtual PaymentGateway PaymentGateway { get; set; }
         public virtual RelatedTo RelatedTo { get; set; }
         public virtual ICollection<Billing> Billing { get; set; }

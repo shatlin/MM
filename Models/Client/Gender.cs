@@ -8,8 +8,7 @@ namespace MM.ClientModels
     {
         public Gender()
         {
-            Member = new HashSet<Member>();
-            User = new HashSet<ClientUser>();
+            User = new HashSet<ApplicationUser>();
         }
 
         public int Id { get; set; }
@@ -19,9 +18,8 @@ namespace MM.ClientModels
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
-
-        public virtual ICollection<Member> Member { get; set; }
-        public virtual ICollection<ClientUser> User { get; set; }
+      
+        public virtual ICollection<ApplicationUser> User { get; set; }
     }
     public partial class GenderConfiguration : IEntityTypeConfiguration<Gender>
     {

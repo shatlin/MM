@@ -22,14 +22,14 @@ namespace MM.Pages.Client.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly CoreDBContext coreDbConext;
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender, CoreDBContext context)
         {
@@ -42,6 +42,28 @@ namespace MM.Pages.Client.Account
 
         [BindProperty]
         public ClientUser ClientUser { get; set; }
+
+        [BindProperty]
+        public ApplicationUser AppUser { get; set; }
+
+        public class AppUserInputModel
+        {
+            [Required]
+            [EmailAddress]
+            [Display(Name = "Email")]
+            public string Email { get; set; }
+
+            [Required]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [DataType(DataType.Password)]
+            [Display(Name = "Password")]
+            public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Display(Name = "Confirm password")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            public string ConfirmPassword { get; set; }
+        }
 
         [ViewData]
         public SelectList ClientTitles { get; set; }
@@ -70,9 +92,7 @@ namespace MM.Pages.Client.Account
         [ViewData]
         public SelectList OrgCurrency { get; set; }
 
-
         public string ReturnUrl { get; set; }
-
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -98,10 +118,7 @@ namespace MM.Pages.Client.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-
-
                 string ConnectionString = coreDbConext.TenantConfig.FirstOrDefault().ConnectionString + ClientOrganization.Name;
-
                 Tenant tenant = new Tenant();
                 tenant.ClientName =ClientOrganization.Name;
                 tenant.DbName = "mm_" + ClientOrganization.Name;
@@ -110,7 +127,7 @@ namespace MM.Pages.Client.Account
                 await coreDbConext.SaveChangesAsync();
 
                 TenantUserTenant tenantUserTenant = new TenantUserTenant();
-                tenantUserTenant.Email = ClientUser.Email;
+                tenantUserTenant.Email = AppUser.Email;
                 tenantUserTenant.TenantId = tenant.Id;
                 coreDbConext.TenantUserTenant.Add(tenantUserTenant);
                 await coreDbConext.SaveChangesAsync();
@@ -118,35 +135,37 @@ namespace MM.Pages.Client.Account
                 ClientDbContext clientDbContext = new ClientDbContext(ConnectionString);
                 clientDbContext.Database.EnsureCreated();
 
-                var user = new IdentityUser { UserName = ClientUser.Email, Email = ClientUser.Email };
-                var result = await _userManager.CreateAsync(user, ClientUser.Password);
+                AppUser.UserName = AppUser.Email;
+                var result = await _userManager.CreateAsync(AppUser, AppUser.Pwd);
 
                 if (result.Succeeded)
                 {
                     clientDbContext.ClientOrganization.Add(ClientOrganization);
+
+                    ClientUser.ApplicaitonUserId= AppUser.Id;
                     clientDbContext.ClientUser.Add(ClientUser);
                     await clientDbContext.SaveChangesAsync();
 
                     _logger.LogInformation("User created a new account with password.");
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(AppUser);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Client/Account/ConfirmEmail",
                         pageHandler: null,
-                        values: new { userId = user.Id, code = code, returnUrl = returnUrl },
+                        values: new { userId = AppUser.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(ClientUser.Email, "Confirm your email",
+                    await _emailSender.SendEmailAsync(AppUser.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = ClientUser.Email, returnUrl = returnUrl });
+                        return RedirectToPage("RegisterConfirmation", new { email = AppUser.Email, returnUrl = returnUrl });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await _signInManager.SignInAsync(AppUser, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }

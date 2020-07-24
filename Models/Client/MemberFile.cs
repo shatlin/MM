@@ -17,7 +17,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual FileType FileType { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
     }
     public partial class MemberFileConfiguration : IEntityTypeConfiguration<MemberFile>
     {

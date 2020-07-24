@@ -10,7 +10,7 @@ namespace MM.ClientModels
         {
             CpdmemberTeamSetUp = new HashSet<CpdmemberTeamSetUp>();
             EventRestrictionList = new HashSet<EventRestrictionList>();
-            Member = new HashSet<Member>();
+            Member = new HashSet<MemberUser>();
         }
 
         public int Id { get; set; }
@@ -23,7 +23,7 @@ namespace MM.ClientModels
 
         public virtual ICollection<CpdmemberTeamSetUp> CpdmemberTeamSetUp { get; set; }
         public virtual ICollection<EventRestrictionList> EventRestrictionList { get; set; }
-        public virtual ICollection<Member> Member { get; set; }
+        public virtual ICollection<MemberUser> Member { get; set; }
     }
 
 

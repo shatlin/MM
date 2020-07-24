@@ -18,7 +18,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual ClientUser CpdawardedBy { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
         public virtual RelatedTo RelatedTo { get; set; }
     }
     public partial class CpdConfiguration : IEntityTypeConfiguration<Cpd>

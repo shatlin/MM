@@ -6,7 +6,8 @@
         <a href="#"><i class="fas fa-info-circle"></i><span>Invoices</span></a>
         <a href="#"><i class="fas fa-sliders-h"></i><span>Events</span></a>
     </div>*@
-@inject SignInManager<IdentityUser> SignInManager
+@using MM.ClientModels
+@inject SignInManager<ApplicationUser> SignInManager
 
 <nav class="navbar navbar-expand-md navbar-dark bg-primary">
     <button class="navbar-toggler navbar-toggler-right"
@@ -115,10 +116,10 @@
 
 
             @*<ul class="nav nav-pills flex-column">
-                <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-                <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-                <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="ChangePassword">Password</a></li>
-            </ul>*@
+                    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
+                    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="ChangePassword">Password</a></li>
+                </ul>*@
 
 
             <a href="#submenu2"
@@ -134,7 +135,7 @@
             <!-- Submenu content -->
             <div id="submenu2" class="collapse sidebar-submenu">
                 <a asp-page="/Client/Account/Index"
-                   id="profile" 
+                   id="profile"
                    class="list-group-item list-group-item-action bg-dark text-white @ManageNavPages.IndexNavClass(ViewContext)">
                     <span class="menu-collapsed">Profile</span>
                 </a>

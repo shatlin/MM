@@ -15,7 +15,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual MarketingGroup MarketingGroup { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
     }
 
 

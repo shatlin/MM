@@ -15,7 +15,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual MarketingProfile MarketingProfile { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
     }
     public partial class MarketingProfileXrefConfiguration : IEntityTypeConfiguration<MarketingProfileXref>
     {

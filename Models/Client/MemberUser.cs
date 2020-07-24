@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace MM.ClientModels
 {
-    public partial class Member
+    public partial class MemberUser
     {
-        public Member()
+        public MemberUser()
         {
             Billing = new HashSet<Billing>();
             Cpd = new HashSet<Cpd>();
@@ -28,18 +28,12 @@ namespace MM.ClientModels
         }
 
         public int Id { get; set; }
-        public int TitleId { get; set; }
+        public string ApplicaitonUserId { get; set; }
         public int? MemberBranchId { get; set; }
         public int? OrganizationId { get; set; }
         public int? ReferralTypeId { get; set; }
         public int? OrganizationStructureId { get; set; }
         public string MemberCode { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
-        public bool EmailActivated { get; set; }
         public DateTime JoinDate { get; set; }
         public DateTime NextRenewalDate { get; set; }
         public bool MembershipConfirmed { get; set; }
@@ -48,7 +42,6 @@ namespace MM.ClientModels
         public int? MemberLevelId { get; set; }
         public int? MemberTeamId { get; set; }
         public int MemberTypeId { get; set; }
-        public int GenderId { get; set; }
         public byte[] Photo { get; set; }
         public string Notes { get; set; }
         public bool IsBillingContact { get; set; }
@@ -59,8 +52,7 @@ namespace MM.ClientModels
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
-
-        public virtual Gender Gender { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
         public virtual MemberBranch MemberBranch { get; set; }
         public virtual MemberLevel MemberLevel { get; set; }
         public virtual MemberStatus MemberStatus { get; set; }
@@ -69,7 +61,6 @@ namespace MM.ClientModels
         public virtual Organization Organization { get; set; }
         public virtual OrganizationStructure OrganizationStructure { get; set; }
         public virtual ReferralType ReferralType { get; set; }
-        public virtual Title Title { get; set; }
         public virtual ICollection<Billing> Billing { get; set; }
         public virtual ICollection<Cpd> Cpd { get; set; }
         public virtual ICollection<Donation> Donation { get; set; }
@@ -88,35 +79,25 @@ namespace MM.ClientModels
         public virtual ICollection<PromotionResponse> PromotionResponse { get; set; }
         public virtual ICollection<Refund> Refund { get; set; }
     }
-    public partial class MemberConfiguration : IEntityTypeConfiguration<Member>
+    public partial class MemberConfiguration : IEntityTypeConfiguration<MemberUser>
     {
-        public void Configure(EntityTypeBuilder<Member> builder)
+        public void Configure(EntityTypeBuilder<MemberUser> builder)
         {
- builder.Property(e => e.ConfirmedDate).HasColumnType("datetime");
+
+            builder.Property(e => e.ApplicaitonUserId)
+            .IsRequired()
+            .HasMaxLength(50);
+
+            builder.Property(e => e.ConfirmedDate).HasColumnType("datetime");
 
                 builder.Property(e => e.CreatedOn).HasColumnType("datetime");
 
-                builder.Property(e => e.Email)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                builder.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
                 builder.Property(e => e.JoinDate).HasColumnType("datetime");
-
-                builder.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(50);
 
                 builder.Property(e => e.MemberCode)
                     .IsRequired()
                     .HasMaxLength(50);
 
-                builder.Property(e => e.MiddleName)
-                    .IsRequired()
-                    .HasMaxLength(50);
 
                 builder.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
@@ -124,17 +105,9 @@ namespace MM.ClientModels
 
                 builder.Property(e => e.Notes).HasMaxLength(1000);
 
-                builder.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(100);
 
                 builder.Property(e => e.Photo).HasColumnType("blob");
 
-                builder.HasOne(d => d.Gender)
-                    .WithMany(p => p.Member)
-                    .HasForeignKey(d => d.GenderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Member_Gender");
 
                 builder.HasOne(d => d.MemberBranch)
                     .WithMany(p => p.Member)
@@ -177,11 +150,6 @@ namespace MM.ClientModels
                     .HasForeignKey(d => d.ReferralTypeId)
                     .HasConstraintName("FK_Member_ReferralType");
 
-                builder.HasOne(d => d.Title)
-                    .WithMany(p => p.Member)
-                    .HasForeignKey(d => d.TitleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Member_Title");
         }
 
     }

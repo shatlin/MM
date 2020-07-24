@@ -8,7 +8,7 @@ namespace MM.ClientModels
     {
         public MemberBranch()
         {
-            Member = new HashSet<Member>();
+            Member = new HashSet<MemberUser>();
             MemberAddress = new HashSet<MemberAddress>();
         }
 
@@ -22,7 +22,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual Organization Organization { get; set; }
-        public virtual ICollection<Member> Member { get; set; }
+        public virtual ICollection<MemberUser> Member { get; set; }
         public virtual ICollection<MemberAddress> MemberAddress { get; set; }
     }
     public partial class MemberBranchConfiguration : IEntityTypeConfiguration<MemberBranch>

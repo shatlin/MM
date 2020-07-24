@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Member\Account\**" />
+    <Content Remove="Pages\Member\Account\**" />
+    <EmbeddedResource Remove="Pages\Member\Account\**" />
+    <None Remove="Pages\Member\Account\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Pages\Client\Event.cshtml.cs" />
     <Compile Remove="Pages\Login.cshtml.cs" />
     <Compile Remove="Pages\Logout.cshtml.cs" />
