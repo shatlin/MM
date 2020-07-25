@@ -6,13 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Pages\Client\Event.cshtml.cs" />
     <Compile Remove="Pages\Login.cshtml.cs" />
     <Compile Remove="Pages\Logout.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Client\Event.cshtml" />
     <Content Remove="Pages\Login.cshtml" />
     <Content Remove="Pages\Logout.cshtml" />
   </ItemGroup>

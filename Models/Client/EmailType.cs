@@ -45,7 +45,12 @@ namespace MM.ClientModels
     {
         public static void SeedEmailType(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<EmailType>().HasData
+                            (
+                            new EmailType { Id = 1, Name = "Personal", Description = "Personal E-mail", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                            new EmailType { Id = 2, Name = "Work", Description = "Work E-mail", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                            new EmailType { Id = 3, Name = "Business", Description = "Business E-mail", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                            );
         }
     }
 }

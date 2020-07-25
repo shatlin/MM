@@ -2,12 +2,20 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations;
+
 namespace MM.ClientModels
 {
     public partial class EmailTemplateContent
     {
         public int Id { get; set; }
+
+        [Display(Name = "Email Template Name", Prompt = "Select Email Template")]
+        [Required(ErrorMessage = "Template name is required")]
         public int EmailTemplateNameId { get; set; }
+
+        [Display(Name = "Email Content", Prompt = "Enter Email Content")]
+        [Required(ErrorMessage = "Email Content is required")]
         public string EmailContent { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }

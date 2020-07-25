@@ -43,6 +43,14 @@ namespace MM.ClientModels
     {
         public static void SeedCommunicationType(this ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<CommunicationType>().HasData(
+                          
+                          new CommunicationType { Id = 1, Name = "Email", Description = "Email Message", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new CommunicationType { Id = 2, Name = "Fax", Description = "Fax Message", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new CommunicationType { Id = 3, Name = "Phone", Description = "Mobile / Phone Call", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new CommunicationType { Id = 4, Name = "Post", Description = "Postal Letter", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new CommunicationType { Id = 5, Name = "SMS", Description = "Text Message", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                          );
 
         }
     }

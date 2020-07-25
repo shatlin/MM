@@ -37,7 +37,10 @@ public static partial class Seeder
 {
     public static void SeedPayPalPreferredPaymentGateway(this ModelBuilder modelBuilder)
     {
-
-    }
+            modelBuilder.Entity<PayPalPreferredPaymentGateway>().HasData(
+                              new PayPalPreferredPaymentGateway { Id = 1, Name = "Pay Flow", Description = "Pay Flow Gateway", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                              new PayPalPreferredPaymentGateway { Id = 2, Name = "Paypal Payments Pro", Description = "Paypal Payments Pro", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                              );
+        }
 }
 }

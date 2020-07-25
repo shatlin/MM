@@ -15,6 +15,10 @@ namespace MM.ClientModels
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
+
+        public virtual Event Event { get; set; }
+        public virtual EventCostItem EventCostItem { get; set; }
+
     }
 
 

@@ -2,14 +2,27 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations;
+
 namespace MM.ClientModels
 {
     public partial class Tax
     {
         public int Id { get; set; }
+
+        [Display(Name = "Tax Code", Prompt = "Please enter tax code")]
+        [Required(ErrorMessage = "Tax Code is required")]
         public string TaxCode { get; set; }
+
+        [Display(Name = "Tax Rate", Prompt = "Please enter tax rate")]
+        [Required(ErrorMessage = "Tax Code is required")]
         public int Rate { get; set; }
+
+        [Display(Name = "Tax Name", Prompt = "Please enter tax name")]
+        [Required(ErrorMessage = "Tax Name is required")]
         public string Name { get; set; }
+
+        [Display(Name = "Description", Prompt = "Please enter desccription")]
         public string Description { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }

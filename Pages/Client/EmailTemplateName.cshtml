@@ -1,10 +1,10 @@
 ﻿@page
-@model MM.Pages.Client.EquipmentModel
+@model MM.Pages.Client.EmailTemplateNameModel
 
 @using MM.ClientModels;
 @using MM.Helper;
 @{
-    ViewData["Title"] = "Equipment";
+    ViewData["Title"] = "Email Template";
 }
 @{ Layout = "_LayoutClient";}
 
@@ -15,7 +15,7 @@
         <div class="modal-content">
             <form method="post" id="AddEditForm" onsubmit="return Save(this)">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="AddEditModalLabel">Add New Equipment</h5>
+                    <h5 class="modal-title" id="AddEditModalLabel">Add New Email Template</h5>
                     <button type="button" class="btn btn-info close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -25,18 +25,18 @@
                     <div class="reg-container row">
                         <div class="col-12">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" id="id" asp-for="Equipment.Id" />
+                            <input type="hidden" id="id" asp-for="EmailTemplateName.Id" />
 
                             <div class="form-group mb-4">
-                                <label asp-for=Equipment.Name class="control-label"></label>
-                                <input asp-for=Equipment.Name type="text" class="form-control form-input" placeholder="Name of Equipment" id="name">
-                                <span asp-validation-for=Equipment.Name class="text-danger"></span>
+                                <label asp-for=EmailTemplateName.Name class="control-label"></label>
+                                <input asp-for=EmailTemplateName.Name type="text" class="form-control form-input" placeholder="Name of Email Template" id="name">
+                                <span asp-validation-for=EmailTemplateName.Name class="text-danger"></span>
                             </div>
 
                             <div class="form-group mb-4">
-                                <label asp-for=Equipment.Description class="control-label"></label>
-                                <input asp-for=Equipment.Description type="text" class="form-control form-input" placeholder="Description of Equipment" id="description">
-                                <span asp-validation-for=Equipment.Description class="text-danger"></span>
+                                <label asp-for=EmailTemplateName.Description class="control-label"></label>
+                                <input asp-for=EmailTemplateName.Description type="text" class="form-control form-input" placeholder="Description of Email Template" id="description">
+                                <span asp-validation-for=EmailTemplateName.Description class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -47,10 +47,10 @@
                             &nbsp;
                         </div>
                         <div class="col-3 text-right">
-                            <input type="submit" value="Add" class="form-btn" id="modal-create-edit" />
+                            <input type="submit" value="Add" class="btn btn-outline-success" id="modal-create-edit" />
                         </div>
                         <div class="col-2  text-right ">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -81,21 +81,21 @@
                 <div class="modal-body">
                     <div class="reg-container row">
                         <div class="col-12">
-                            <input type="hidden" id="idToDelete" />
+                            <input type="hidden" id="id_Del" />
                             <dl class="row">
                                 <dt class="col-sm-2">
 
-                                    <label asp-for=Equipment.Name class="control-label"></label>
+                                    <label asp-for=EmailTemplateName.Name class="control-label"></label>
                                 </dt>
                                 <dd class="col-sm-10">
-                                    <label id="NameofRecordToDelete"></label>
+                                    <label id="name_Del"></label>
                                 </dd>
                                 <dt class="col-sm-2">
-                                    <label asp-for=Equipment.Description class="control-label"></label>
+                                    <label asp-for=EmailTemplateName.Description class="control-label"></label>
 
                                 </dt>
                                 <dd class="col-sm-10">
-                                    <label id="DescriptionofRecordToDelete"></label>
+                                    <label id="description_Del"></label>
                                 </dd>
                             </dl>
                         </div>
@@ -108,10 +108,10 @@
                             &nbsp;
                         </div>
                         <div class="col-3 text-right">
-                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            <input type="submit" value="Delete" class="btn btn-outline-danger" />
                         </div>
                         <div class="col-2  text-right ">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -123,17 +123,17 @@
 <!-- #endregion DeleteModalRegion -->
 <!-- #region ToholdGrid -->
 
-<partial name="_CRUDHeader" , model='new Header{name="Manage Equipments", description="Here you can manage equipments of your application"}'>
-
+<partial name="_CRUDHeader" , model='new Header{name="Manage Email Template", description="Here you can manage Email Templates of your organization"}'>
+    <div class="container">
         <div class="reg-container row">
             <!--  Personal -->
             <div class="col-12">
                 <div class="card shadow-sm">
-                    <partial name="_CardHeaderPartial" , model='new Header{name="Equipment"}'>
+                    <partial name="_CardHeaderPartial" , model='new Header{name="Email Template Name"}'>
                         <div class="card-body reg-card-body">
                             <div class="row">
                                 <div class="col-3 text-left pb-3">
-                                    <input value="Add New" class="btn btn-success btn-sm" data-toggle="modal" data-target="#AddEditModal" onclick="SetUpPopupToAddRecord()">
+                                    <input value="Add New" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#AddEditModal" onclick="SetUpPopupToAddRecord()">
                                 </div>
                                 <div class="col-9 text-left pb-3">
                                 </div>
@@ -144,6 +144,7 @@
                 </div>
             </div>
         </div>
+    </div>
 
 
     <!-- #endregion ToholdGrid-->
@@ -169,8 +170,8 @@
                         data: "id",
                         "render": function (data, type, row, meta) {
                             {
-                                return '<a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' +
-                                    '<a class="btn btn-danger btn-sm" href="#" data-toggle="modal"  data-target="#DeleteModal" onClick="SetUpPopupToDeleteRecord(' + '\'' + row.id + ';' + row.name + ';' + row.description + '\'' + ')" ><i class="fas fa-trash mr-10"></i>&nbsp;Delete</a> ';
+                                return '<a class="btn btn-outline-info btn-sm mr-3" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' +
+                                    '<a class="btn btn-outline-danger btn-sm" href="#" data-toggle="modal"  data-target="#DeleteModal" onClick="SetUpPopupToDeleteRecord(' + '\'' + row.id + ';' + row.name + ';' + row.description + '\'' + ')" ><i class="fas fa-trash mr-10"></i>&nbsp;Delete</a> ';
                             }
                         },
                         orderable: false,
@@ -182,7 +183,7 @@
         });
 
         function SetUpPopupToAddRecord() {
-            $('#AddEditModalLabel').text("Add New Equipment");
+            $('#AddEditModalLabel').text("Add New EmailTemplateName");
             $('#modal-create-edit').val("Add")
             $('#id').val(0);
             $('#name').val("");
@@ -190,7 +191,7 @@
         }
 
         function SetUpPopupToEditRecord(id) {
-            $('#AddEditModalLabel').text("Edit Equipment")
+            $('#AddEditModalLabel').text("Edit EmailTemplateName")
             $('#modal-create-edit').val("Update")
             $.ajax({
                 url: '?handler=SelectedRecord&id=' + id,
@@ -207,9 +208,9 @@
 
         function SetUpPopupToDeleteRecord(data) {
             var dataarray = data.split(";")
-            $('#idToDelete').val(dataarray[0]);
-            $('#NameofRecordToDelete').text(dataarray[1]);
-            $('#DescriptionofRecordToDelete').text(dataarray[2]);
+            $('#id_Del').val(dataarray[0]);
+            $('#name_Del').text(dataarray[1]);
+            $('#description_Del').text(dataarray[2]);
         }
 
         $('#AddEditModal').on('shown.bs.modal', function () {
@@ -219,7 +220,7 @@
         })
 
         function Delete() {
-            var id = $('#idToDelete').val();
+            var id = $('#id_Del').val();
             $.ajax({
                 url: '?handler=Delete&id=' + id,
                 type: "GET",

@@ -34,7 +34,15 @@ namespace MM.ClientModels
     {
         public static void SeedCorrespondenceType(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<CorrespondenceType>().HasData(
+                                    new CorrespondenceType { Id = 1, Name = "Internal", Description = "Internal Correspondance", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                    new CorrespondenceType { Id = 2, Name = "External", Description = "External Correspondance", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                    new CorrespondenceType { Id = 3, Name = "Sales", Description = "Sales Correspondance", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                    new CorrespondenceType { Id = 4, Name = "Personal", Description = "Reminders, Statements Invoices to Members", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                    new CorrespondenceType { Id = 5, Name = "Circular", Description = "Common messages", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                    new CorrespondenceType { Id = 6, Name = "Confidential", Description = "Private Messages", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+    
+                              );
         }
     }
 }

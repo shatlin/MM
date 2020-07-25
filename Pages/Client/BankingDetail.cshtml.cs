@@ -57,8 +57,9 @@ namespace MM.Pages.Client
                     BankingDetailVM bdVM = new BankingDetailVM
                     {
                         Id = bankingDetail.Id,
-                        AccName= bankingDetail.AccountType.Name,
+                        AccountName= bankingDetail.AccountName,
                         AccountTypeId = bankingDetail.AccountTypeId,
+                        AccountTypeName = bankingDetail.AccountType.Name,
                         BankName = bankingDetail.BankName,
                         BranchName = bankingDetail.BranchName,
                         AccountNumber = bankingDetail.AccountNumber,

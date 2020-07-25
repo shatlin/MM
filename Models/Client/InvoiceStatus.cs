@@ -42,7 +42,18 @@ namespace MM.ClientModels
     {
         public static void SeedInvoiceStatus(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<InvoiceStatus>().HasData(
+                          new InvoiceStatus { Id = 1, Name = "Draft", Description = "Incomplete Invoice", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 2, Name = "Send", Description = "Send to Member", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 3, Name = "Viewed", Description = "Viewed by member", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 4, Name = "Due", Description = "Due for payment", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 5, Name = "Overdue", Description = "Outstanding payment", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 6, Name = "Paid", Description = "Payment made", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 7, Name = "Partial", Description = "Partial payment", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 8, Name = "Void", Description = "Incorrect / Dispute Invoice", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 9, Name = "Canceled", Description = "Canceled Invoice", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new InvoiceStatus { Id = 10, Name = "Write Off", Description = "Uncollectible Invoice", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                          );
         }
     }
 }

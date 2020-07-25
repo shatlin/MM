@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MM.ClientModels;
+using Newtonsoft.Json;
 
 namespace MM.Pages.Client
 {
@@ -22,41 +24,64 @@ namespace MM.Pages.Client
         }
 
         [BindProperty]
-        public IList<EquipmentCount> EquipmentCountList { get; set; }
-
-        [BindProperty]
         public EquipmentCount EquipmentCount { get; set; }
 
         [ViewData]
-        public SelectList EquipmentIdList { get; set; }
+        public SelectList Equipments { get; set; }
 
+        [BindProperty]
+        public List<Equipment> EquipmentsList { get; set; }
+
+        private string errorMessage;
+
+        // called first time the page is loaded.
         public IActionResult OnGet()
         {
-            EquipmentIdList = new SelectList(_context.Equipment, nameof(Equipment.Id), nameof(Equipment.Name));
-            
+            EquipmentsList = _context.Equipment.ToList();
+            Equipments = new SelectList(EquipmentsList, nameof(Equipment.Id), nameof(Equipment.Name));
             return Page();
         }
 
-        public async Task<IActionResult> OnGetListAsync()
+        // called to load and refresh grid
+        public IActionResult OnGetList()
         {
+            var equiplist = _context.EquipmentCount.Include(x => x.Equipment).ToList();
+            List<EquipmentCountVM> equipmentCountVMList = new List<EquipmentCountVM>();
 
-            return new JsonResult(await _context.EquipmentCount.ToListAsync());
+            try
+            {
+                foreach (var equipmentCount in equiplist)
+                {
+                    EquipmentCountVM ecVM = new EquipmentCountVM
+                    {
+                        Id = equipmentCount.Id,
+                        EquipmentId = equipmentCount.Equipment.Id,
+                        EquipmentName = equipmentCount.Equipment.Name,
+                        AvailableCount = equipmentCount.AvailableCount
+
+                    };
+                    equipmentCountVMList.Add(ecVM);
+                }
+                return new JsonResult(equipmentCountVMList);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+            return new JsonResult(new { success = false, message = "Error. Please check values entered " + errorMessage });
         }
 
-        public async Task<IActionResult>  OnGetSelectedRecordAsync(int id)
+        public async Task<IActionResult> OnGetSelectedRecordAsync(int id)
         {
-            return new JsonResult(await _context.EquipmentCount.Where(x=>x.Id==id).FirstOrDefaultAsync());
+            return new JsonResult(await _context.EquipmentCount.Where(x => x.Id == id).FirstOrDefaultAsync());
         }
-    
- 
+
         public async Task<IActionResult> OnPostSaveAsync(EquipmentCount EquipmentCount)
         {
-
             if (!ModelState.IsValid)
             {
                 return new JsonResult(new { success = false, message = "Error. Please check values entered" });
             }
-
             if (EquipmentCount.Id > 0)
             {
                 _context.Attach(EquipmentCount).State = EntityState.Modified;
@@ -65,11 +90,11 @@ namespace MM.Pages.Client
             {
                 _context.EquipmentCount.Add(EquipmentCount);
             }
-             await _context.SaveChangesAsync();
-            return new JsonResult( new { success = true, message = "Saved successfully" });
+            await _context.SaveChangesAsync();
+            return new JsonResult(new { success = true, message = "Saved successfully" });
         }
 
-         public async Task<IActionResult> OnGetDeleteAsync(int? id)
+        public async Task<IActionResult> OnGetDeleteAsync(int? id)
         {
 
             if (id == null)

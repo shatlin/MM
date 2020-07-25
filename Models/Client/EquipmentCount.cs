@@ -16,7 +16,7 @@ namespace MM.ClientModels
 
         [Display(Name = "Available Count", Prompt = "Please enter available count")]
         [Required(ErrorMessage = "Available count is required")]
-        public int AvaialbleCount { get; set; }
+        public int AvailableCount { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }

@@ -42,8 +42,15 @@ public static partial class Seeder
 {
     public static void SeedPlanFrequency(this ModelBuilder modelBuilder)
     {
-
-    }
+            modelBuilder.Entity<PlanFrequency>().HasData(
+                          new PlanFrequency { Id = 1, Name = "Daily", Description = "Daily", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new PlanFrequency { Id = 2, Name = "Weekly", Description = "Weekly", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new PlanFrequency { Id = 3, Name = "Monthly", Description = "Monthly", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new PlanFrequency { Id = 4, Name = "Quarterly", Description = "Quarterly", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new PlanFrequency { Id = 5, Name = "Yearly", Description = "Yearly", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new PlanFrequency { Id = 6, Name = "Life Time", Description = "Life Time", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                          );
+        }
 }
 }
 

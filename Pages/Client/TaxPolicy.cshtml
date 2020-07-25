@@ -47,10 +47,10 @@
                             &nbsp;
                         </div>
                         <div class="col-3 text-right">
-                            <input type="submit" value="Add" class="form-btn" id="modal-create-edit" />
+                            <input type="submit" value="Add" class="btn btn-outline-success" id="modal-create-edit" />
                         </div>
                         <div class="col-2  text-right ">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -108,10 +108,10 @@
                             &nbsp;
                         </div>
                         <div class="col-3 text-right">
-                            <input type="submit" value="Delete" class="btn btn-danger" />
+                            <input type="submit" value="Delete" class="btn btn-outline-danger" />
                         </div>
                         <div class="col-2  text-right ">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -124,7 +124,7 @@
 <!-- #region ToholdGrid -->
 
 <partial name="_CRUDHeader" , model='new Header{name="Manage Tax Policy", description="Here you can manage Tax Policies of your application"}'>
-
+    <div class="container">
         <div class="reg-container row">
             <!--  Personal -->
             <div class="col-12">
@@ -133,7 +133,7 @@
                         <div class="card-body reg-card-body">
                             <div class="row">
                                 <div class="col-3 text-left pb-3">
-                                    <input value="Add New" class="btn btn-success btn-sm" data-toggle="modal" data-target="#AddEditModal" onclick="SetUpPopupToAddRecord()">
+                                    <input value="Add New" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#AddEditModal" onclick="SetUpPopupToAddRecord()">
                                 </div>
                                 <div class="col-9 text-left pb-3">
                                 </div>
@@ -144,7 +144,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
 
     <!-- #endregion ToholdGrid-->
 
@@ -169,8 +169,8 @@
                         data: "id",
                         "render": function (data, type, row, meta) {
                             {
-                                return '<a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' +
-                                    '<a class="btn btn-danger btn-sm" href="#" data-toggle="modal"  data-target="#DeleteModal" onClick="SetUpPopupToDeleteRecord(' + '\'' + row.id + ';' + row.name + ';' + row.description + '\'' + ')" ><i class="fas fa-trash mr-10"></i>&nbsp;Delete</a> ';
+                                return '<a class="btn btn-outline-info btn-sm mr-3" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' +
+                                    '<a class="btn btn-outline-danger btn-sm" href="#" data-toggle="modal"  data-target="#DeleteModal" onClick="SetUpPopupToDeleteRecord(' + '\'' + row.id + ';' + row.name + ';' + row.description + '\'' + ')" ><i class="fas fa-trash mr-10"></i>&nbsp;Delete</a> ';
                             }
                         },
                         orderable: false,

@@ -20,11 +20,13 @@ namespace MM.ClientModels
         public DateTime EndDate { get; set; }
         public DateTime BenefitStartDate { get; set; }
         public DateTime BenefitEndDate { get; set; }
-        public DateTime IsActive { get; set; }
+        public bool IsActive { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
+
+        public virtual RelatedTo RelatedTo { get; set; }
 
         public virtual ICollection<PromotionDetail> PromotionDetail { get; set; }
         public virtual ICollection<PromotionResponse> PromotionResponse { get; set; }

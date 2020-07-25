@@ -41,6 +41,12 @@ namespace MM.ClientModels
     {
         public static void SeedEventMinuteStatus(this ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<EventMinuteStatus>().HasData(
+                          new EventMinuteStatus { Id = 1, Name = "In-Progress", Description = "Under preperation", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new EventMinuteStatus { Id = 2, Name = "Prepared", Description = "Prepared & awaiting approval", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new EventMinuteStatus { Id = 3, Name = "Approved", Description = "Approved", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new EventMinuteStatus { Id = 4, Name = "Shared", Description = "Shared with concerned people", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                          );
 
         }
     }

@@ -40,7 +40,11 @@ namespace MM.ClientModels
     {
         public static void SeedPromotionResponseType(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<PromotionResponseType>().HasData(
+                          new PromotionResponseType { Id = 1, Name = "Call", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new PromotionResponseType { Id = 2, Name = "Email", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                          new PromotionResponseType { Id = 3, Name = "SMS", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                          );
         }
     }
 }

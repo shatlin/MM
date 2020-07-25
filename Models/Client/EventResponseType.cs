@@ -41,7 +41,13 @@ namespace MM.ClientModels
     {
         public static void SeedEventResponseType(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<EventResponseType>().HasData(
+                                      new EventResponseType { Id = 1, Name = "Admin", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                      new EventResponseType { Id = 2, Name = "Organizer", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                      new EventResponseType { Id = 3, Name = "Sponsor", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                      new EventResponseType { Id = 4, Name = "Facilitator", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                                      new EventResponseType { Id = 5, Name = "Guest", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                                      );
         }
     }
 }

@@ -14,7 +14,7 @@ namespace MM.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("MM.CoreModels.ClientDBConnectionMaster", b =>
@@ -37,7 +37,7 @@ namespace MM.Migrations
                         new
                         {
                             Id = 1,
-                            ConnectionString = "Server = localhost;  Uid = root; Pwd = MMRootPwd2#;Database =mm_"
+                            ConnectionString = "Server = localhost;  Uid = root; Pwd = Aji@2020;Database =mm_"
                         });
                 });
 
@@ -229,15 +229,21 @@ namespace MM.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("AccountName")
+                        .IsRequired()
+                        .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
+                        .HasMaxLength(50);
+
                     b.Property<string>("AccountNumber")
                         .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
-                    b.Property<int?>("AccountTypeId")
+                    b.Property<int>("AccountTypeId")
                         .HasColumnType("int");
 
                     b.Property<string>("BankName")
+                        .IsRequired()
                         .HasColumnType("varchar(50) CHARACTER SET utf8mb4")
                         .HasMaxLength(50);
 
@@ -1384,7 +1390,9 @@ namespace MM.Migrations
                     b.HasOne("MM.CoreModels.CoreAccountType", "CoreAccountType")
                         .WithMany("CoreBankingDetail")
                         .HasForeignKey("AccountTypeId")
-                        .HasConstraintName("FK_BankingDetail_AccountType");
+                        .HasConstraintName("FK_BankingDetail_AccountType")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MM.CoreModels.CoreBilling", b =>

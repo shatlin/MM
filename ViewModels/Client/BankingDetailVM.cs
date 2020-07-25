@@ -10,7 +10,8 @@ namespace MM.ClientModels
     public partial class BankingDetailVM
     {
         public int Id { get; set; }
-        public string AccName { get; set; }
+        public string AccountName { get; set; }
+        public string AccountTypeName { get; set; }
         public int AccountTypeId { get; set; }
         public string BankName { get; set; }
         public string BranchName { get; set; }

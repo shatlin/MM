@@ -10,33 +10,33 @@ using MM.ClientModels;
 
 namespace MM.Pages.Client
 {
-    public class EquipmentModel : PageModel
+    public class TaxScopeModel : PageModel
     {
         private readonly ClientDbContext _context;
 
-        public EquipmentModel(ClientDbContext context)
+        public TaxScopeModel(ClientDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public IList<Equipment> EquipmentList { get;set; }
+        public IList<TaxScope> TaxScopeList { get;set; }
 
         [BindProperty]
-        public Equipment Equipment { get; set; }
+        public TaxScope TaxScope { get; set; }
 
         public async Task<IActionResult> OnGetListAsync()
         {
-            return new JsonResult(await _context.Equipment.ToListAsync());
+            return new JsonResult(await _context.TaxScope.ToListAsync());
         }
 
         public async Task<IActionResult>  OnGetSelectedRecordAsync(int id)
         {
-            return new JsonResult(await _context.Equipment.Where(x=>x.Id==id).FirstOrDefaultAsync());
+            return new JsonResult(await _context.TaxScope.Where(x=>x.Id==id).FirstOrDefaultAsync());
         }
     
  
-        public async Task<IActionResult> OnPostSaveAsync(Equipment Equipment)
+        public async Task<IActionResult> OnPostSaveAsync(TaxScope TaxScope)
         {
 
             if (!ModelState.IsValid)
@@ -44,13 +44,13 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "Error. Please check values entered" });
             }
 
-            if (Equipment.Id > 0)
+            if (TaxScope.Id > 0)
             {
-                _context.Attach(Equipment).State = EntityState.Modified;
+                _context.Attach(TaxScope).State = EntityState.Modified;
             }
             else
             {
-                _context.Equipment.Add(Equipment);
+                _context.TaxScope.Add(TaxScope);
             }
              await _context.SaveChangesAsync();
             return new JsonResult( new { success = true, message = "Saved successfully" });
@@ -64,11 +64,11 @@ namespace MM.Pages.Client
                 return new JsonResult(new { success = false, message = "No such record found to delete" });
             }
 
-            Equipment = await _context.Equipment.FindAsync(id);
+            TaxScope = await _context.TaxScope.FindAsync(id);
 
-            if (Equipment != null)
+            if (TaxScope != null)
             {
-                _context.Equipment.Remove(Equipment);
+                _context.TaxScope.Remove(TaxScope);
                 await _context.SaveChangesAsync();
                 return new JsonResult(new { success = true, message = "Deleted successfully" });
             }

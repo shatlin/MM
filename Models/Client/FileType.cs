@@ -44,7 +44,12 @@ namespace MM.ClientModels
     {
         public static void SeedFileType(this ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<FileType>().HasData(
+                              new FileType { Id = 1, Name = "MS-Word", Description = "Microsoft Word", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                              new FileType { Id = 2, Name = "MS-Excel", Description = "Microsoft Excel", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                              new FileType { Id = 3, Name = "PDF", Description = "PDF", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                              new FileType { Id = 4, Name = "Zip", Description = "Zip File", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                              );
         }
     }
 }

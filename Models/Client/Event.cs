@@ -33,7 +33,7 @@ namespace MM.ClientModels
         public int OrganizerId { get; set; }
 
         [Display(Name = "Event Title", Prompt = "Please enter event title")]
-        [Required(ErrorMessage = "Event Name is required")]
+        [Required(ErrorMessage = "Event title is required")]
         public string Title { get; set; }
 
         [Display(Name = "Time Zone", Prompt = "Please select event timezone")]
