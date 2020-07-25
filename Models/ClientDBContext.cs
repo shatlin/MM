@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -7,7 +8,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace MM.ClientModels
 {
-    public partial class ClientDbContext : IdentityDbContext
+   
+
+    public partial class ClientDbContext : IdentityDbContext <ApplicationUser, ApplicationRole, string>
     {
         private string ConnectionString { get; set; }
 
@@ -80,7 +83,7 @@ namespace MM.ClientModels
         public virtual DbSet<MarketingGroupXref> MarketingGroupXref { get; set; }
         public virtual DbSet<MarketingProfile> MarketingProfile { get; set; }
         public virtual DbSet<MarketingProfileXref> MarketingProfileXref { get; set; }
-        public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<MemberUser> MemberUser { get; set; }
         public virtual DbSet<MemberAddress> MemberAddress { get; set; }
         public virtual DbSet<MemberAffliationXref> MemberAffliationXref { get; set; }
         public virtual DbSet<MemberBankingDetail> MemberBankingDetail { get; set; }
@@ -139,6 +142,24 @@ namespace MM.ClientModels
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>(entity => entity.Property(m => m.Id).HasMaxLength(50));
+            modelBuilder.Entity<ApplicationUser>(entity => entity.Property(m => m.NormalizedEmail).HasMaxLength(50));
+            modelBuilder.Entity<ApplicationUser>(entity => entity.Property(m => m.NormalizedUserName).HasMaxLength(50));
+            modelBuilder.Entity<ApplicationRole>(entity => entity.Property(m => m.Id).HasMaxLength(50));
+            modelBuilder.Entity<ApplicationRole>(entity => entity.Property(m => m.NormalizedName).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity => entity.Property(m => m.LoginProvider).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity => entity.Property(m => m.ProviderKey).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserLogin<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserRole<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserRole<string>>(entity => entity.Property(m => m.RoleId).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.Property(m => m.LoginProvider).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.Property(m => m.Name).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity => entity.Property(m => m.Id).HasMaxLength(50));
+            modelBuilder.Entity<IdentityUserClaim<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(50));
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity => entity.Property(m => m.Id).HasMaxLength(50));
+            modelBuilder.Entity<IdentityRoleClaim<string>>(entity => entity.Property(m => m.RoleId).HasMaxLength(50));
 
             modelBuilder.ApplyConfiguration(new AccountTypeConfiguration()).SeedAccountType();
             modelBuilder.ApplyConfiguration(new AddressConfiguration()).SeedAddress();
@@ -257,7 +278,7 @@ namespace MM.ClientModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL(new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ConnectionStrings")["ClientDBContext"]);
+                optionsBuilder.UseMySQL(ConnectionString);
             }
         }
 

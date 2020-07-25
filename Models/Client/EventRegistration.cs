@@ -20,7 +20,7 @@ namespace MM.ClientModels
 
         public virtual Event Event { get; set; }
         public virtual EventResponseType EventResponseType { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
     }
 
 public partial class EventRegistrationConfiguration : IEntityTypeConfiguration<EventRegistration>

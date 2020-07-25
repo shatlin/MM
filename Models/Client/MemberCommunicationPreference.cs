@@ -17,7 +17,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual CommunicationType CommunicationType { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
     }
     public partial class MemberCommunicationPreferenceConfiguration : IEntityTypeConfiguration<MemberCommunicationPreference>
     {

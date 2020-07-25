@@ -18,7 +18,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual Event Event { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
     }
 
 public partial class EventAttendanceConfiguration : IEntityTypeConfiguration<EventAttendance>

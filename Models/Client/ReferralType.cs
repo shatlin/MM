@@ -8,7 +8,7 @@ namespace MM.ClientModels
     {
         public ReferralType()
         {
-            Member = new HashSet<Member>();
+            Member = new HashSet<MemberUser>();
             User = new HashSet<ClientUser>();
         }
 
@@ -20,7 +20,7 @@ namespace MM.ClientModels
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
 
-        public virtual ICollection<Member> Member { get; set; }
+        public virtual ICollection<MemberUser> Member { get; set; }
         public virtual ICollection<ClientUser> User { get; set; }
     }
 

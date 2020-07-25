@@ -19,7 +19,7 @@ namespace MM.ClientModels
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
 
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
         public virtual PlanDetail MemberPlanDetail { get; set; }
         public virtual PlanMaster MemberPlanDetailNavigation { get; set; }
         public virtual Organization Organization { get; set; }

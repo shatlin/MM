@@ -6,13 +6,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Member\Account\**" />
+    <Content Remove="Pages\Member\Account\**" />
+    <EmbeddedResource Remove="Pages\Member\Account\**" />
+    <None Remove="Pages\Member\Account\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pages\Client\Event.cshtml.cs" />
     <Compile Remove="Pages\Login.cshtml.cs" />
     <Compile Remove="Pages\Logout.cshtml.cs" />
+    <Compile Remove="personal\ClientOrg.cshtml.cs" />
+    <Compile Remove="personal\Register-old.schtml.cs" />
+    <Compile Remove="personal\Register.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Pages\Login.cshtml" />
     <Content Remove="Pages\Logout.cshtml" />
+    <Content Remove="personal\ClientOrg.cshtml" />
+    <Content Remove="personal\Register-old.cshtml" />
+    <Content Remove="personal\Register.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,10 +52,7 @@
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
     <PackageReference Include="Pomelo.JsonObject" Version="2.2.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="personal\" />
+    <PackageReference Include="SaasKit.Multitenancy" Version="1.1.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -77,6 +88,10 @@
     <None Include="Pages\Client\Account\ResetPasswordConfirmation.cshtml" />
     <None Include="Pages\Client\Account\_StatusMessage.cshtml" />
     <None Include="Pages\Client\Account\_ViewImports.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Core\" />
   </ItemGroup>
 
 </Project>

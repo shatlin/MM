@@ -81,7 +81,7 @@ namespace MM.Pages.Client
             return new JsonResult(await _context.BankingDetail.Where(x=>x.Id==id).FirstOrDefaultAsync());
         }
     
-        public async Task<IActionResult> OnPostSaveAsync(BankingDetail BankingDetail)
+        public async Task<IActionResult> OnPostSaveAsync()
         {
             if (!ModelState.IsValid)
             {

@@ -1,19 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Identity
-
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using MM.ClientModels
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-
-
-
-            <a id="manage" class="nav-link text-dark"  asp-page="/Client/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)!</a>
+            <a id="manage" class="nav-link text-dark" asp-page="/Client/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)!</a>
         </li>
         <li class="nav-item">
-            <form id="logoutForm" class="form-inline"  asp-page="/Client/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+            <form id="logoutForm" class="form-inline" asp-page="/Client/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
                 <button id="logout" type="submit" class="nav-link btn btn-link text-dark">LOGOUT</button>
             </form>
         </li>
@@ -21,10 +18,10 @@
     else
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" id="register"  asp-page="/Client/Account/Register">REGISTER</a>
+            <a class="nav-link text-dark" id="register" asp-page="/Client/Account/Register">REGISTER</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" id="login"  asp-page="/Client/Account/Login">LOGIN</a>
+            <a class="nav-link text-dark" id="login" asp-page="/Client/Account/Login">LOGIN</a>
         </li>
     }
 </ul>

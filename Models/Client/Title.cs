@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using System;
 using System.Collections.Generic;
 
@@ -10,8 +9,7 @@ namespace MM.ClientModels
     {
         public Title()
         {
-            Member = new HashSet<Member>();
-            User = new HashSet<ClientUser>();
+            User = new HashSet<ApplicationUser>();
         }
 
         public int Id { get; set; }
@@ -22,8 +20,7 @@ namespace MM.ClientModels
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
 
-        public virtual ICollection<Member> Member { get; set; }
-        public virtual ICollection<ClientUser> User { get; set; }
+        public virtual ICollection<ApplicationUser> User { get; set; }
     }
 
     public partial class TitleConfiguration : IEntityTypeConfiguration<Title>
@@ -48,12 +45,11 @@ namespace MM.ClientModels
         public static void SeedTitle(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Title>().HasData(
-                new Title { Id = 10, Name = "Mr", Description = "Mr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Title { Id = 20, Name = "Mrs", Description = "Mrs", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Title { Id = 30, Name = "Ms", Description = "Ms", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new Title { Id = 40, Name = "Dr", Description = "Dr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                new Title { Id = 1, Name = "Mr", Description = "Mr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Title { Id = 2, Name = "Mrs", Description = "Mrs", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Title { Id = 3, Name = "Ms", Description = "Ms", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new Title { Id = 4, Name = "Dr", Description = "Dr", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
               );
-                                     
         }
     }
 }

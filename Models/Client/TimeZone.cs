@@ -47,7 +47,7 @@ namespace MM.ClientModels
         public static void SeedTimeZone(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ClientTimeZone>().HasData(
-               new ClientTimeZone { Id = 1, Name = "Dateline Standard Time", Description = "(GMT-12:00) International Date Line West", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                        new ClientTimeZone { Id = 1, Name = "Dateline Standard Time", Description = "(GMT-12:00) International Date Line West", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                         new ClientTimeZone { Id = 2, Name = "Samoa Standard Time", Description = "(GMT-11:00) MIdway Island, Samoa", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                         new ClientTimeZone { Id = 3, Name = "Hawaiian Standard Time", Description = "(GMT-10:00) Hawaii", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
                         new ClientTimeZone { Id = 4, Name = "Alaskan Standard Time", Description = "(GMT-09:00) Alaska", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },

@@ -33,7 +33,7 @@ namespace MM.ClientModels
 
         public virtual AddressType AddressType { get; set; }
         public virtual MemberBranch Branch { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
         public virtual Organization Organization { get; set; }
     }
 

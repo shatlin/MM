@@ -14,7 +14,11 @@ using MM.ClientModels;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Identity;
-/* This is Aji's Change*/
+using Microsoft.AspNetCore.Routing;
+using MM.TenantModels;
+using Microsoft.AspNetCore.Http;
+using SaasKit.Multitenancy;
+
 namespace MM
 {
     public class Startup
@@ -33,25 +37,32 @@ namespace MM
             services.AddRazorPages();
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
             services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));
-       
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddMultitenancy<Tenant, TenantResolver>();
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 12;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
+                //options.SignIn.RequireConfirmedAccount = true;
             }).AddEntityFrameworkStores<ClientDbContext>()
               .AddDefaultTokenProviders().AddDefaultUI();
 
+            services.Configure<RouteOptions>(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+                options.AppendTrailingSlash = true;
+                //options.ContraintMap.Add("Custom", typeof(CustomConstraint));
+            });
 
-       
             services.ConfigureApplicationCookie(options =>
             {
-                options.LoginPath = "/Login";
-                options.LogoutPath = "/Logout";
-                options.AccessDeniedPath = "/AccessDenied";
+                options.LoginPath = "/Client/Account/Login";
+                options.LogoutPath = "/Client/Account//Logout";
+                options.AccessDeniedPath = "/Client/Account/AccessDenied";
             });
 
             services
@@ -80,6 +91,22 @@ namespace MM
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseMultitenancy<Tenant>();
+
+            //app.Use(async (ctx, next) =>
+            //{
+            //    if (ctx.GetTenant<Tenant>() != null)
+            //    {
+            //        var tenant = ctx.GetTenant<Tenant>();
+            //        ctx.Response.Redirect("/member/index", true);
+            //        ctx.Items.Add("CURRENT_TENANT", tenant);
+            //    }
+            //    else
+            //    {
+            //     await next();
+            //    }
+            //});
+
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

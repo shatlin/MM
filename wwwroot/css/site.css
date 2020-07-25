@@ -514,7 +514,7 @@ html {
     line-height: 60px;
     z-index: 9999;
     background-color: white;
-    padding-top:50px;
+  margin-top:50px;
 }
 
     .footer a {

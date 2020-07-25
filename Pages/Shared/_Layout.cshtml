@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" />
-
     <link href="~/css/PlayfairDisplay.css" rel="stylesheet" />
     <link href="~/css/site.css" rel="stylesheet" />
     <link href="~/css/Poppins.css" rel="stylesheet" />
@@ -28,15 +27,13 @@
 </head>
 <body>
     <partial name="_Nav" />
-    <div class="container-fluid pl-0 pr-0">
+    <div class="container-fluid pl-0 pr-0" style="margin-bottom:120px">
         <main role="main" >
             @RenderBody()
         </main>
     </div>
     <partial name="_Footer" />
-    
     @RenderSection("Scripts", required: false)
-
 </body>
 
 </html>

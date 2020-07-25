@@ -8,7 +8,7 @@ namespace MM.ClientModels
     {
         public MemberStatus()
         {
-            Member = new HashSet<Member>();
+            Member = new HashSet<MemberUser>();
         }
 
         public int Id { get; set; }
@@ -19,7 +19,7 @@ namespace MM.ClientModels
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
 
-        public virtual ICollection<Member> Member { get; set; }
+        public virtual ICollection<MemberUser> Member { get; set; }
     }
 
 

@@ -19,7 +19,7 @@ namespace MM.ClientModels
         public int? ModifiedBy { get; set; }
 
         public virtual AccountType AccountType { get; set; }
-        public virtual Member Member { get; set; }
+        public virtual MemberUser Member { get; set; }
     }
     public partial class MemberBankingDetailConfiguration : IEntityTypeConfiguration<MemberBankingDetail>
     {
