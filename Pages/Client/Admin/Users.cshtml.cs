@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,18 +20,17 @@ using MM.CoreModels;
 namespace MM.Pages.Client.Account
 {
     [AllowAnonymous]
-    public class RegisterModel : PageModel
+    public class UserModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly CoreDBContext coreDbConext;
-        public RegisterModel(
+        public UserModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger, RoleManager<ApplicationRole> roleManager,
+            ILogger<RegisterModel> logger,
             IEmailSender emailSender, CoreDBContext context)
         {
             _userManager = userManager;
@@ -41,7 +38,6 @@ namespace MM.Pages.Client.Account
             _logger = logger;
             _emailSender = emailSender;
             coreDbConext = context;
-            _roleManager = roleManager;
         }
 
         [BindProperty]
@@ -123,93 +119,32 @@ namespace MM.Pages.Client.Account
             if (ModelState.IsValid)
             {
                 string ConnectionString = coreDbConext.TenantConfig.FirstOrDefault().ConnectionString + ClientOrganization.Name;
+                Tenant tenant = new Tenant();
+                tenant.ClientName =ClientOrganization.Name;
+                tenant.DbName = "mm_" + ClientOrganization.Name;
+                tenant.ConnectionString = ConnectionString;
+                coreDbConext.Tenant.Add(tenant);
+                await coreDbConext.SaveChangesAsync();
 
-                var tenantexists = coreDbConext.Tenant.Any(x => x.ClientName == ClientOrganization.Name);
-                if (!tenantexists)
-                {
-                    Tenant tenant = new Tenant();
-                    tenant.ClientName = ClientOrganization.Name;
-                    tenant.DbName = "mm_" + ClientOrganization.Name;
-                    tenant.ConnectionString = ConnectionString;
-                    coreDbConext.Tenant.Add(tenant);
-                    await coreDbConext.SaveChangesAsync();
-
-                    var tenantuserexists = coreDbConext.TenantUserTenant.Any(x => x.Email == AppUser.Email);
-
-                    if (!tenantuserexists)
-                    {
-                        TenantUserTenant tenantUserTenant = new TenantUserTenant();
-                        tenantUserTenant.Email = AppUser.Email;
-                        tenantUserTenant.TenantId = tenant.Id;
-                        coreDbConext.TenantUserTenant.Add(tenantUserTenant);
-                        await coreDbConext.SaveChangesAsync();
-                    }
-                }
+                TenantUserTenant tenantUserTenant = new TenantUserTenant();
+                tenantUserTenant.Email = AppUser.Email;
+                tenantUserTenant.TenantId = tenant.Id;
+                coreDbConext.TenantUserTenant.Add(tenantUserTenant);
+                await coreDbConext.SaveChangesAsync();
 
                 ClientDbContext clientDbContext = new ClientDbContext(ConnectionString);
                 clientDbContext.Database.EnsureCreated();
 
                 AppUser.UserName = AppUser.Email;
-                AppUser.UserTypeId = 1;
-
                 var result = await _userManager.CreateAsync(AppUser, AppUser.Pwd);
 
                 if (result.Succeeded)
                 {
                     clientDbContext.ClientOrganization.Add(ClientOrganization);
 
-                    ClientUser.ApplicaitonUserId = AppUser.Id;
+                    ClientUser.ApplicaitonUserId= AppUser.Id;
                     clientDbContext.ClientUser.Add(ClientUser);
                     await clientDbContext.SaveChangesAsync();
-                    var adminfullAccessRole= new ApplicationRole("Admin-Full Access");
-                   
-                   
-                  
-
-                    await _roleManager.CreateAsync(adminfullAccessRole);
-                    var adminreadAccessRole = new ApplicationRole("Admin-Read Access");
-
-                    await _roleManager.CreateAsync(adminreadAccessRole);
-
-                    var noadminAccessRole = new ApplicationRole("No Admin Access");
-                    await _roleManager.CreateAsync(noadminAccessRole);
-
-                    var limitedadminAccessRole = new ApplicationRole("Limited Admin");
-                    await _roleManager.CreateAsync(limitedadminAccessRole);
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members","Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "View"));
-
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Members", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Event", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Donations", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("NewLetter", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Setup", "View"));
-
-
-                    await _userManager.AddToRoleAsync(AppUser, "Admin-Full Access");
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -239,7 +174,7 @@ namespace MM.Pages.Client.Account
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
+            
             return Page();
         }
     }

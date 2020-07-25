@@ -19,13 +19,14 @@ namespace MM.ClientModels
           
         }
 
-        public int TitleId { get; set; }
+       
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public DateTime? BirthDay { get; set; }
         public int GenderId { get; set; }
-
+        public int TitleId { get; set; }
+        public int UserTypeId { get; set; }
         [NotMapped] 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -40,7 +41,8 @@ namespace MM.ClientModels
 
         public virtual Gender Gender { get; set; }
         public virtual Title Title { get; set; }
-
+        public virtual UserType UserType { get; set; }
+       
         public virtual ICollection<ClientUser> ClientUser { get; set; }
         public virtual ICollection<MemberUser> MemberUser { get; set; }
 
@@ -78,8 +80,12 @@ namespace MM.ClientModels
                 .HasForeignKey(d => d.TitleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_User_Title");
-         
 
+            builder.HasOne(d => d.UserType)
+               .WithMany(p => p.User)
+               .HasForeignKey(d => d.UserTypeId)
+               .OnDelete(DeleteBehavior.ClientSetNull)
+               .HasConstraintName("FK_User_UserType");
         }
 
 

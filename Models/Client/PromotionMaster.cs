@@ -46,8 +46,6 @@ public partial class PromotionMasterConfiguration : IEntityTypeConfiguration<Pro
 
                 builder.Property(e => e.EndDate).HasColumnType("datetime");
 
-                builder.Property(e => e.IsActive).HasColumnType("datetime");
-
                 builder.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
                 builder.Property(e => e.Name).HasMaxLength(200);

@@ -35,7 +35,7 @@ namespace MM.ClientModels
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<ClientOrganization> ClientOrganization { get; set; }
         public virtual DbSet<ClientPlanHistory> ClientPlanHistory { get; set; }
-        public virtual DbSet<ClientType> ClientType { get; set; }
+        public virtual DbSet<UserType> UserType { get; set; }
         public virtual DbSet<CommunicationPreference> CommunicationPreference { get; set; }
         public virtual DbSet<CommunicationType> CommunicationType { get; set; }
         public virtual DbSet<CorrespondenceType> CorrespondenceType { get; set; }
