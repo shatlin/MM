@@ -41,7 +41,7 @@ namespace MM.Pages.Client
         public List<PromotionMaster> PromotionList { get; set; }
 
         [BindProperty]
-        public List<Member> MemberList { get; set; }
+        public List<MemberUser> MemberList { get; set; }
 
         [BindProperty]
         public List<PromotionResponseType> ResponseList { get; set; }
@@ -54,8 +54,8 @@ namespace MM.Pages.Client
             PromotionList = _context.PromotionMaster.ToList();
             Promotions = new SelectList(PromotionList, nameof(PromotionMaster.Id), nameof(PromotionMaster.Name));
 
-            MemberList = _context.Member.ToList();
-            Members = new SelectList(MemberList, nameof(Member.Id), nameof(Member.FirstName), nameof(Member.LastName));
+            MemberList = _context.MemberUser.ToList();
+            Members = new SelectList(MemberList, nameof(MemberUser.Id), nameof(MemberUser.FirstName), nameof(MemberUser.LastName));
 
             ResponseList = _context.PromotionResponseType.ToList();
             ResponseTypes = new SelectList(ResponseList, nameof(PromotionResponseType.Id), nameof(PromotionResponseType.Name));
