@@ -46,7 +46,7 @@ namespace MM
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.SignIn.RequireConfirmedAccount = true;
+                //options.SignIn.RequireConfirmedAccount = true;
             }).AddEntityFrameworkStores<ClientDbContext>()
               .AddDefaultTokenProviders().AddDefaultUI();
 
