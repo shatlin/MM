@@ -18,7 +18,8 @@ using Microsoft.AspNetCore.Routing;
 using MM.TenantModels;
 using Microsoft.AspNetCore.Http;
 using SaasKit.Multitenancy;
-
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Services.Email;
 namespace MM
 {
     public class Startup
@@ -46,17 +47,17 @@ namespace MM
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                //options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = true;
             }).AddEntityFrameworkStores<ClientDbContext>()
               .AddDefaultTokenProviders().AddDefaultUI();
 
-            services.Configure<RouteOptions>(options =>
-            {
-                options.LowercaseUrls = true;
-                options.LowercaseQueryStrings = true;
-                options.AppendTrailingSlash = true;
-                //options.ContraintMap.Add("Custom", typeof(CustomConstraint));
-            });
+            //services.Configure<RouteOptions>(options =>
+            //{
+            //    options.LowercaseUrls = true;
+            //    options.LowercaseQueryStrings = false;
+            //    options.AppendTrailingSlash = true;
+            //    //options.ContraintMap.Add("Custom", typeof(CustomConstraint));
+            //});
 
             services.ConfigureApplicationCookie(options =>
             {
@@ -65,6 +66,17 @@ namespace MM
                 options.AccessDeniedPath = "/Client/Account/AccessDenied";
             });
 
+
+            services.AddTransient<IEmailSender, EmailSender>(i =>
+                new EmailSender(
+                    Configuration["EmailSender:Host"],
+                    Configuration.GetValue<int>("EmailSender:Port"),
+                    Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                    Configuration["EmailSender:UserName"],
+                    Configuration["EmailSender:Password"]
+                )
+            );
+
             services
                   .AddMvc()
                   .AddRazorPagesOptions(options =>
@@ -72,15 +84,15 @@ namespace MM
                       options.Conventions.AuthorizeFolder("/Client");
                   });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("SetUp", policy => policy.RequireClaim("Setup"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("SetUp", policy => policy.RequireClaim("Setup"));
+            //});
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("AllowSetupDelete", policy => policy.RequireClaim("Setup","Delete"));
-            });
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("AllowSetupDelete", policy => policy.RequireClaim("Setup","Delete"));
+            //});
 
         }
 
