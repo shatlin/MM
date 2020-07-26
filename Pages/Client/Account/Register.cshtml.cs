@@ -162,11 +162,8 @@ namespace MM.Pages.Client.Account
                     clientDbContext.ClientUser.Add(ClientUser);
                     await clientDbContext.SaveChangesAsync();
                     var adminfullAccessRole= new ApplicationRole("Admin-Full Access");
-                   
-                   
-                  
-
                     await _roleManager.CreateAsync(adminfullAccessRole);
+
                     var adminreadAccessRole = new ApplicationRole("Admin-Read Access");
 
                     await _roleManager.CreateAsync(adminreadAccessRole);

@@ -72,6 +72,16 @@ namespace MM
                       options.Conventions.AuthorizeFolder("/Client");
                   });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("SetUp", policy => policy.RequireClaim("Setup"));
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AllowSetupDelete", policy => policy.RequireClaim("Setup","Delete"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

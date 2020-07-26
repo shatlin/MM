@@ -1,11 +1,26 @@
 ﻿@page
 @model MM.Pages.Client.TitleModel
 @using MM.ClientModels;
+@using Microsoft.AspNetCore.Authorization;
+@inject IAuthorizationService AuthorizationService
+@using Microsoft.AspNetCore.Identity;
 @using MM.Helper;
 @{
     ViewData["Title"] = "Index";
+
+    if ((AuthorizationService.AuthorizeAsync(User, "AllowSetupDelete")).Result.Succeeded)
+    {
+        Model.AuthorizedForDelete = true;
+    }
+    else
+    {
+        Model.AuthorizedForDelete = false;
+    }
+
 }
 @{ Layout = "_LayoutClient";}
+
+
 
 <!-- #region AddEditModalSection -->
 
@@ -60,8 +75,6 @@
 
 
 <!-- #endregion AddEditModalSection-->
-
-
 <!-- #region DeleteModalRegion -->
 
 <div class="modal" style="min-width:500px" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
@@ -150,7 +163,7 @@
     <script>
 
         var dataTable;
-
+        var showdelete = '@Model.AuthorizedForDelete';
         $(document).ready(function () {
             $('#list').show();
             dataTable = $('#list').DataTable({
@@ -168,9 +181,12 @@
                         data: "id",
                         "render": function (data, type, row, meta) {
                             {
-                                return '<a class="btn btn-outline-info btn-sm mr-3" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' +
-                                    '<a class="btn btn-outline-danger btn-sm" href="#" data-toggle="modal"  data-target="#DeleteModal" onClick="SetUpPopupToDeleteRecord(' + '\'' + row.id + ';' + row.name + ';' + row.description + '\'' + ')" ><i class="fas fa-trash mr-10"></i>&nbsp;Delete</a> ';
-                            }
+                                if (showdelete=='true') {
+                                    return '<a class="btn btn-outline-info btn-sm mr-3" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' +
+                                        '<a class="btn btn-outline-danger btn-sm" href="#" data-toggle="modal"  data-target="#DeleteModal" onClick="SetUpPopupToDeleteRecord(' + '\'' + row.id + ';' + row.name + ';' + row.description + '\'' + ')" ><i class="fas fa-trash mr-10"></i>&nbsp;Delete</a> ';
+                                }
+                                return '<a class="btn btn-outline-info btn-sm mr-3" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' ;
+                                }
                         },
                         orderable: false,
                         width: "150px"
