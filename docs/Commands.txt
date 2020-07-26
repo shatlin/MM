@@ -5,7 +5,7 @@ Scaffold-DbContext "Server=localhost;Database=mmtest;Uid=root;Pwd=MMRootPwd2#" M
 add-migration InitialMigration -context CoreDbContext
 update-database -context CoreDbContext
 
-add-migration Migration2 -context ClientDBContext
+add-migration Migration1 -context ClientDBContext
 update-database -context ClientDBContext
 
 remove-migration -context ClientDBContext
