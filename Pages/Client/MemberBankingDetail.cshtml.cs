@@ -35,7 +35,7 @@ namespace MM.Pages.Client
         public SelectList AccountTypes { get; set; }
 
         [BindProperty]
-        public List<Member> MembersList { get; set; }
+        public List<MemberUser> MembersList { get; set; }
 
         [BindProperty]
         public List<AccountType> AccountTypeList { get; set; }
@@ -45,8 +45,8 @@ namespace MM.Pages.Client
         // called first time the page is loaded.
         public IActionResult OnGet()
         {
-            MembersList = _context.Member.ToList();
-            Members = new SelectList(MembersList, nameof(Member.Id), nameof(Member.FirstName), nameof(Member.LastName));
+            MembersList = _context.MemberUser.ToList();
+            Members = new SelectList(MembersList, nameof(MemberUser.Id), nameof(MemberUser.FirstName), nameof(MemberUser.LastName));
 
             AccountTypeList = _context.AccountType.ToList();
             AccountTypes = new SelectList(AccountTypeList, nameof(AccountType.Id), nameof(AccountType.Name));
@@ -66,8 +66,8 @@ namespace MM.Pages.Client
                     MemberBankingDetailVM bdVM = new MemberBankingDetailVM
                     {
                         Id = MemberBankingDetail.Id,
-                        MemberFirstName= MemberBankingDetail.Member.FirstName,
-                        MemberLastName = MemberBankingDetail.Member.LastName,
+                        MemberFirstName= MemberBankingDetail.MemberUser.FirstName,
+                        MemberLastName = MemberBankingDetail.MemberUser.LastName,
                         AccountTypeId = MemberBankingDetail.AccountType.Id,
                         AccountTypeName = MemberBankingDetail.AccountType.Name,
                         BankName = MemberBankingDetail.BankName,

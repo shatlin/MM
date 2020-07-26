@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace MM.ClientModels
 {
-    public partial class ClientType
+    public partial class UserType
     {
-        public ClientType()
+        public UserType()
         {
-            //ClientUser = new HashSet<ClientUser>();
+            User = new HashSet<ApplicationUser>();
         }
 
         public int Id { get; set; }
@@ -20,13 +20,13 @@ namespace MM.ClientModels
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
 
-        //public virtual ICollection<ClientUser> ClientUser { get; set; }
+        public virtual ICollection<ApplicationUser> User { get; set; }
     }
 
 
-    public partial class ClientTypeConfiguration : IEntityTypeConfiguration<ClientType>
+    public partial class ClientTypeConfiguration : IEntityTypeConfiguration<UserType>
     {
-        public void Configure(EntityTypeBuilder<ClientType> builder)
+        public void Configure(EntityTypeBuilder<UserType> builder)
         {
 
             builder.Property(e => e.CreatedOn).HasColumnType("datetime");
@@ -45,9 +45,9 @@ namespace MM.ClientModels
     {
         public static void SeedClientType(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ClientType>().HasData(
-                new ClientType { Id = 1, Name = "Individual", Description = "Individual", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
-                new ClientType { Id = 2, Name = "Organization", Description = "Organization", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+            modelBuilder.Entity<UserType>().HasData(
+                new UserType { Id = 1, Name = "Admin", Description = "Admin", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                new UserType { Id = 2, Name = "Member", Description = "Member", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
                  );
 
         }
