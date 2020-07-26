@@ -150,6 +150,11 @@ namespace MM.ClientModels
                     .HasForeignKey(d => d.ReferralTypeId)
                     .HasConstraintName("FK_Member_ReferralType");
 
+            builder.HasOne(d => d.ApplicationUser)
+           .WithMany(p => p.MemberUser)
+           .HasForeignKey(d => d.ApplicaitonUserId)
+           .HasConstraintName("FK_Member_ApplicationUser");
+
         }
 
     }

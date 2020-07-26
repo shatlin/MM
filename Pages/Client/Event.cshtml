@@ -48,20 +48,20 @@
                             </div>
 
                             <div class="form-group mb-4">
-                                <label asp-for=Event.Organizer.Id class="control-label">Event Organizer</label>
-                                <select class="form-control form-input" id="organizer" asp-for=Event.Organizer.Id
+                                <label asp-for=Event.OrganizerId class="control-label">Event Organizer</label>
+                                <select class="form-control form-input" id="organizer" asp-for=Event.OrganizerId
                                         asp-items=Model.Organizers>
                                     <option disabled selected value="-1">Please select Status</option>
                                 </select>
-                                <span asp-validation-for=Event.Organizer.Id class="text-danger"></span>
+                                <span asp-validation-for=Event.OrganizerId class="text-danger"></span>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label asp-for=Event.IsCpdevent class="control-label">CPD Event</label>
                                 <select asp-for=Event.IsCpdevent class="form-control form-input custom-select" id="cpd">
                                     <option disabled selected value="-1">Choose...</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value=true>Yes</option>
+                                    <option value=false>No</option>
                                 </select>
                                 <span asp-validation-for=Event.IsCpdevent class="text-danger"></span>
                             </div>
@@ -70,8 +70,8 @@
                                 <label asp-for=Event.IsChargableEvent class="control-label">Chargeable Event</label>
                                 <select asp-for=Event.IsChargableEvent class="form-control form-input custom-select" id="charge">
                                     <option disabled selected value="-1">Choose...</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value=true>Yes</option>
+                                    <option value=false>No</option>
                                 </select>
                                 <span asp-validation-for=Event.IsChargableEvent class="text-danger"></span>
                             </div>
@@ -80,33 +80,33 @@
                                 <label asp-for=Event.InternalOrExternal class="control-label">Event Category</label>
                                 <select asp-for=Event.InternalOrExternal class="form-control form-input custom-select" id="category">
                                     <option disabled selected value="-1">Choose...</option>
-                                    <option value="Internal">Internal</option>
-                                    <option value="External">External</option>
+                                    <option value=true>Internal</option>
+                                    <option value=false>External</option>
                                 </select>
                                 <span asp-validation-for=Event.InternalOrExternal class="text-danger"></span>
                             </div>
 
                             <div class="form-group mb-4">
-                                <label asp-for=Event.Address.Id class="control-label">Event Address</label>
-                                <select class="form-control form-input" id="address" asp-for=Event.Address.Id
+                                <label asp-for=Event.AddressId class="control-label">Event Address</label>
+                                <select class="form-control form-input" id="address" asp-for=Event.AddressId
                                         asp-items=Model.Addresses>
                                     <option disabled selected value="-1">Please select Event Venue</option>
                                 </select>
-                                <span asp-validation-for=Event.Address.Id class="text-danger"></span>
+                                <span asp-validation-for=Event.AddressId class="text-danger"></span>
                             </div>
 
                             <div class="form-group mb-4">
-                                <label asp-for=Event.TimeZone.Id class="control-label">TimeZone</label>
-                                <select class="form-control form-input" id="timeZone" asp-for=Event.TimeZone.Id
+                                <label asp-for=Event.TimeZoneId class="control-label">TimeZone</label>
+                                <select class="form-control form-input" id="timeZone" asp-for=Event.TimeZoneId
                                         asp-items=Model.TimeZones>
                                     <option disabled selected value="-1">Please select Time Zone</option>
                                 </select>
-                                <span asp-validation-for=Event.Organizer.Id class="text-danger"></span>
+                                <span asp-validation-for=Event.TimeZoneId class="text-danger"></span>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label asp-for=Event.StartDate class="control-label">Event Start Date</label>
-                                <input asp-for=Event.StartDate type="date" class="form-control form-input" id="startDate">
+                                <input asp-for=Event.StartDate type="date" value="@DateTime.Now.ToString("dd/MM/yyyy")" class="form-control form-input" id="startDate">
                                 <span asp-validation-for=Event.StartDate class="text-danger"></span>
                             </div>
 
@@ -156,8 +156,8 @@
                                 <label asp-for=Event.AllowRegistration class="control-label">Allow Registration</label>
                                 <select asp-for=Event.AllowRegistration class="form-control form-input custom-select" id="allowReg">
                                     <option disabled selected value="-1">Choose...</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value=true>Yes</option>
+                                    <option value=false>No</option>
                                 </select>
                                 <span asp-validation-for=Event.AllowRegistration class="text-danger"></span>
                             </div>
@@ -172,8 +172,8 @@
                                 <label asp-for=Event.ShowMaxRegistrationsAllowed class="control-label">Show Max. Registration</label>
                                 <select asp-for=Event.ShowMaxRegistrationsAllowed class="form-control form-input custom-select" id="showMaxReg">
                                     <option disabled selected value="-1">Choose...</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value=true>Yes</option>
+                                    <option value=false>No</option>
                                 </select>
                                 <span asp-validation-for=Event.ShowMaxRegistrationsAllowed class="text-danger"></span>
                             </div>
@@ -182,8 +182,8 @@
                                 <label asp-for=Event.AllowGuestRegistrations class="control-label">Allow Guest Registration</label>
                                 <select asp-for=Event.AllowGuestRegistrations class="form-control form-input custom-select" id="guestReg">
                                     <option disabled selected value="-1">Choose...</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value=true>Yes</option>
+                                    <option value=false>No</option>
                                 </select>
                                 <span asp-validation-for=Event.AllowGuestRegistrations class="text-danger"></span>
                             </div>
@@ -198,8 +198,8 @@
                                 <label asp-for=Event.AllowCancellations class="control-label">Allow Cancellation</label>
                                 <select asp-for=Event.AllowCancellations class="form-control form-input custom-select" id="allowCancel">
                                     <option disabled selected value="-1">Choose...</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value=true>Yes</option>
+                                    <option value=false>No</option>
                                 </select>
                                 <span asp-validation-for=Event.AllowCancellations class="text-danger"></span>
                             </div>
@@ -209,10 +209,6 @@
                                 <input asp-for=Event.CancellationbeforeDays type="number" class="form-control form-input" id="cancelLimit">
                                 <span asp-validation-for=Event.CancellationbeforeDays class="text-danger"></span>
                             </div>
-
-
-
-
 
                         </div>
                     </div>
@@ -348,16 +344,16 @@
                     url: '?handler=List',
                     dataSrc: ''
                 },
-                //"initComplete": function (settings, json) {
-                //    console.log(json);
-                //},
+                "initComplete": function (settings, json) {
+                    console.log(json);
+                },
 
                 "columns": [
-                    { title: "Name", data: "eventUniqueName", "autoWidth": true, },
-                    { title: "Title", data: "title", "autoWidth": true, },
-                    { title: "Category", data: "internalOrExterrnal", "autoWidth": true, },
-                    { title: "Start Date", data: "startDate", "autoWidth": true, },
-                    { title: "Registration Allowed", data: "allowRegistration", "autoWidth": true, },
+                    { title: "Name", data: "eventUniqueName", "autoWidth": true},
+                    { title: "Title", data: "title", "autoWidth": true },
+                    { title: "Is Internal Event", data: "isInternal", "autoWidth": true},
+                    { title: "Start Date", data: "startDate", "autoWidth": true},
+                    { title: "Registration Allowed", data: "allowRegistration", "autoWidth": true},
 
 
                     {
@@ -401,12 +397,43 @@
             $('#allowReg').val('-1').change();
             $('#maxReg').val("");
             $('#showMaxReg').val('-1').change();
-            $('#guest').val('-1').change();
+            $('#guestReg').val('-1').change();
             $('#guestLimit').val("");
             $('#allowCancel').val('-1').change();
             $('#cancelLimit').val("");
 
-            //$("acraisedByTypeId").prop('selectedIndex', 0);
+            //during dev
+
+            $('#name').val("new event");
+            $('#title').val("new event");
+            $('#description').val("event description");
+            $('#organizer').val('1').change();
+            $('#cpd').val('true').change();
+            $('#charge').val('true').change();
+            $('#category').val('true').change();
+            $('#address').val("1").change();
+            $('#timeZone').val('1').change();
+            //$("#startDate").datepicker('setDate', new Date());
+
+            //$("##startDate").datepicker({
+            //    dateFormat: "yy-mm-dd"
+            //}).datepicker("setDate", "0");
+            //$('#startDate').val("10/10/2020 12:00:00 AM");
+            $('#endDate').val("10/10/2020 12:00:00 AM");
+            $('#startTime').val("{22:10:00");
+            $('#endTime').val("{22:10:00");
+            $('#regStartDate').val("10/10/2020 12:00:00 AM");
+            $('#regEndDate').val("10/10/2020 12:00:00 AM");
+            $('#regStartTime').val("{22:10:00");
+            $('#regEndTime').val("{22:10:00");
+            $('#allowReg').val('true').change();
+            $('#maxReg').val("500");
+            $('#showMaxReg').val('true').change();
+            $('#guestReg').val('true').change();
+            $('#guestLimit').val("2");
+            $('#allowCancel').val('true').change();
+            $('#cancelLimit').val("2");
+          
         }
 
         function SetUpPopupToEditRecord(id) {

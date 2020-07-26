@@ -104,7 +104,74 @@ builder.Property(e => e.AddressLine1).HasMaxLength(100);
     {
         public static void SeedAddress(this ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Address>().HasData(
+           new Address
+           {
+               Id = 1,
+               AddressTypeId = 7,
+               AddressLine1 = "AddressLine1",
+               AddressLine2 = "AddressLine2",
+               BuidlingName = "building1",
+               ComplexName = "Complex1",
+               StreetName = "street1",
+               CityId = 1,
+               CountryId = 1,
+               StateId = 1,
+               PostalCode = "2121",
+               CreatedOn = DateTime.Now,
+               ModifiedOn = DateTime.Now
+           },
+             new Address
+             {
+                 Id = 1,
+                 AddressTypeId = 7,
+                 AddressLine1 = "AddressLine12",
+                 AddressLine2 = "AddressLine22",
+                 BuidlingName = "building2",
+                 ComplexName = "Complex2",
+                 StreetName = "street2",
+                 CityId = 1,
+                 CountryId = 1,
+                 StateId = 1,
+                 PostalCode = "2122",
+                 CreatedOn = DateTime.Now,
+                 ModifiedOn = DateTime.Now
+             },
 
+              new Address
+              {
+                  Id = 1,
+                  AddressTypeId = 7,
+                  AddressLine1 = "AddressLine13",
+                  AddressLine2 = "AddressLine23",
+                  BuidlingName = "building13",
+                  ComplexName = "Complex13",
+                  StreetName = "street13",
+                  CityId = 1,
+                  CountryId = 1,
+                  StateId = 1,
+                  PostalCode = "2123",
+                  CreatedOn = DateTime.Now,
+                  ModifiedOn = DateTime.Now
+              },
+
+               new Address
+               {
+                   Id = 1,
+                   AddressTypeId = 7,
+                   AddressLine1 = "AddressLine14",
+                   AddressLine2 = "AddressLine24",
+                   BuidlingName = "building14",
+                   ComplexName = "Complex14",
+                   StreetName = "street14",
+                   CityId = 1,
+                   CountryId = 1,
+                   StateId = 1,
+                   PostalCode = "2124",
+                   CreatedOn = DateTime.Now,
+                   ModifiedOn = DateTime.Now
+               }
+            );
         }
     }
 }

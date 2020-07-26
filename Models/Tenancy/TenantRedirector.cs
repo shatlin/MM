@@ -13,29 +13,29 @@ namespace MM.TenantModels
 {
     public class TenantRedirector
     {
-        private readonly RequestDelegate _next;
+        //private readonly RequestDelegate _next;
 
-        public TenantRedirector(RequestDelegate next)
-        {
-            _next = next;
-        }
+        //public TenantRedirector(RequestDelegate next)
+        //{
+        //    _next = next;
+        //}
 
-        public async Task InvokeAsync(HttpContext context)
-        {
-            if (context.GetTenant<Tenant>()!=null)
-            {
-                context.Response.Redirect("/Member/index");
-                return;
-            }
-        }
+        //public async Task InvokeAsync(HttpContext context)
+        //{
+        //    if (context.GetTenant<Tenant>()!=null)
+        //    {
+        //        context.Response.Redirect("/Member/index");
+        //        return;
+        //    }
+        //}
     }
 
     public static class TenantRedirectorExtensions
     {
-        public static IApplicationBuilder UseTenantRedirector(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<TenantRedirector>();
-        }
+        //public static IApplicationBuilder UseTenantRedirector(this IApplicationBuilder builder)
+        //{
+        //    return builder.UseMiddleware<TenantRedirector>();
+        //}
     }
 
 }

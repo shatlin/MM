@@ -11,7 +11,7 @@ namespace MM.ClientModels
     {
         public int Id { get; set; }
         public string EventUniqueName { get; set; }
-        public bool InternalOrExternal { get; set; }
+        public bool isInternal { get; set; }
         public int AddressId { get; set; }
         public int OrganizerId { get; set; }
         public string OrganizerName { get; set; }
