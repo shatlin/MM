@@ -19,8 +19,8 @@ namespace MM.ClientModels
             UserRoleXref = new HashSet<UserRoleXref>();
         }
 
-        public  int Id { get; set; }
-    
+        public int Id { get; set; }
+
         public string ApplicaitonUserId { get; set; }
         public bool PrimaryContact { get; set; }
         public bool BillingContact { get; set; }
@@ -34,11 +34,11 @@ namespace MM.ClientModels
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
-    
+
         public virtual Designation Designation { get; set; }
         public virtual ReferralType ReferralType { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-       
+
         public virtual ICollection<ClientPlanHistory> ClientPlanHistory { get; set; }
         public virtual ICollection<Cpd> Cpd { get; set; }
         public virtual ICollection<Event> Event { get; set; }
@@ -53,7 +53,7 @@ namespace MM.ClientModels
 
             builder.Property(e => e.ApplicaitonUserId)
               .IsRequired()
-              .HasMaxLength(50); 
+              .HasMaxLength(50);
 
             builder.Property(e => e.CreatedOn).HasColumnType("datetime");
 
@@ -72,6 +72,11 @@ namespace MM.ClientModels
                 .WithMany(p => p.User)
                 .HasForeignKey(d => d.ReferralTypeId)
                 .HasConstraintName("FK_User_ReferralType");
+
+            builder.HasOne(d => d.ApplicationUser)
+               .WithMany(p => p.ClientUser)
+               .HasForeignKey(d => d.ApplicaitonUserId)
+               .HasConstraintName("FK_Member_ClientUser");
         }
     }
     public static partial class Seeder

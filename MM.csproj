@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <Compile Remove="Pages\Client\Admin\Users.cshtml.cs" />
-    <Compile Remove="Pages\Client\Event.cshtml.cs" />
     <Compile Remove="Pages\Client\MemberBankingDetail.cshtml.cs" />
     <Compile Remove="Pages\Client\PromotionResponse.cshtml.cs" />
     <Compile Remove="Pages\Login.cshtml.cs" />
@@ -26,7 +25,6 @@
 
   <ItemGroup>
     <Content Remove="Pages\Client\Admin\Users.cshtml" />
-    <Content Remove="Pages\Client\Event.cshtml" />
     <Content Remove="Pages\Client\MemberBankingDetail.cshtml" />
     <Content Remove="Pages\Client\PromotionResponse.cshtml" />
     <Content Remove="Pages\Login.cshtml" />
@@ -56,6 +54,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
     <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.21" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
     <PackageReference Include="Pomelo.JsonObject" Version="2.2.1" />

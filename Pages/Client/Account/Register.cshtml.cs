@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -162,11 +163,8 @@ namespace MM.Pages.Client.Account
                     clientDbContext.ClientUser.Add(ClientUser);
                     await clientDbContext.SaveChangesAsync();
                     var adminfullAccessRole= new ApplicationRole("Admin-Full Access");
-                   
-                   
-                  
-
                     await _roleManager.CreateAsync(adminfullAccessRole);
+
                     var adminreadAccessRole = new ApplicationRole("Admin-Read Access");
 
                     await _roleManager.CreateAsync(adminreadAccessRole);
@@ -214,7 +212,10 @@ namespace MM.Pages.Client.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(AppUser);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                    code = HttpUtility.UrlEncode(code);
+
                     var callbackUrl = Url.Page(
                         "/Client/Account/ConfirmEmail",
                         pageHandler: null,

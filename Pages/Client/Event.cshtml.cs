@@ -39,7 +39,7 @@ namespace MM.Pages.Client
         public SelectList TimeZones { get; set; }
 
         [ViewData]
-        public SelectList Organizers { get; set; }
+        public List<SelectListItem> Organizers { get; set; }
 
 
         [BindProperty]
@@ -60,25 +60,37 @@ namespace MM.Pages.Client
         public IActionResult OnGet()
         {
             AddressList = _context.Address.ToList();
-            Addresses = new SelectList(AddressList, nameof(Address.Id));
+            Addresses = new SelectList(AddressList, nameof(Address.Id), nameof(Address.AddressLine1));
 
             TitleList = _context.Title.ToList();
             Titles = new SelectList(TitleList, nameof(Title.Id), nameof(Title.Name));
 
             TimeZoneList = _context.ClientTimeZone.ToList();
-            TimeZones = new SelectList(TimeZoneList, nameof(ClientTimeZone.Id), nameof(ClientTimeZone.Name));
+            TimeZones = new SelectList(TimeZoneList, nameof(ClientTimeZone.Id), nameof(ClientTimeZone.Description));
 
-            OrganizerList = _context.ClientUser.ToList();
-            Organizers = new SelectList(OrganizerList, nameof(ClientUser.Id), nameof(ClientUser.FirstName));
+            OrganizerList = _context.ClientUser.Include(x=>x.ApplicationUser).ToList();
 
+            Organizers = new List<SelectListItem>();
+            foreach (var clientUser in OrganizerList)
+            {
+                Organizers.Add(new SelectListItem
+                {
+                    Value = clientUser.Id.ToString(),
+                    Text = clientUser.ApplicationUser.FirstName
+                });
+            }
+            
             return Page();
         }
+
+   
+
 
         // called to load and refresh grid
         public IActionResult OnGetList()
         {
 
-            var elist = _context.Event.Include(x => x.Address).Include(x => x.Title).Include(x => x.TimeZone).Include(x => x.Organizer).ToList();
+            var elist = _context.Event.Include(x => x.Address).Include(x => x.TimeZone).Include(x => x.Organizer).Include(x => x.Organizer.ApplicationUser).ToList();
             List<EventVM> EventVMList = new List<EventVM>();
 
             try
@@ -89,10 +101,10 @@ namespace MM.Pages.Client
                     {
                         Id = events.Id,
                         EventUniqueName = events.EventUniqueName,
-                        InternalOrExternal = events.InternalOrExternal,
+                        isInternal = events.InternalOrExternal,
                         AddressId = events.Address.Id,
                         OrganizerId = events.Organizer.Id,
-                        OrganizerName = events.Organizer.FirstName,
+                        OrganizerName = events.Organizer.ApplicationUser.FirstName,
                         Title = events.Title,
                         TimeZoneId = events.TimeZone.Id,
                         TimeZoneName = events.TimeZone.Name,
@@ -133,6 +145,9 @@ namespace MM.Pages.Client
 
         public async Task<IActionResult> OnPostSaveAsync(Event Event)
         {
+
+            IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+
             if (!ModelState.IsValid)
             {
                 return new JsonResult(new { success = false, message = "Error. Please check values entered" });
