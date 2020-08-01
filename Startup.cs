@@ -37,9 +37,14 @@ namespace MM
             services.AddControllersWithViews().AddNewtonsoftJson();
             services.AddRazorPages();
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
-            services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));
+            services.AddDbContext<ClientDbContext>();
+            //services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));
 
             services.AddMultitenancy<Tenant, TenantResolver>();
+
+            services.AddScoped<IRoleStore<ApplicationRole>, ApplicationRoleStore>();
+            services.AddScoped<IUserStore<ApplicationUser>, ApplicationUserStore>();
+
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit = false;

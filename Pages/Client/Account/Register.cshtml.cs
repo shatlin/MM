@@ -30,18 +30,19 @@ namespace MM.Pages.Client.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly CoreDBContext coreDbConext;
+        private readonly CoreDBContext _coreDbConext;
+
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger, RoleManager<ApplicationRole> roleManager,
-            IEmailSender emailSender, CoreDBContext context)
+            IEmailSender emailSender, CoreDBContext coreDbConex)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            coreDbConext = context;
+            _coreDbConext = coreDbConex;
             _roleManager = roleManager;
         }
 
@@ -102,18 +103,17 @@ namespace MM.Pages.Client.Account
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            OrgDateSettings = new SelectList(coreDbConext.CoreDateSetting, nameof(CoreDateSetting.Id), nameof(CoreDateSetting.Name));
-            OrgTimeFormat = new SelectList(coreDbConext.CoreTimeFormat, nameof(CoreTimeFormat.Id), nameof(CoreTimeFormat.Name));
-            OrgTimeZone = new SelectList(coreDbConext.CoreTimeZone, nameof(CoreTimeZone.Id), nameof(CoreTimeZone.Description));
-            OrgCurrency = new SelectList(coreDbConext.CoreCurrency, nameof(CoreCurrency.Id), nameof(CoreCurrency.Name));
-            ClientTitles = new SelectList(coreDbConext.CoreTitle, nameof(CoreTitle.Id), nameof(CoreTitle.Name));
-            ClientDesignations = new SelectList(coreDbConext.CoreDesignation, nameof(CoreDesignation.Id), nameof(CoreDesignation.Name));
-            ClientGenders = new SelectList(coreDbConext.CoreGender, nameof(CoreGender.Id), nameof(CoreGender.Name));
-            ClientReferralTypes = new SelectList(coreDbConext.CoreReferralType, nameof(CoreReferralType.Id), nameof(CoreReferralType.Name));
+            OrgDateSettings = new SelectList(_coreDbConext.CoreDateSetting, nameof(CoreDateSetting.Id), nameof(CoreDateSetting.Name));
+            OrgTimeFormat = new SelectList(_coreDbConext.CoreTimeFormat, nameof(CoreTimeFormat.Id), nameof(CoreTimeFormat.Name));
+            OrgTimeZone = new SelectList(_coreDbConext.CoreTimeZone, nameof(CoreTimeZone.Id), nameof(CoreTimeZone.Description));
+            OrgCurrency = new SelectList(_coreDbConext.CoreCurrency, nameof(CoreCurrency.Id), nameof(CoreCurrency.Name));
+            ClientTitles = new SelectList(_coreDbConext.CoreTitle, nameof(CoreTitle.Id), nameof(CoreTitle.Name));
+            ClientDesignations = new SelectList(_coreDbConext.CoreDesignation, nameof(CoreDesignation.Id), nameof(CoreDesignation.Name));
+            ClientGenders = new SelectList(_coreDbConext.CoreGender, nameof(CoreGender.Id), nameof(CoreGender.Name));
+            ClientReferralTypes = new SelectList(_coreDbConext.CoreReferralType, nameof(CoreReferralType.Id), nameof(CoreReferralType.Name));
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
@@ -123,36 +123,39 @@ namespace MM.Pages.Client.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                string ConnectionString = coreDbConext.TenantConfig.FirstOrDefault().ConnectionString + ClientOrganization.Name;
-
-                var tenantexists = coreDbConext.Tenant.Any(x => x.ClientName == ClientOrganization.Name);
-                if (!tenantexists)
+                string ConnectionString = _coreDbConext.TenantConfig.FirstOrDefault().ConnectionString + ClientOrganization.Name.ToLower();
+                Tenant tenant = _coreDbConext.Tenant.Where(x => x.ClientName.ToUpper() == ClientOrganization.Name.ToUpper()).FirstOrDefault();
+                if (tenant == null)
                 {
-                    Tenant tenant = new Tenant();
+                    tenant = new Tenant();
                     tenant.ClientName = ClientOrganization.Name;
                     tenant.DbName = "mm_" + ClientOrganization.Name;
                     tenant.ConnectionString = ConnectionString;
-                    coreDbConext.Tenant.Add(tenant);
-                    await coreDbConext.SaveChangesAsync();
+                    _coreDbConext.Tenant.Add(tenant);
+                    await _coreDbConext.SaveChangesAsync();
 
-                    var tenantuserexists = coreDbConext.TenantUserTenant.Any(x => x.Email == AppUser.Email);
+                    var tenantuserexists = _coreDbConext.TenantUserTenant.Any(x => x.Email == AppUser.Email);
 
                     if (!tenantuserexists)
                     {
                         TenantUserTenant tenantUserTenant = new TenantUserTenant();
                         tenantUserTenant.Email = AppUser.Email;
                         tenantUserTenant.TenantId = tenant.Id;
-                        coreDbConext.TenantUserTenant.Add(tenantUserTenant);
-                        await coreDbConext.SaveChangesAsync();
+                        _coreDbConext.TenantUserTenant.Add(tenantUserTenant);
+                        await _coreDbConext.SaveChangesAsync();
                     }
                 }
 
-                ClientDbContext clientDbContext = new ClientDbContext(ConnectionString);
+                ClientDbContext clientDbContext = new ClientDbContext(tenant);
                 clientDbContext.Database.EnsureCreated();
 
                 AppUser.UserName = AppUser.Email;
                 AppUser.UserTypeId = 1;
 
+                //var context = new ClientDbContext("DefaultConnection");
+                //var userStore = new ApplicationUserStore<ApplicationUser>(context) { TenantId = 1 };
+                //var userManager = new UserManager<ApplicationUser,string>(userStore);
+                //var ss=_userManager.Se
                 var result = await _userManager.CreateAsync(AppUser, AppUser.Pwd);
 
                 if (result.Succeeded)

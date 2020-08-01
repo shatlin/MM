@@ -15,18 +15,21 @@ namespace MM.TenantModels
         private readonly ICollection<Tenant> tenants;
         public TenantResolver()
         {
-            tenants =new CoreDBContext().Tenant.ToList();
+            tenants = new CoreDBContext().Tenant.ToList();
         }
         public async Task<TenantContext<Tenant>> ResolveAsync(HttpContext context)
         {
             TenantContext<Tenant> tenantContext = null;
-            
-            var tenant = tenants.Where(t=> context.Request.Host.Value.Contains(t.ClientName)).FirstOrDefault();
-            
-            if (tenant != null)
+
+            var tenant = tenants.Where(t => context.Request.Host.Value.Contains(t.ClientName)).FirstOrDefault();
+
+            if (tenant == null)
             {
-                tenantContext = new TenantContext<Tenant>(tenant);
+                tenant = new Tenant { ClientName = "Default", DbName = "Default", ConnectionString = "Default" };
             }
+
+            tenantContext = new TenantContext<Tenant>(tenant);
+
             return await Task.FromResult(tenantContext);
         }
     }

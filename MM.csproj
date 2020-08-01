@@ -13,6 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ApplicationRole.cs" />
+    <Compile Remove="Models\ApplicationUser.cs" />
+    <Compile Remove="Models\ApplicationUserManagerFactory.cs" />
     <Compile Remove="Pages\Client\Admin\Users.cshtml.cs" />
     <Compile Remove="Pages\Client\MemberBankingDetail.cshtml.cs" />
     <Compile Remove="Pages\Client\PromotionResponse.cshtml.cs" />
@@ -97,6 +100,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\Multitenancy\" />
     <Folder Include="Pages\Core\" />
   </ItemGroup>
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using MM.CoreModels;
 
 namespace MM.ClientModels
 {
@@ -12,18 +13,23 @@ namespace MM.ClientModels
 
     public partial class ClientDbContext : IdentityDbContext <ApplicationUser, ApplicationRole, string>
     {
-        private string ConnectionString { get; set; }
+       
+        private readonly Tenant tenant;
 
+        //public ClientDbContext(string connectionString)
+        //{
+        //    ConnectionString = connectionString;
+        //}
 
-        public ClientDbContext(string connectionString)
+        public ClientDbContext(Tenant tenant)
         {
-            ConnectionString = connectionString;
+            this.tenant = tenant;
+         //   Database.EnsureCreated();
         }
 
-
-        public ClientDbContext(DbContextOptions<ClientDbContext> options) : base(options)
-        {
-        }
+        //public ClientDbContext(DbContextOptions<ClientDbContext> options) : base(options)
+        //{
+        //}
 
         public virtual DbSet<AccountType> AccountType { get; set; }
         public virtual DbSet<Address> Address { get; set; }
@@ -278,7 +284,8 @@ namespace MM.ClientModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL(ConnectionString);
+                optionsBuilder.UseMySQL(tenant.ConnectionString);
+                base.OnConfiguring(optionsBuilder);
             }
         }
 

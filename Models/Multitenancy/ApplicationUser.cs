@@ -8,33 +8,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MM.ClientModels
 {
-
-    public class ApplicationUser : ApplicationUser<string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    // Add profile data for application users by adding properties to the ApplicationUser class
+    public class ApplicationUser : IdentiyUserMultiTenant<string, string>
     {
+
         public ApplicationUser()
         {
             ClientUser = new HashSet<ClientUser>();
             MemberUser = new HashSet<MemberUser>();
         }
 
-        //public ApplicationUser(string userName)
-        //    : this()
-        //{
-        //    UserName = userName;
-        //}
-    }
 
-    public class ApplicationUser<TKey, TLogin, TRole, TClaim> : IdentityUser<TKey, TLogin, TRole, TClaim>
-        where TLogin : IdentityUserLogin<TKey>
-        where TRole : IdentityUserRole<TKey>
-        where TClaim : IdentityUserClaim<TKey>
-    {
-        public ApplicationUser()
-            : base()
-        {
-        }
-
-       
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -42,7 +26,6 @@ namespace MM.ClientModels
         public int GenderId { get; set; }
         public int TitleId { get; set; }
         public int UserTypeId { get; set; }
-        public int TenantId { get; set; }
 
         [NotMapped]
         [Required]
@@ -62,59 +45,14 @@ namespace MM.ClientModels
 
         public virtual ICollection<ClientUser> ClientUser { get; set; }
         public virtual ICollection<MemberUser> MemberUser { get; set; }
-
     }
-
-    //public partial class ApplicationUser : IdentityUser
-    //{
-
-    //    //public ApplicationUser()
-    //    //{
-    //    //}
-
-    //    public ApplicationUser()
-    //    {
-    //        ClientUser = new HashSet<ClientUser>();
-    //        MemberUser = new HashSet<MemberUser>();
-
-    //    }
-
-    //    public string FirstName { get; set; }
-    //    public string MiddleName { get; set; }
-    //    public string LastName { get; set; }
-    //    public DateTime? BirthDay { get; set; }
-    //    public int GenderId { get; set; }
-    //    public int TitleId { get; set; }
-    //    public int UserTypeId { get; set; }
-    //    public int TenantId { get; set; }
-
-    //    [NotMapped] 
-    //    [Required]
-    //    [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-    //    [DataType(DataType.Password)]
-    //    [Display(Name = "Password")]
-    //    public string Pwd { get; set; }
-    //    [NotMapped]
-    //    [DataType(DataType.Password)]
-    //    [Display(Name = "Confirm password")]
-    //    [Compare("Pwd", ErrorMessage = "The password and confirmation password do not match.")]
-    //    public string ConfirmPwd { get; set; }
-
-    //    public virtual Gender Gender { get; set; }
-    //    public virtual Title Title { get; set; }
-    //    public virtual UserType UserType { get; set; }
-       
-    //    public virtual ICollection<ClientUser> ClientUser { get; set; }
-    //    public virtual ICollection<MemberUser> MemberUser { get; set; }
-
-    //}
 
     public partial class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
     {
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
 
-          
+
 
             builder.Property(e => e.FirstName)
                 .IsRequired()
@@ -151,6 +89,4 @@ namespace MM.ClientModels
 
 
     }
-
-
 }
