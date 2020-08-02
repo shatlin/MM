@@ -31,7 +31,7 @@ namespace MM.CoreModels
         public static void SeedTenantConfig(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TenantConfig>()
-            .HasData(new TenantConfig { Id = 1, ConnectionString = "Server = localhost;  Uid = root; Pwd = MMRootPwd2#;Database =mm_" }
+            .HasData(new TenantConfig { Id = 1, ConnectionString = "Server = localhost;  Uid = root; Pwd = Aji@2020;Database =mm_" }
         );
 
         }

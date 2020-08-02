@@ -45,7 +45,12 @@ builder.Property(e => e.CreatedOn).HasColumnType("datetime");
     {
         public static void SeedOrganizationStructure(this ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<OrganizationStructure>().HasData(
 
+                           new OrganizationStructure { Id = 1, Name = "Executive", Description = "Executive", LevelOfMember = 3, MaximumNumber = 3, MaximumTimeInYears = 2, ShowMaximumTimeInYears = true, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                           new OrganizationStructure { Id = 2, Name = "Manager", Description = "Manager", LevelOfMember = 2, MaximumNumber = 10, MaximumTimeInYears = 3, ShowMaximumTimeInYears = true, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },
+                           new OrganizationStructure { Id = 3, Name = "Associate", Description = "Associate", LevelOfMember = 1, MaximumNumber = 100, MaximumTimeInYears = 5, ShowMaximumTimeInYears = true, CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now }
+                           );
         }
     }
 }

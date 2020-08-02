@@ -21,7 +21,7 @@ namespace MM.TenantModels
         {
             TenantContext<Tenant> tenantContext = null;
             
-            var tenant = tenants.Where(t=> context.Request.Host.Value.Contains(t.ClientName)).FirstOrDefault();
+            var tenant = tenants.Where(t=> context.Request.Host.Value.ToUpper().Contains(t.ClientName.ToUpper())).FirstOrDefault();
             
             if (tenant != null)
             {

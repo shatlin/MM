@@ -1,0 +1,699 @@
+﻿@page
+@model MemberUserModel
+
+@using MM.ClientModels;
+@using MM.Helper;
+@{
+    ViewData["Title"] = "Member";
+}
+@{ Layout = "_LayoutClient";}
+
+<!-- #region AddEditModalSection -->
+
+<div class="modal fade" style="min-width:500px" id="AddEditModal" tabindex="-1" role="dialog" aria-labelledby="AddEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" id="AddEditForm" onsubmit="return Save(this)">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddEditModalLabel">Add New Member</h5>
+                    <button type="button" class="btn btn-outline-info close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+             <div class="container">
+                <div class="reg-container row">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                        <div class="card shadow-sm" style="min-height:550px;margin-top:10px;margin-bottom:10px">
+                            <div class="card-header">
+                                <span>
+                                    Personal Details
+                                </span>
+
+                            </div>
+                            <div class="card-body reg-card-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="modal-body">
+
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input type="hidden" id="id" asp-for="MemberUserVM.Id" />
+                                    <input type="hidden" id="applicaitonUserId" asp-for="MemberUserVM.ApplicaitonUserId" />
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.TitleId class="control-label"></label>
+                                        <select class="form-control form-input" id="title" asp-for=MemberUserVM.TitleId
+                                                asp-items=Model.Titles>
+                                            <option disabled selected value="-1">--- Please select a title ---</option>
+                                        </select>
+                                        <span asp-validation-for=MemberUserVM.TitleId class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.FirstName class="control-label"></label>
+                                        <input asp-for=MemberUserVM.FirstName type="text" class="form-control form-input" id="firstName">
+                                        <span asp-validation-for=MemberUserVM.FirstName class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.MiddleName class="control-label"></label>
+                                        <input asp-for=MemberUserVM.MiddleName type="text" class="form-control form-input" id="middleName">
+                                        <span asp-validation-for=MemberUserVM.MiddleName class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.LastName class="control-label"></label>
+                                        <input asp-for=MemberUserVM.LastName type="text" class="form-control form-input" id="lastName">
+                                        <span asp-validation-for=MemberUserVM.LastName class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.PhoneNumber class="control-label"></label>
+                                        <input asp-for=MemberUserVM.PhoneNumber type="text" class="form-control form-input" id="phone">
+                                        <span asp-validation-for=MemberUserVM.PhoneNumber class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.Email class="control-label"></label>
+                                        <input asp-for=MemberUserVM.Email type="email" class="form-control form-input" id="eMail">
+                                        <span asp-validation-for=MemberUserVM.Email class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.Pwd class="control-label"></label>
+                                        <input asp-for=MemberUserVM.Pwd type="password" class="form-control form-input" id="pwd">
+                                        <span asp-validation-for=MemberUserVM.Pwd class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label">Confirm Password</label>
+                                        <input asp-for=MemberUserVM.ConfirmPwd type="password" class="form-control form-input" id="confirmPwd">
+                                        <span asp-validation-for=MemberUserVM.ConfirmPwd class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label asp-for=MemberUserVM.BirthDay class="control-label"></label>
+                                        <input asp-for=MemberUserVM.BirthDay type="date" class="form-control form-input" id="birthday">
+                                        <span asp-validation-for=MemberUserVM.BirthDay class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label asp-for=MemberUserVM.GenderId class="control-label"></label>
+                                        <select class="form-control form-input" id="gender" asp-for=MemberUserVM.GenderId
+                                                asp-items=Model.Genders>
+                                            <option disabled selected value="-1">--- Please select a Gender ---</option>
+                                        </select>
+                                        <span asp-validation-for=MemberUserVM.GenderId class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label asp-for=MemberUserVM.ReferralTypeId class="control-label"></label>
+                                        <select class="form-control form-input" id="refType" asp-for=MemberUserVM.ReferralTypeId
+                                                asp-items=Model.Referrals>
+                                            <option disabled selected value="-1">--- Please select Referral Type ---</option>
+                                        </select>
+                                        <span asp-validation-for=MemberUserVM.ReferralTypeId class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label asp-for=MemberUserVM.Notes class="control-label">Notes</label>
+                                        <textarea asp-for=MemberUserVM.Notes type="text" class="form-control form-input" id="note" rows="7"></textarea>
+                                        <span asp-validation-for=MemberUserVM.Notes class="text-danger"></span>
+                                    </div>
+
+
+                                    <div class="form-group mb-4">
+                                        <label asp-for=MemberUserVM.Photo class="control-label"></label>
+                                        <input type="file" name="img[]" class="file" accept="image/*" style="visibility:hidden; position:absolute">
+                                        <div class="input-group my-3">
+                                            <input type="text" class="form-control" disabled placeholder="Upload Photo" id="photo">
+                                            <div class="input-group-append">
+                                                <button type="button" class="browse btn btn-outline-dark">Browse</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="ml-2 col-sm-6">
+                                        <img src="https://placehold.it/50x50" id="thumb" class="img-thumbnail" style="border-radius:100px">
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                <div class="card shadow-sm" style="min-height:550px;margin-top:10px;margin-bottom:10px">
+                                    <div class="card-header">
+                                        <span>
+                                            Membership Details
+                                        </span>
+
+                                    </div>
+                                    <div class="card-body reg-card-body">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.OrganizationId class="control-label"></label>
+                                            <select class="form-control form-input" id="org" asp-for=MemberUserVM.OrganizationId
+                                                    asp-items=Model.Orgs>
+                                                <option disabled selected value="-1">--- Please select Organinzation ---</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.OrganizationId class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.OrganizationStructureId class="control-label"></label>
+                                            <select class="form-control form-input" id="orgStr" asp-for=MemberUserVM.OrganizationStructureId
+                                                    asp-items=Model.OrgStructures>
+                                                <option disabled selected value="-1">--- Please select Organization Structure ---</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.OrganizationStructureId class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.MemberBranchId class="control-label"></label>
+                                            <select class="form-control form-input" id="memBranch" asp-for=MemberUserVM.MemberBranchId
+                                                    asp-items=Model.MemBranches>
+                                                <option disabled selected value="-1">--- Please select Member Branch ---</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.MemberBranchId class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.MemberStatusId class="control-label"></label>
+                                            <select class="form-control form-input" id="memStatus" asp-for=MemberUserVM.MemberStatusId
+                                                    asp-items=Model.MemStatus>
+                                                <option disabled selected value="-1">--- Please select Member Status ---</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.MemberStatusId class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.MemberLevelId class="control-label"></label>
+                                            <select class="form-control form-input" id="memLevel" asp-for=MemberUserVM.MemberLevelId
+                                                    asp-items=Model.MemLevels>
+                                                <option disabled selected value="-1">--- Please select Member Level ---</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.MemberLevelId class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.MemberTeamId class="control-label"></label>
+                                            <select class="form-control form-input" id="memTeam" asp-for=MemberUserVM.MemberTeamId
+                                                    asp-items=Model.MemTeams>
+                                                <option disabled selected value="-1">--- Please select Member Team ---</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.MemberTeamId class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.MemberTypeId class="control-label"></label>
+                                            <select class="form-control form-input" id="memType" asp-for=MemberUserVM.MemberTypeId
+                                                    asp-items=Model.MemTypes>
+                                                <option disabled selected value="-1">--- Please select Member Type ---</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.MemberTypeId class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.MemberCode class="control-label"></label>
+                                            <input asp-for=MemberUserVM.MemberCode type="text" class="form-control form-input" id="memCode">
+                                            <span asp-validation-for=MemberUserVM.MemberCode class="text-danger"></span>
+                                        </div>
+
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.JoinDate class="control-label"></label>
+                                            <input asp-for=MemberUserVM.JoinDate type="date" class="form-control form-input" id="joinDate">
+                                            <span asp-validation-for=MemberUserVM.JoinDate class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.NextRenewalDate class="control-label"></label>
+                                            <input asp-for=MemberUserVM.NextRenewalDate type="date" class="form-control form-input" id="nextRenewDt">
+                                            <span asp-validation-for=MemberUserVM.NextRenewalDate class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.MembershipConfirmed class="control-label"></label>
+                                            <select asp-for=MemberUserVM.MembershipConfirmed class="form-control form-input custom-select" id="memConfirm">
+                                                <option disabled selected value="-1">Choose...</option>
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.MembershipConfirmed class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.ConfirmedDate class="control-label"></label>
+                                            <input asp-for=MemberUserVM.ConfirmedDate type="date" class="form-control form-input" id="confirmDate">
+                                            <span asp-validation-for=MemberUserVM.ConfirmedDate class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.IsActive class="control-label"></label>
+                                            <select asp-for=MemberUserVM.IsActive class="form-control form-input custom-select" id="active">
+                                                <option disabled selected value="-1">Choose...</option>
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.IsActive class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.IsBillingContact class="control-label"></label>
+                                            <select asp-for=MemberUserVM.IsBillingContact class="form-control form-input custom-select" id="billContact">
+                                                <option disabled selected value="-1">Choose...</option>
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.IsBillingContact class="text-danger"></span>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label asp-for=MemberUserVM.IsBranchContact class="control-label"></label>
+                                            <select asp-for=MemberUserVM.IsBranchContact class="form-control form-input custom-select" id="branchContact">
+                                                <option disabled selected value="-1">Choose...</option>
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                            <span asp-validation-for=MemberUserVM.IsBranchContact class="text-danger"></span>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="row w-100">
+                                    <div class="col-6">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-3 text-right">
+                                        <input type="submit" value="Add" class="btn btn-outline-success" id="modal-create-edit" />
+                                    </div>
+                                    <div class="col-2  text-right ">
+                                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+             </div>
+            
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- #endregion AddEditModalSection-->
+
+
+<!-- #region DeleteModalRegion -->
+
+<div class="modal" style="min-width:500px" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered   modal-lg" role="document">
+        <div class="modal-content">
+            <form method="post" id="DeleteForm" onsubmit="return Delete()">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="DeleteModalLabel">Are you sure you want to delete?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="reg-container row">
+                        <div class="col-12">
+                            <input type="hidden" id="id_Del" />
+                            <dl class="row">
+                                 <dt class="col-sm-3">
+                                    <label asp-for=MemberUserVM.FirstName class="control-label"></label>
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <label id="user_Del"></label>
+                                </dd>
+                                <dt class="col-sm-3">
+                                    <label asp-for=MemberUserVM.OrganizationId class="control-label"></label>
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <label id="org_Del"></label>
+                                </dd>
+                                <dt class="col-sm-3">
+                                    <label asp-for=MemberUserVM.MemberCode class="control-label"></label>
+                                </dt>
+                                <dd class="col-sm-9">
+                                    <label id="code_Del"></label>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row w-100">
+                        <div class="col-6">
+                            &nbsp;
+                        </div>
+                        <div class="col-3 text-right">
+                            <input type="submit" value="Delete" class="btn btn-outline-danger" />
+                        </div>
+                        <div class="col-2  text-right ">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- #endregion DeleteModalRegion -->
+<!-- #region ToholdGrid -->
+
+<partial name="_CRUDHeader" , model='new Header{name="Manage Members", description="Here you can manage Members of your Organization"}'>
+    <div class="container">
+        <div class="reg-container row">
+            <!--  Personal -->
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <partial name="_CardHeaderPartial" , model='new Header{name="Members"}'>
+                        <div class="card-body reg-card-body">
+                            <div class="row">
+                                <div class="col-3 text-left pb-3">
+                                    <input value="Add New" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#AddEditModal" onclick="SetUpPopupToAddRecord()">
+                                </div>
+                                <div class="col-9 text-left pb-3">
+                                </div>
+                            </div>
+                            <table id="list" class="table" style="width:100%">
+                            </table>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- #endregion ToholdGrid-->
+
+    <script>
+
+        //$(document).ready(function () {
+        //$('#title').val("1");
+        //$('#firstName').val("Aji");
+        //$('#middleName').val("Vinister");
+        //$('#lastName').val("Denistan");
+        //$('#email').val("ajivinister@gmail.com");
+        //$('#pwd').val("#P@ss123456!");
+        //$('#confirmPwd').val("#P@ss123456!");
+        //$('#phone').val("1234567890");
+        //$('#gender').val("1");
+        //$('#birthday').val("01/01/1975");
+        //$('#org').val("2");
+        //$('#refType').val("1");
+        //$('#orgStr').val("1");
+        //$('#memBranch').val("1");
+        //$('#memStatus').val("1");
+        //$('#memLevel').val("1");
+        //$('#memTeam').val("1");
+        //$('#memType').val("1");
+        //$('#memCode').val("AVD010175");
+        //$('#joinDate').val("01/01/2020");
+        //$('#nextRenewDt').val("31/08/2020");
+        //$('#memConfirm').val("true");
+        //$('#confirmDate').val("10/01/2020");
+        //$('#photo').val("");
+        //$('#note').val("Mr. Aji Vinister Denistan - AVD010175");
+        //$('#billContact').val("true");
+        //$('#branchcontact').val("true");
+        //$('#active').val("true");
+        //$('#termAccept').val("true");
+
+        //});
+
+        var dataTable;
+
+        $(document).ready(function () {
+
+
+            $('#list').show();
+            dataTable = $('#list').DataTable({
+                fixedHeader: true,
+                pageLength: 10,
+                ajax: {
+                    url: '?handler=List',
+                    dataSrc: ''
+                }
+                ,"initComplete": function (settings, json) {
+                    console.log(json);
+                }
+                ,
+                "columns": [
+                    { title: "Member Name", data: "firstName", "autoWidth": true, },
+                    { title: "Member Code", data: "memberCode", "autoWidth": true, },
+                    { title: "Email", data: "email", "autoWidth": true, },
+                    { title: "Organization", data: "organizationName", "autoWidth": true, },
+                    //{ title: "Billing Contact", data: "isBillingContact", "autoWidth": true, },
+                    { title: "Active", data: "isActive", "autoWidth": true, },
+                    {
+                        title: "Action",
+                        data: "id",
+                        "render": function (data, type, row, meta) {
+                            {
+                                return '<a class="btn btn-outline-primary btn-sm mr-3" href="#" data-toggle="modal" data-target="#AddEditModal" onClick="SetUpPopupToEditRecord(' + row.id + ')" ><i class="fas fa-edit mr-10"></i>&nbsp;Edit</a>&nbsp;' +
+                                    '<a class="btn btn-outline-danger btn-sm" href="#" data-toggle="modal"  data-target="#DeleteModal" onClick="SetUpPopupToDeleteRecord(' + '\'' + row.id + ';' + row.fileName + ';' + row.email + ';' + row.memberCode + '\'' + ')" ><i class="fas fa-trash mr-10"></i>&nbsp;Delete</a> ';
+                            }
+                        },
+                        orderable: false,
+                        width: "150px"
+                    }
+                ]
+            });
+
+        });
+
+        function SetUpPopupToAddRecord() {
+            $('#AddEditModalLabel').text("Add New Member");
+            $('#modal-create-edit').val("Add")
+            $('#id').val(0);
+            $('#applicationUserId').val(0);
+            //$('#title').val('-1').change();
+            //$('#firstName').val("");
+            //$('#middleName').val("");
+            //$('#lastName').val("");
+            //$('#email').val("");
+            //$('#pwd').val("");
+            //$('#confirmPwd').val("");
+            //$('#phone').val("");
+            //$('#gender').val('-1').change();
+            //$('#birthday').val('-1').change();
+            //$('#org').val('-1').change();
+            //$('#refType').val('-1').change();
+            //$('#orgStr').val('-1').change();
+            //$('#memBranch').val('-1').change();
+            //$('#memStatus').val('-1').change();
+            //$('#memLevel').val('-1').change();
+            //$('#memTeam').val('-1').change();
+            //$('#memType').val('-1').change();
+            //$('#memCode').val("");
+            //$('#joinDate').val("");
+            //$('#nextRenewDt').val("");
+            //$('#memConfirm').val('-1').change();
+            //$('#confirmDate').val("");
+            //$('#photo').val("");
+            //$('#note').val("");
+            //$('#billContact').val('-1').change();
+            //$('#branchcontact').val('-1').change();
+            //$('#active').val('-1').change();
+            //$('#termAccept').val('-1').change();
+
+        $('#title').val("1");
+        $('#firstName').val("Aji");
+        $('#middleName').val("Vinister");
+        $('#lastName').val("Denistan");
+        $('#eMail').val("ajivinister@gmail.com");
+        $('#pwd').val("#P@ss123456!");
+        $('#confirmPwd').val("#P@ss123456!");
+        $('#phone').val("1234567890");
+        $('#gender').val("1");
+        $('#birthday').val("1975/01/01");
+        $('#org').val("2");
+        $('#refType').val("1");
+        $('#orgStr').val("1");
+        $('#memBranch').val("1");
+        $('#memStatus').val("1");
+        $('#memLevel').val("1");
+        $('#memTeam').val("1");
+        $('#memType').val("1");
+        $('#memCode').val("AVD010175");
+        $('#joinDate').val("2020/01/01");
+        $('#nextRenewDt').val("2020/08/31");
+        $('#memConfirm').val("true");
+        $('#confirmDate').val("2020/01/10");
+        $('#photo').val("");
+        $('#note').val("Mr. Aji Vinister Denistan - AVD010175");
+        $('#billContact').val("true");
+        $('#branchContact').val("true");
+        $('#active').val("true");
+        $('#termAccept').val("true");
+            
+        }
+
+        function SetUpPopupToEditRecord(id) {
+            $('#AddEditModalLabel').text("Edit Member Details")
+            $('#modal-create-edit').val("Update")
+            $.ajax({
+                url: '?handler=SelectedRecord&id=' + id,
+                type: "GET",
+                dataType: 'json',
+                success: function (data) {
+                    $('#id').val(data.id);
+                    $('#title').val(data.titleId);
+                    $('#firstName').val(data.firstName);
+                    $('#middleName').val(data.middleName);
+                    $('#lastName').val(data.lastName);
+                    $('#eMail').val(data.email);
+                    $('#pwd').val(data.pwd);
+                    $('#confirmPwd').val(data.confirmPwd);
+                    $('#phone').val(data.phoneNumber);
+                    $('#gender').val(data.genderId);
+                    $('#birthday').val(data.birthDay);
+                    $('#org').val(data.organizationId);
+                    $('#refType').val(data.referralTypeId);
+                    $('#orgStr').val(data.organizationStructureId);
+                    $('#memBranch').val(data.memberBranchId);
+                    $('#memStatus').val(data.memberStatusId);
+                    $('#memLevel').val(data.memberLevelId);
+                    $('#memTeam').val(data.memberTeamId);
+                    $('#memType').val(data.memberTypeId);
+                    $('#memCode').val(data.memberCode);
+                    $('#joinDate').val(data.joinDate);
+                    $('#nextRenewDt').val(data.nextRenewalDate);
+                    $('#memConfirm').val(data.membershipConfirmed);
+                    $('#confirmDate').val(data.confirmedDate);
+                    $('#photo').val(data.photo);
+                    $('#note').val(data.notes);
+                    $('#billContact').val(data.isBillingContact);
+                    $('#branchcontact').val(data.isBranchContact);
+                    $('#active').val(data.isActive);
+                    $('#termAccept').val(data.termAccepted);
+
+                }
+            });
+        }
+
+        function SetUpPopupToDeleteRecord(data) {
+            var dataarray = data.split(";")
+            $('#id_Del').val(dataarray[0]);
+            $('#code_Del').text(dataarray[1]);
+            $('#user_Del').text(dataarray[2]);
+            $('#org_Del').text(dataarray[3]);
+        }
+
+        $('#AddEditModal').on('shown.bs.modal', function () {
+            setTimeout(function () {
+                $('#firstName').focus();
+            }, 400);
+        })
+
+        function Delete() {
+            var id = $('#id_Del').val();
+            $.ajax({
+                url: '?handler=Delete&id=' + id,
+                type: "GET",
+                dataType: 'json',
+                success: function (data) {
+                    $('#DeleteModal').modal('hide');
+                    dataTable.ajax.reload();
+                    if (data.success) {
+                        MMNotify(data.message, "success");
+                    }
+                    else {
+                        MMNotify(data.message, "danger");
+                    }
+                }
+            });
+            return false;
+        }
+
+        function Save(form) {
+            if ($(form).valid()) {
+                $.post({
+                    url: '?handler=Save',
+                    dataType: 'json',
+                    data: $(form).serialize(),
+                })
+                    .done(function (data) {
+                        $('#AddEditModal').modal('hide');
+                        $('#id').val("");
+                        $('#title').val("");
+                        $('#firstName').val("");
+                        $('#middleName').val("");
+                        $('#lastName').val("");
+                        $('#email').val("");
+                        $('#pwd').val("");
+                        $('#confirmPwd').val("");
+                        $('#phone').val("");
+                        $('#gender').val("");
+                        $('#birthday').val("");
+                        $('#org').val("");
+                        $('#refType').val("");
+                        $('#orgStr').val("");
+                        $('#memBranch').val("");
+                        $('#memStatus').val("");
+                        $('#memLevel').val("");
+                        $('#memTeam').val("");
+                        $('#memType').val("");
+                        $('#memCode').val("");
+                        $('#joinDate').val("");
+                        $('#nextRenewDt').val("");
+                        $('#memConfirm').val("");
+                        $('#confirmDate').val("");
+                        $('#photo').val("");
+                        $('#note').val("");
+                        $('#billContact').val("");
+                        $('#branchcontact').val("");
+                        $('#active').val("");
+                        $('#termAccept').val("");
+                        if (data.success) {
+                            MMNotify(data.message, "success");
+                        }
+                        else {
+                            $('#AddEditModal').modal('hide');
+                            MMNotify(data.message, "danger");
+                        }
+                        dataTable.ajax.reload();
+                    })
+                    .fail(function (error) {
+                        MMNotify("Unknown error", "danger");
+                    });
+            }
+            return false;
+        }
+
+        //Photo Upload Function
+
+        $(document).on("click", ".browse", function () {
+            var file = $(this).parents().find(".file");
+            file.trigger("click");
+        });
+        $('input[type="file"]').change(function (e) {
+            var fileName = e.target.files[0].name;
+            $("#photo").val(fileName);
+
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("thumb").src = e.target.result;
+            };
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+        });
+
+    </script>
+
+

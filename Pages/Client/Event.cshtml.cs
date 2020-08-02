@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MM.ClientModels;
+using MM.CoreModels;
 using Newtonsoft.Json;
 
 namespace MM.Pages.Client
@@ -18,10 +19,14 @@ namespace MM.Pages.Client
     public class EventModel : PageModel
     {
         private readonly ClientDbContext _context;
+        private readonly Tenant _tenant;
 
-        public EventModel(ClientDbContext context)
+        
+
+        public EventModel(ClientDbContext context, Tenant tenant)
         {
             _context = context;
+            _tenant = tenant;
         }
 
 

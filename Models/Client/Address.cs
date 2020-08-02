@@ -123,7 +123,7 @@ builder.Property(e => e.AddressLine1).HasMaxLength(100);
            },
              new Address
              {
-                 Id = 1,
+                 Id = 2,
                  AddressTypeId = 7,
                  AddressLine1 = "AddressLine12",
                  AddressLine2 = "AddressLine22",
@@ -140,7 +140,7 @@ builder.Property(e => e.AddressLine1).HasMaxLength(100);
 
               new Address
               {
-                  Id = 1,
+                  Id = 3,
                   AddressTypeId = 7,
                   AddressLine1 = "AddressLine13",
                   AddressLine2 = "AddressLine23",
@@ -157,7 +157,7 @@ builder.Property(e => e.AddressLine1).HasMaxLength(100);
 
                new Address
                {
-                   Id = 1,
+                   Id = 4,
                    AddressTypeId = 7,
                    AddressLine1 = "AddressLine14",
                    AddressLine2 = "AddressLine24",

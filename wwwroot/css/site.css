@@ -384,6 +384,7 @@ form {
 
 .modal-footer {
     border-top: 0;
+    justify-content:center;
 }
 
 .form-input {
