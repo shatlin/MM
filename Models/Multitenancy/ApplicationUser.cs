@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MM.ClientModels
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationUser : IdentiyUserMultiTenant<string, string>
+    public class ApplicationUser : IdentityUser
     {
 
         public ApplicationUser()
@@ -17,7 +17,6 @@ namespace MM.ClientModels
             ClientUser = new HashSet<ClientUser>();
             MemberUser = new HashSet<MemberUser>();
         }
-
 
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

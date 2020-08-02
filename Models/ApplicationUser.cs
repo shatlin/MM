@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MM.ClientModels
 {
 
-    public class ApplicationUser : ApplicationUser<string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
+    public class ApplicationUser : ApplicationUser<int, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
     {
         public ApplicationUser()
         {

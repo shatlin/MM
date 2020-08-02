@@ -10,7 +10,9 @@ using System.Web;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,31 +21,31 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using MM.ClientModels;
 using MM.CoreModels;
-
+using MM.Helper;
 namespace MM.Pages.Client.Account
 {
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationSignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private  UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly CoreDBContext _coreDbConext;
-
+        private readonly IHttpContextAccessor _httpContextAccessor;
         public RegisterModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterModel> logger, RoleManager<ApplicationRole> roleManager,
-            IEmailSender emailSender, CoreDBContext coreDbConex)
+            ApplicationSignInManager<ApplicationUser> signInManager,
+            ILogger<RegisterModel> logger, RoleManager<ApplicationRole> roleManager, UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender, CoreDBContext coreDbConex, IHttpContextAccessor httpContextAccessor)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _coreDbConext = coreDbConex;
             _roleManager = roleManager;
+            _userManager = userManager;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [BindProperty]
@@ -102,7 +104,6 @@ namespace MM.Pages.Client.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-
         public async Task OnGetAsync(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
@@ -116,6 +117,11 @@ namespace MM.Pages.Client.Account
             ClientReferralTypes = new SelectList(_coreDbConext.CoreReferralType, nameof(CoreReferralType.Id), nameof(CoreReferralType.Name));
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
+
+        //public async Task<IActionResult> SeedRoles()
+        //{
+           
+        //}
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -148,16 +154,12 @@ namespace MM.Pages.Client.Account
 
                 ClientDbContext clientDbContext = new ClientDbContext(tenant);
                 clientDbContext.Database.EnsureCreated();
-
                 AppUser.UserName = AppUser.Email;
                 AppUser.UserTypeId = 1;
-
-                //var context = new ClientDbContext("DefaultConnection");
-                //var userStore = new ApplicationUserStore<ApplicationUser>(context) { TenantId = 1 };
-                //var userManager = new UserManager<ApplicationUser,string>(userStore);
-                //var ss=_userManager.Se
-                var result = await _userManager.CreateAsync(AppUser, AppUser.Pwd);
-
+                
+                var userManager = new IdentityHelper().GetUserManager(clientDbContext); // #TODO - This will fail in confirming the email sent. To be fixed later
+             
+                var result = await userManager.CreateAsync(AppUser, AppUser.Pwd);
                 if (result.Succeeded)
                 {
                     clientDbContext.ClientOrganization.Add(ClientOrganization);
@@ -165,77 +167,65 @@ namespace MM.Pages.Client.Account
                     ClientUser.ApplicaitonUserId = AppUser.Id;
                     clientDbContext.ClientUser.Add(ClientUser);
                     await clientDbContext.SaveChangesAsync();
-                    var adminfullAccessRole= new ApplicationRole("Admin-Full Access");
-                    await _roleManager.CreateAsync(adminfullAccessRole);
+                    var roleManager = new IdentityHelper().GetRoleManager(clientDbContext);
 
+                    var adminfullAccessRole = new ApplicationRole("Admin-Full Access");
+                    await roleManager.CreateAsync(adminfullAccessRole);
                     var adminreadAccessRole = new ApplicationRole("Admin-Read Access");
-
-                    await _roleManager.CreateAsync(adminreadAccessRole);
-
+                    await roleManager.CreateAsync(adminreadAccessRole);
                     var noadminAccessRole = new ApplicationRole("No Admin Access");
-                    await _roleManager.CreateAsync(noadminAccessRole);
-
+                    await roleManager.CreateAsync(noadminAccessRole);
                     var limitedadminAccessRole = new ApplicationRole("Limited Admin");
-                    await _roleManager.CreateAsync(limitedadminAccessRole);
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members","Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "View"));
-
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Create"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Edit"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Delete"));
-                    await _roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "View"));
-
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Members", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Event", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Donations", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("NewLetter", "View"));
-                    await _roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Setup", "View"));
-
-
-                    await _userManager.AddToRoleAsync(AppUser, "Admin-Full Access");
-
+                    await roleManager.CreateAsync(limitedadminAccessRole);
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "Create"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "Edit"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "Delete"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Members", "View"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Create"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Edit"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "Delete"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Event", "View"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Create"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Edit"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "Delete"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Donations", "View"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Create"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Edit"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "Delete"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("NewLetter", "View"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Create"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Edit"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "Delete"));
+                    await roleManager.AddClaimAsync(adminfullAccessRole, new Claim("Setup", "View"));
+                    await roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Members", "View"));
+                    await roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Event", "View"));
+                    await roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Donations", "View"));
+                    await roleManager.AddClaimAsync(adminreadAccessRole, new Claim("NewLetter", "View"));
+                    await roleManager.AddClaimAsync(adminreadAccessRole, new Claim("Setup", "View"));
+                    await userManager.AddToRoleAsync(AppUser, "Admin-Full Access");
                     _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(AppUser);
-                    // code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
+                    var host = _httpContextAccessor.HttpContext.Request.Host.Value;
+                    var code = await userManager.GenerateEmailConfirmationTokenAsync(AppUser);
                     code = HttpUtility.UrlEncode(code);
-
-                    var callbackUrl = Url.Page(
+                    string callbackUrl = Url.Page(
                         "/Client/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { userId = AppUser.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
+                  callbackUrl = callbackUrl.Replace(host, ClientOrganization.Name + "." + host);
+
                     await _emailSender.SendEmailAsync(AppUser.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    if (userManager.Options.SignIn.RequireConfirmedAccount)
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = AppUser.Email, returnUrl = returnUrl });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(AppUser, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                       RedirectResult redirectResult = new RedirectResult("https://" + ClientOrganization.Name + "." + host + "/Client/Account/Login", true);
+                       return redirectResult;
                     }
                 }
                 foreach (var error in result.Errors)
