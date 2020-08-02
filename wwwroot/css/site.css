@@ -336,7 +336,7 @@ form {
 }
 
 .card {
-    /* border-radius: 20px;*/
+     border-radius: 15px;
     border: none;
     font-family: "Poppins", sans-serif;
     box-shadow: 0 5px 25px 5px rgba(0, 0, 0, 0.400);
@@ -427,6 +427,7 @@ form {
     display: flex;
     padding: 1rem;
     position: relative;
+   margin-bottom:150px;
 }
 
 .reg-card-body {
@@ -476,7 +477,6 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.2;
-    margin-bottom: 40px;
 }
 
 html {
@@ -554,7 +554,11 @@ html {
 /* Menu item*/
 #sidebar-container .list-group a {
     height: 50px;
-    color: black;
+    color: #2c2c2c;
+    font-size: 13px;
+    font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Submenu item*/
@@ -594,7 +598,11 @@ html {
     text-align: right;
     padding-left: 10px;
     background-color:white;
-
+    font-size:13px;
+}
+.menu-collapsed
+{
+    font-size:12px;
 }
 /* Opened submenu icon */
 #sidebar-container
@@ -607,6 +615,7 @@ html {
     text-align: right;
     padding-left: 10px;
     background-color: white;
+    font-size: 13px;
 }
 
 .list-group-item
@@ -614,3 +623,4 @@ html {
     border:0;
     border-bottom-right-radius:0;
 }
+
