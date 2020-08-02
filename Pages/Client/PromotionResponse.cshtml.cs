@@ -32,7 +32,7 @@ namespace MM.Pages.Client
         public SelectList Promotions { get; set; }
 
         [ViewData]
-        public SelectList Members { get; set; }
+        public List<SelectListItem> Members { get; set; }
 
         [ViewData]
         public SelectList ResponseTypes { get; set; }
@@ -41,7 +41,7 @@ namespace MM.Pages.Client
         public List<PromotionMaster> PromotionList { get; set; }
 
         [BindProperty]
-        public List<MemberUser> MemberList { get; set; }
+        public List<MemberUser> MembersList { get; set; }
 
         [BindProperty]
         public List<PromotionResponseType> ResponseList { get; set; }
@@ -54,8 +54,17 @@ namespace MM.Pages.Client
             PromotionList = _context.PromotionMaster.ToList();
             Promotions = new SelectList(PromotionList, nameof(PromotionMaster.Id), nameof(PromotionMaster.Name));
 
-            MemberList = _context.MemberUser.ToList();
-            Members = new SelectList(MemberList, nameof(MemberUser.Id), nameof(MemberUser.FirstName), nameof(MemberUser.LastName));
+            MembersList = _context.MemberUser.ToList();
+            Members = new List<SelectListItem>();
+
+            foreach (var memberUser in MembersList)
+            {
+                Members.Add(new SelectListItem
+                {
+                    Value = memberUser.Id.ToString(),
+                    Text = memberUser.ApplicationUser.FirstName
+                });
+            }
 
             ResponseList = _context.PromotionResponseType.ToList();
             ResponseTypes = new SelectList(ResponseList, nameof(PromotionResponseType.Id), nameof(PromotionResponseType.Name));
@@ -66,7 +75,7 @@ namespace MM.Pages.Client
         // called to load and refresh grid
         public IActionResult OnGetList()
         {
-            var prList = _context.PromotionResponse.Include(x => x.PromotionMaster).Include(x => x.Member).Include(x => x.PromotionResponseType).ToList();
+            var prList = _context.PromotionResponse.Include(x => x.PromotionMaster).Include(x => x.Member.ApplicationUser).Include(x => x.PromotionResponseType).ToList();
             List<PromotionResponseVM> PromotionResponseVMList = new List<PromotionResponseVM>();
 
             try
@@ -79,8 +88,8 @@ namespace MM.Pages.Client
                         PromotionMasterId = promotionResponse.PromotionMaster.Id,
                         PromotionMasterName = promotionResponse.PromotionMaster.Name,
                         MemberId = promotionResponse.Member.Id,
-                        MemberFirstName = promotionResponse.Member.FirstName,
-                        MemberLastName = promotionResponse.Member.LastName,
+                        MemberFirstName = promotionResponse.Member.ApplicationUser.FirstName,
+                        MemberLastName = promotionResponse.Member.ApplicationUser.LastName,
                         PromotionResponseTypeId = promotionResponse.PromotionResponseTypeNavigation.Id,
                         PromotionResponseTypeName = promotionResponse.PromotionResponseTypeNavigation.Name,
                         ResponseDate = promotionResponse.ResponseDate

@@ -156,7 +156,6 @@ namespace MM.Pages.Client.Account
                 clientDbContext.Database.EnsureCreated();
                 AppUser.UserName = AppUser.Email;
                 AppUser.UserTypeId = 1;
-                
                 var userManager = new IdentityHelper().GetUserManager(clientDbContext); // #TODO - This will fail in confirming the email sent. To be fixed later
              
                 var result = await userManager.CreateAsync(AppUser, AppUser.Pwd);

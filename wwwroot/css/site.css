@@ -86,6 +86,7 @@ ul li {
     z-index: 1;
     font-size: 16px;
     margin-bottom: 15px;
+    background-color:white;
 }
 
 /***********
@@ -348,13 +349,21 @@ form {
     width: 400px;
 }
 
+.modal-title {
+    font-family: "Playfair Display", serif;
+    color: white;
+}
+
+.card-body {
+}
+
 .card-header, .modal-header {
     font-family: "Playfair Display", serif;
     width: 100%;
   /*  height: 4rem;*/
     text-align: center;
-    /*border-top-left-radius: 20px !important;
-    border-top-right-radius: 20px !important;*/
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
     background-color: #bca858;
     color: white;
     border: 0px !important;
@@ -362,21 +371,20 @@ form {
     font-size: 1.2rem;
 }
 
-.modal-title {
-    font-family: "Playfair Display", serif;
-    color: white;
-}
 
-.card-body {
-    /* border: 1px solid gray; */
+.card {
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
 }
 
 .card-footer {
     width: 100%;
     height: 3rem;
     text-align: center;
-    /*    border-bottom-left-radius: 20px !important;
-    border-bottom-right-radius: 20px !important;*/
+    border-bottom-left-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
     background-color: #bca858;
     /* border: 1px solid gray; */
 }
@@ -387,10 +395,10 @@ form {
 }
 
 .form-input {
-    border-top: 0;
+  /*  border-top: 0;
     border-right: 0;
     border-left: 0;
-    border-radius: 0;
+    border-radius: 0;*/
     font-family: "Poppins", sans-serif;
     font-size: 14px;
 }
@@ -459,17 +467,16 @@ a {
 }
 
 body {
-  
     font-family: "Poppins", sans-serif;
     font-size: 15px;
     font-weight: 400;
     font-style: normal;
-    color: #000000;
-    background: #ffffff;
+    color: #3F4254;
+    background:white; /*#f9f8f6;*/
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     line-height: 1.2;
-    margin-bottom:40px;
+    margin-bottom: 40px;
 }
 
 html {
@@ -509,12 +516,12 @@ html {
 .footer {
     position: absolute;
     width: 100%;
-    bottom:0;
+    bottom: 0;
     white-space: nowrap;
     line-height: 60px;
     z-index: 9999;
     background-color: white;
-  margin-top:50px;
+    margin-top: 50px;
 }
 
     .footer a {
