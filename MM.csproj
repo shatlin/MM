@@ -16,11 +16,6 @@
     <Compile Remove="Models\ApplicationRole.cs" />
     <Compile Remove="Models\ApplicationUser.cs" />
     <Compile Remove="Models\ApplicationUserManagerFactory.cs" />
-    <Compile Remove="Models\Multitenancy\ApplicationTenantIdProvider.cs" />
-    <Compile Remove="Models\Multitenancy\IdentiyRoleMultiTenant.Generic.cs" />
-    <Compile Remove="Models\Multitenancy\ITenantIdProvider.cs" />
-    <Compile Remove="Models\Multitenancy\RoleStoreMultiTenant.cs" />
-    <Compile Remove="Models\Multitenancy\TenantIdProvider.cs" />
     <Compile Remove="Pages\Client\Admin\Users.cshtml.cs" />
     <Compile Remove="Pages\Client\MemberBankingDetail.cshtml.cs" />
     <Compile Remove="Pages\Client\PromotionResponse.cshtml.cs" />

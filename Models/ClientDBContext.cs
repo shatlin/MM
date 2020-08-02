@@ -10,26 +10,15 @@ using MM.CoreModels;
 namespace MM.ClientModels
 {
    
-
     public partial class ClientDbContext : IdentityDbContext <ApplicationUser, ApplicationRole, string>
     {
        
         private readonly Tenant tenant;
 
-        //public ClientDbContext(string connectionString)
-        //{
-        //    ConnectionString = connectionString;
-        //}
-
         public ClientDbContext(Tenant tenant)
         {
             this.tenant = tenant;
-         //   Database.EnsureCreated();
         }
-
-        //public ClientDbContext(DbContextOptions<ClientDbContext> options) : base(options)
-        //{
-        //}
 
         public virtual DbSet<AccountType> AccountType { get; set; }
         public virtual DbSet<Address> Address { get; set; }
@@ -288,7 +277,6 @@ namespace MM.ClientModels
                 base.OnConfiguring(optionsBuilder);
             }
         }
-
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
