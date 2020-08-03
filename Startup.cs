@@ -20,6 +20,9 @@ using Microsoft.AspNetCore.Http;
 using SaasKit.Multitenancy;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Services.Email;
+using MM.Helper;
+using SaasKit.Multitenancy.Internal;
+
 namespace MM
 {
     public class Startup
@@ -35,11 +38,16 @@ namespace MM
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddNewtonsoftJson();
-            services.AddRazorPages();
+            services.AddRazorPages()
+                .AddRazorPagesOptions(options =>
+                 {
+                     options.Conventions.AddPageRoute("/NotFound", "{*url}");
+                 });
             services.AddDbContext<CoreDBContext>(options => options.UseMySql(Configuration.GetConnectionString("CoreDBContext")));
-            services.AddDbContext<ClientDbContext>(options => options.UseMySql(Configuration.GetConnectionString("ClientDBContext")));
+            services.AddDbContext<ClientDbContext>();
 
             services.AddMultitenancy<Tenant, TenantResolver>();
+            
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -47,10 +55,16 @@ namespace MM
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireNonAlphanumeric = false;
-                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedAccount = false;
+               
             }).AddEntityFrameworkStores<ClientDbContext>()
-              .AddDefaultTokenProviders().AddDefaultUI();
+              .AddDefaultTokenProviders().AddDefaultUI()
+              .AddSignInManager<ApplicationSignInManager<ApplicationUser>>();
 
+             // .AddUserManager<ApplicationUserManager<ApplicationUser>>()
+            // .AddRoleManager<ApplicationRoleManager<ApplicationRole>>();
+
+            //services.AddSignInManager<ApplicationSignInManager>();
             //services.Configure<RouteOptions>(options =>
             //{
             //    options.LowercaseUrls = true;
@@ -114,7 +128,7 @@ namespace MM
             app.UseStaticFiles();
             app.UseRouting();
             app.UseMultitenancy<Tenant>();
-
+            app.UseMiddleware<TenantUnresolvedRedirectMiddleware<Tenant>>("https://localhost:44323", false);
             //app.Use(async (ctx, next) =>
             //{
             //    if (ctx.GetTenant<Tenant>() != null)

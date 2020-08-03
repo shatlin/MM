@@ -8,19 +8,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MM.ClientModels;
+using MM.CoreModels;
 
 namespace MM.Pages.Client
 {
     [Authorize(Policy = "SetUp")]
     public class TitleModel : PageModel
     {
-        private readonly ClientDbContext _context;
+        private  ClientDbContext _context;
         private readonly IAuthorizationService _authorizationService;
-
-        public TitleModel(ClientDbContext context, IAuthorizationService authorizationService)
+        private readonly Tenant _tenant;
+        public TitleModel(ClientDbContext context, IAuthorizationService authorizationService,Tenant tenant)
         {
             _context = context;
             _authorizationService = authorizationService;
+            _tenant = tenant;
+           
         }
 
         [BindProperty]

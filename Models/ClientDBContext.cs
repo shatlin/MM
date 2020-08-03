@@ -5,24 +5,19 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using MM.CoreModels;
 
 namespace MM.ClientModels
 {
    
-
     public partial class ClientDbContext : IdentityDbContext <ApplicationUser, ApplicationRole, string>
     {
-        private string ConnectionString { get; set; }
+       
+        private readonly Tenant tenant;
 
-
-        public ClientDbContext(string connectionString)
+        public ClientDbContext(Tenant tenant)
         {
-            ConnectionString = connectionString;
-        }
-
-
-        public ClientDbContext(DbContextOptions<ClientDbContext> options) : base(options)
-        {
+            this.tenant = tenant;
         }
 
         public virtual DbSet<AccountType> AccountType { get; set; }
@@ -278,10 +273,10 @@ namespace MM.ClientModels
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseMySQL(ConnectionString);
+                optionsBuilder.UseMySQL(tenant.ConnectionString);
+                base.OnConfiguring(optionsBuilder);
             }
         }
-
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }

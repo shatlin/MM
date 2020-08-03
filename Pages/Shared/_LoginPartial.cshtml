@@ -3,11 +3,11 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+<ul class="nav navbar-nav ml-auto w-15 justify-content-end">
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-page="/Client/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)!</a>
+            <a id="manage" class="nav-link btn btn-link text-dark" asp-page="/Client/Account/Manage/Index" title="Manage">@UserManager.GetUserName(User)</a>
         </li>
         <li class="nav-item">
             <form id="logoutForm" class="form-inline" asp-page="/Client/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">

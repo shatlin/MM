@@ -13,9 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\ApplicationRole.cs" />
+    <Compile Remove="Models\ApplicationUser.cs" />
+    <Compile Remove="Models\ApplicationUserManagerFactory.cs" />
     <Compile Remove="Pages\Client\Admin\Users.cshtml.cs" />
-    <Compile Remove="Pages\Client\MemberBankingDetail.cshtml.cs" />
-    <Compile Remove="Pages\Client\PromotionResponse.cshtml.cs" />
     <Compile Remove="Pages\Login.cshtml.cs" />
     <Compile Remove="Pages\Logout.cshtml.cs" />
     <Compile Remove="personal\ClientOrg.cshtml.cs" />
@@ -25,8 +26,6 @@
 
   <ItemGroup>
     <Content Remove="Pages\Client\Admin\Users.cshtml" />
-    <Content Remove="Pages\Client\MemberBankingDetail.cshtml" />
-    <Content Remove="Pages\Client\PromotionResponse.cshtml" />
     <Content Remove="Pages\Login.cshtml" />
     <Content Remove="Pages\Logout.cshtml" />
     <Content Remove="personal\ClientOrg.cshtml" />

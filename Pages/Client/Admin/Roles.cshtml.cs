@@ -55,7 +55,7 @@ namespace MM.Pages.Client
                 if (!string.IsNullOrEmpty(Role.Name))
                 {
                     IdentityResult result = null;
-                    result = await _roleManager.CreateAsync(new ApplicationRole(Role.Name));
+                    result = await _roleManager.CreateAsync(new ApplicationRole());
                     if (result.Succeeded)
                     {
                         return new JsonResult(new { success = true, message = "Role Created successfully" });

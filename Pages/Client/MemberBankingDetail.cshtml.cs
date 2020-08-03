@@ -28,8 +28,9 @@ namespace MM.Pages.Client
         [BindProperty]
         public MemberBankingDetail MemberBankingDetail { get; set; }
 
+
         [ViewData]
-        public SelectList Members { get; set; }
+        public List<SelectListItem> Members { get; set; }
 
         [ViewData]
         public SelectList AccountTypes { get; set; }
@@ -46,7 +47,17 @@ namespace MM.Pages.Client
         public IActionResult OnGet()
         {
             MembersList = _context.MemberUser.ToList();
-            Members = new SelectList(MembersList, nameof(MemberUser.Id), nameof(MemberUser.FirstName), nameof(MemberUser.LastName));
+
+            Members = new List<SelectListItem>();
+
+            foreach (var memberUser in MembersList)
+            {
+                Members.Add(new SelectListItem
+                {
+                    Value = memberUser.Id.ToString(),
+                    Text = memberUser.ApplicationUser.FirstName
+                });
+            }
 
             AccountTypeList = _context.AccountType.ToList();
             AccountTypes = new SelectList(AccountTypeList, nameof(AccountType.Id), nameof(AccountType.Name));
@@ -56,7 +67,7 @@ namespace MM.Pages.Client
         // called to load and refresh grid
         public IActionResult OnGetList()
         {
-            var mblist = _context.MemberBankingDetail.Include(x => x.Member).Include(x=>x.AccountType).ToList();
+            var mblist = _context.MemberBankingDetail.Include(x => x.Member.ApplicationUser).Include(x=>x.AccountType).ToList();
             List <MemberBankingDetailVM> MemberBankingDetailVMList = new List<MemberBankingDetailVM>();
            
             try
@@ -66,8 +77,8 @@ namespace MM.Pages.Client
                     MemberBankingDetailVM bdVM = new MemberBankingDetailVM
                     {
                         Id = MemberBankingDetail.Id,
-                        MemberFirstName= MemberBankingDetail.MemberUser.FirstName,
-                        MemberLastName = MemberBankingDetail.MemberUser.LastName,
+                        MemberFirstName= MemberBankingDetail.Member.ApplicationUser.FirstName,
+                        MemberLastName = MemberBankingDetail.Member.ApplicationUser.LastName,
                         AccountTypeId = MemberBankingDetail.AccountType.Id,
                         AccountTypeName = MemberBankingDetail.AccountType.Name,
                         BankName = MemberBankingDetail.BankName,

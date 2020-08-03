@@ -8,18 +8,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MM.ClientModels
 {
-    public partial class ApplicationUser: IdentityUser
+    // Add profile data for application users by adding properties to the ApplicationUser class
+    public class ApplicationUser : IdentityUser
     {
 
-        
         public ApplicationUser()
         {
             ClientUser = new HashSet<ClientUser>();
             MemberUser = new HashSet<MemberUser>();
-          
         }
 
-       
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -27,7 +25,8 @@ namespace MM.ClientModels
         public int GenderId { get; set; }
         public int TitleId { get; set; }
         public int UserTypeId { get; set; }
-        [NotMapped] 
+
+        [NotMapped]
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
@@ -42,10 +41,9 @@ namespace MM.ClientModels
         public virtual Gender Gender { get; set; }
         public virtual Title Title { get; set; }
         public virtual UserType UserType { get; set; }
-       
+
         public virtual ICollection<ClientUser> ClientUser { get; set; }
         public virtual ICollection<MemberUser> MemberUser { get; set; }
-
     }
 
     public partial class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
@@ -53,7 +51,7 @@ namespace MM.ClientModels
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
 
-          
+
 
             builder.Property(e => e.FirstName)
                 .IsRequired()
@@ -90,6 +88,4 @@ namespace MM.ClientModels
 
 
     }
-
-
 }

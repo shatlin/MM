@@ -11,6 +11,16 @@ update-database -context ClientDBContext
 remove-migration -context ClientDBContext
 dotnet run --configuration Debug
 Shfit+Alt + D
+
+Host File Entries
+
+127.0.0.1       wisa.localhost
+127.0.0.1       saipa.localhost
+127.0.0.1       iiba.localhost
+127.0.0.1       iitpsa.localhost
+127.0.0.1       ibasa.localhost
+
+
 https://rca1.wildapricot.org/
 
 membership@rca.co.za
