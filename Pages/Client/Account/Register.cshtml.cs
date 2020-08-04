@@ -83,6 +83,9 @@ namespace MM.Pages.Client.Account
         public SelectList ClientGenders { get; set; }
 
         [ViewData]
+        public SelectList ClientTypes { get; set; }
+
+        [ViewData]
         public SelectList ClientReferralTypes { get; set; }
 
         [BindProperty]
@@ -115,6 +118,7 @@ namespace MM.Pages.Client.Account
             ClientDesignations = new SelectList(_coreDbConext.CoreDesignation, nameof(CoreDesignation.Id), nameof(CoreDesignation.Name));
             ClientGenders = new SelectList(_coreDbConext.CoreGender, nameof(CoreGender.Id), nameof(CoreGender.Name));
             ClientReferralTypes = new SelectList(_coreDbConext.CoreReferralType, nameof(CoreReferralType.Id), nameof(CoreReferralType.Name));
+            ClientTypes = new SelectList(_coreDbConext.CoreClientType, nameof(CoreClientType.Id), nameof(CoreClientType.Name));
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 

@@ -17,10 +17,10 @@ namespace MM.ClientModels
             Event = new HashSet<Event>();
             EventRoleUserXref = new HashSet<EventRoleUserXref>();
             UserRoleXref = new HashSet<UserRoleXref>();
+            ContactUs = new HashSet<ContactUs>();
         }
 
         public int Id { get; set; }
-
         public string ApplicaitonUserId { get; set; }
         public bool PrimaryContact { get; set; }
         public bool BillingContact { get; set; }
@@ -34,12 +34,11 @@ namespace MM.ClientModels
         public DateTime? ModifiedOn { get; set; }
         public int? CreatedBy { get; set; }
         public int? ModifiedBy { get; set; }
-
         public virtual Designation Designation { get; set; }
         public virtual ReferralType ReferralType { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-
         public virtual ICollection<ClientPlanHistory> ClientPlanHistory { get; set; }
+        public virtual ICollection<ContactUs> ContactUs { get; set; }
         public virtual ICollection<Cpd> Cpd { get; set; }
         public virtual ICollection<Event> Event { get; set; }
         public virtual ICollection<EventRoleUserXref> EventRoleUserXref { get; set; }
@@ -77,6 +76,9 @@ namespace MM.ClientModels
                .WithMany(p => p.ClientUser)
                .HasForeignKey(d => d.ApplicaitonUserId)
                .HasConstraintName("FK_Member_ClientUser");
+
+           
+
         }
     }
     public static partial class Seeder

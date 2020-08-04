@@ -24,7 +24,7 @@ namespace MM.ClientModels
     }
 
 
-    public partial class ClientTypeConfiguration : IEntityTypeConfiguration<UserType>
+    public partial class UserTypeConfiguration: IEntityTypeConfiguration<UserType>
     {
         public void Configure(EntityTypeBuilder<UserType> builder)
         {
@@ -43,7 +43,7 @@ namespace MM.ClientModels
 
     public static partial class Seeder
     {
-        public static void SeedClientType(this ModelBuilder modelBuilder)
+        public static void SeedUserType(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserType>().HasData(
                 new UserType { Id = 1, Name = "Admin", Description = "Admin", CreatedOn = DateTime.Now, ModifiedOn = DateTime.Now },

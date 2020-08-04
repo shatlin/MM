@@ -19,16 +19,18 @@ namespace MM.Pages.Client.Account
     public class LoginModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ClientDbContext _context;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,ClientDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]

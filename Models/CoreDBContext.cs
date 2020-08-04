@@ -58,6 +58,7 @@ namespace MM.CoreModels
         public virtual DbSet<CoreTimeZone> CoreTimeZone { get; set; }
         public virtual DbSet<CoreTitle> CoreTitle { get; set; }
         public virtual DbSet<CoreUser> CoreUser { get; set; }
+        public virtual DbSet<CoreClientType> CoreClientType { get; set; }
         public virtual DbSet<CoreUserLoginAudit> CoreUserLoginAudit { get; set; }
         public virtual DbSet<CoreUserRoleXref> CoreUserRoleXref { get; set; }
 
@@ -233,7 +234,7 @@ namespace MM.CoreModels
             modelBuilder.ApplyConfiguration(new CoreCurrencyConfiguration()).SeedCoreCurrency();
             modelBuilder.ApplyConfiguration(new CoreDateSettingConfiguration()).SeedCoreDateSetting();
             modelBuilder.ApplyConfiguration(new CoreGenderConfiguration()).SeedCoreGender();
-
+            modelBuilder.ApplyConfiguration(new CoreClientTypeConfiguration()).SeedCoreClientType();
 
             modelBuilder.Entity<CoreInvoice>(entity =>
             {

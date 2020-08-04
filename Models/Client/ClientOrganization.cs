@@ -15,6 +15,7 @@ namespace MM.ClientModels
         public int? TimeFormatId { get; set; }
         public int? ClientTimeZoneId { get; set; }
         public int? CurrencyId { get; set; }
+        public int? ClientTypeId { get; set; }
         public int? CurrencyDecimalPlaces { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
@@ -24,7 +25,8 @@ namespace MM.ClientModels
         public virtual DateSetting DateSetting { get; set; }
         public virtual TimeFormat TimeFormat { get; set; }
         public virtual ClientTimeZone ClientTimeZone { get; set; }
-      
+        public virtual ClientType ClientType { get; set; }
+
     }
     public partial class ClientOrganizationConfiguration : IEntityTypeConfiguration<ClientOrganization>
     {
@@ -35,6 +37,7 @@ namespace MM.ClientModels
             builder.Property(e => e.ModifiedOn).HasColumnType("datetime");
 
             builder.Property(e => e.Description).IsRequired(false).HasMaxLength(200);
+            builder.Property(e => e.ClientTypeId).IsRequired(false);
 
             builder.Property(e => e.Name)
                 .IsRequired()
@@ -59,6 +62,12 @@ namespace MM.ClientModels
                 .WithMany(p => p.Client)
                 .HasForeignKey(d => d.ClientTimeZoneId)
                 .HasConstraintName("FK_Client_TimeZone");
+
+            builder.HasOne(d => d.ClientType)
+          .WithMany(p => p.ClientOrganization)
+          .HasForeignKey(d => d.ClientTypeId)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("FK_ClientOrganization_ClientType");
         }
 
     }

@@ -150,6 +150,15 @@
                     </div>
 
                     <div class="form-group">
+                        <label asp-for=ClientOrganization.ClientTypeId class="control-label"></label>
+                        <select class="form-control form-input" asp-for=ClientOrganization.ClientTypeId
+                                asp-items=Model.ClientTypes>
+                            <option disabled selected>--- Please select a value ---</option>
+                        </select>
+                        <span asp-validation-for=ClientOrganization.ClientTypeId class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
                         <label asp-for=ClientOrganization.TimeFormatId class="control-label"></label>
                         <select class="form-control form-input" asp-for=ClientOrganization.TimeFormatId
                                 asp-items=Model.OrgTimeFormat>

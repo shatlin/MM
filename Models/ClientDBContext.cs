@@ -30,9 +30,12 @@ namespace MM.ClientModels
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<ClientOrganization> ClientOrganization { get; set; }
         public virtual DbSet<ClientPlanHistory> ClientPlanHistory { get; set; }
+        public virtual DbSet<ClientType> ClientType { get; set; }
         public virtual DbSet<UserType> UserType { get; set; }
         public virtual DbSet<CommunicationPreference> CommunicationPreference { get; set; }
         public virtual DbSet<CommunicationType> CommunicationType { get; set; }
+        public virtual DbSet<ContactUsRelatedTo> ContactUsRelatedTo { get; set; }
+        public virtual DbSet<ContactUs> ContactUs { get; set; }
         public virtual DbSet<CorrespondenceType> CorrespondenceType { get; set; }
         public virtual DbSet<Country> Country { get; set; }
         public virtual DbSet<Cpd> Cpd { get; set; }
@@ -132,8 +135,6 @@ namespace MM.ClientModels
         public virtual DbSet<UserRoleXref> UserRoleXref { get; set; }
 
 
-
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -166,8 +167,11 @@ namespace MM.ClientModels
             modelBuilder.ApplyConfiguration(new CityConfiguration()).SeedCity();
             modelBuilder.ApplyConfiguration(new ClientOrganizationConfiguration()).SeedClientOrganization();
             modelBuilder.ApplyConfiguration(new ClientPlanHistoryConfiguration()).SeedClientPlanHistory();
+            modelBuilder.ApplyConfiguration(new UserTypeConfiguration()).SeedUserType();
             modelBuilder.ApplyConfiguration(new ClientTypeConfiguration()).SeedClientType();
             modelBuilder.ApplyConfiguration(new ClientUserConfiguration()).SeedClientUser();
+            modelBuilder.ApplyConfiguration(new ContactUsConfiguration()).SeedContactUs();
+            modelBuilder.ApplyConfiguration(new ContactUsRelatedToConfiguration()).SeedContactUsRelatedTo();
             modelBuilder.ApplyConfiguration(new CommunicationPreferenceConfiguration()).SeedCommunicationPreference();
             modelBuilder.ApplyConfiguration(new CommunicationTypeConfiguration()).SeedCommunicationType();
             modelBuilder.ApplyConfiguration(new CorrespondenceTypeConfiguration()).SeedCorrespondenceType();
